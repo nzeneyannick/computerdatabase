@@ -1,5 +1,6 @@
 package com.excilys.entities;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 //@SuppressWarnings("unused")
@@ -7,15 +8,15 @@ public class Computer {
 
 	private int id;
 	private String name;
-	private Date introduced;
-	private Date discontinued;
+	private Timestamp introduced;
+	private Timestamp discontinued;
 	private Company compagnie;
 
 	public Computer() {
 
 	}
 
-	public Computer(int id, String name, Date introduced, Date discontinued, Company compagnie) {
+	public Computer(int id, String name, Timestamp introduced, Timestamp discontinued, Company compagnie) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -44,7 +45,7 @@ public class Computer {
 		return introduced;
 	}
 
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(Timestamp introduced) {
 		this.introduced = introduced;
 	}
 
@@ -52,7 +53,7 @@ public class Computer {
 		return discontinued;
 	}
 
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(Timestamp discontinued) {
 		this.discontinued = discontinued;
 	}
 
