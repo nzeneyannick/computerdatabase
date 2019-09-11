@@ -13,5 +13,12 @@ public interface IComputerDao {
 	 * Fonction permettant de creer un computer
 	 */
 	public void createComputer(Computer computer);
-
+	/**
+	 * Fonction permettant d'afficher les details d'un computer
+	 */
+	public Computer showComputerDetail(int id);
+	/**
+	 * Suppression d'un computer
+	 */
+	public void deleteComputer(int id);
 }

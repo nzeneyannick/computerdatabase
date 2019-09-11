@@ -40,10 +40,17 @@ public class Application {
 		computerService.createComputer(computer);
 
 	}
+	public static void showComputerDetails(int  id) {
+
+		System.out.print("\f\r******Affichage des details d'un computer ********\r");
+		ComputerService computerService = new ComputerService();
+		computerService.showComputerDetail(id);
+
+	}
 
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
+		 Scanner sc = new Scanner(System.in);
 		System.out.println("====================== Veuillez le numéro de l'action à effectuer ===================== ");
 		System.out.println("======  1 : List companies                                                        ===== ");
 		System.out.println("======  2 : List computer                                                         ===== ");
@@ -81,7 +88,10 @@ public class Application {
 			getListComputer();
 			break;
 		case 3:
-			System.out.println();
+			System.out.println("Veuillez rentrer l'id du computer recherché ");
+			int idc = sc.nextInt();
+			showComputerDetails(idc);
+			
 			break;
 		case 4:
 			Computer com = new Computer();

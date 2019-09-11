@@ -21,6 +21,7 @@ public class ComputerDao implements IComputerDao {
 	ResultSet resultset;
 	private static final String LISTOFCOMPUTER = "select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ";
 	private static final String NEWCOMPUTER = "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
+	private static final String findByIDComputer = "select name, introduced, discontinued,company_id from computer where id=?";
 
 	public ComputerDao() {
 		super();
@@ -116,6 +117,58 @@ public class ComputerDao implements IComputerDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	@Override
+	public Computer showComputerDetail(int idComputer) {
+		Computer computerDetail = new Computer();
+		Company company = new Company();
+
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement(findByIDComputer);
+			preparedStatement.setInt(1,idComputer);
+
+			// recuperation des données
+				int id = resultset.getInt("id");
+				String name = resultset.getString("name");
+				Timestamp introduced = resultset.getTimestamp("introduced");
+				Timestamp discontinued = resultset.getTimestamp("discontinued");
+				int companyId = resultset.getInt("company_id");
+
+				computerDetail.setId(id);
+				computerDetail.setName(name);
+				computerDetail.setIntroduced(introduced);
+				computerDetail.setDiscontinued(discontinued);
+
+				company.setId(companyId);
+
+				computerDetail.setCompagnie(company);
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		finally {
+			// Fermeture de la connexion
+			try {
+				if (resultset != null)
+					resultset.close();
+				if (statement != null)
+					statement.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException ignore) {
+			}
+		}
+		return computerDetail;
+
+	}
+
+	@Override
+	public void deleteComputer(int id) {
+		// TODO Auto-generated method stub
 
 	}
 

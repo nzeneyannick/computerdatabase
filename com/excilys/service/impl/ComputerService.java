@@ -25,7 +25,7 @@ public class ComputerService implements IComputerService {
 	}
 
 	/**
-	 * Implemenetation de la fonction creation d'un computer
+	 * Implementation de la fonction creation d'un computer
 	 */
 	@Override
 	public void createComputer(Computer computer) {
@@ -35,8 +35,17 @@ public class ComputerService implements IComputerService {
 	}
 
 	@Override
-	public void deleteComputer(Computer computer) {
+	public void deleteComputer(int id) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void showComputerDetail(int idComputer) {
+		ComputerDao computerDao = new ComputerDao();
+		Computer computer = computerDao.showComputerDetail(idComputer);
+		// computer = computerDao.showComputerDetail(idComputer);
+		System.out.println(computer.toString());
 
 	}
 

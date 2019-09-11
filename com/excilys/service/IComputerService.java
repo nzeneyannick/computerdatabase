@@ -15,11 +15,17 @@ public interface IComputerService {
 	 * Creation d'un computer
 	 */
 	public void createComputer(Computer computer);
+	/**
+	 * Afficher les details d'un computer
+	 */
+	public void showComputerDetail(int idComputer);
+	
 	
 	/**
 	 * Suppression d'un computer
 	 */
-	public void deleteComputer(Computer computer);
+	public void deleteComputer(int id);
+	
 	
 
 }
