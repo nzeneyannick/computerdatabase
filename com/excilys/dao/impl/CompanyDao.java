@@ -1,15 +1,25 @@
-package com.excilys.dao;
+package com.excilys.dao.impl;
 
 import java.sql.*;
 import java.util.*;
 
+import com.excilys.dao.ICompanyDao;
 import com.excilys.entities.Company;
 
 public class CompanyDao implements ICompanyDao {
 	private Connection con;
+	Statement statement;
+	ResultSet resultset;
+	private static final String LISTOFCOMPANY = "select id, name from company limit 10;";
 
 	public CompanyDao() {
 		super();
+		getConnection();
+
+	}
+
+	public void getConnection() {
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db ", "admincdb",
@@ -20,9 +30,11 @@ public class CompanyDao implements ICompanyDao {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			e.getMessage();
+
 		} catch (Exception e) {
 			System.out.println("Failed");
 			e.printStackTrace();
+
 		}
 
 	}
@@ -30,12 +42,11 @@ public class CompanyDao implements ICompanyDao {
 	@Override
 	public List<Company> getListCompany() {
 		List<Company> list = new ArrayList<Company>();
-		Statement statement = null;
-		ResultSet resultset = null;
+
 		try {
 			statement = con.createStatement();
 			// execution de la requette
-			resultset = statement.executeQuery("select id, name from company limit 10;");
+			resultset = statement.executeQuery(LISTOFCOMPANY);
 			// recuperation des données
 			while (resultset.next()) {
 				int id = resultset.getInt("id");
@@ -55,7 +66,7 @@ public class CompanyDao implements ICompanyDao {
 		finally {
 			// Fermeture de la connexion
 			try {
-				if (resultset != null)
+				if (resultset!= null)
 					resultset.close();
 				if (statement != null)
 					statement.close();

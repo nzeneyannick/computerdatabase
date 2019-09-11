@@ -1,8 +1,9 @@
-package com.excilys.service;
+package com.excilys.service.impl;
 
 import java.util.List;
 
 import com.excilys.entities.Computer;
+import com.excilys.service.IComputerService;
 
 public class ComputerService implements IComputerService{
 	

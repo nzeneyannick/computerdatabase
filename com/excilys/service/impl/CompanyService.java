@@ -1,9 +1,10 @@
-package com.excilys.service;
+package com.excilys.service.impl;
 
 import java.util.*;
 
-import com.excilys.dao.CompanyDao;
+import com.excilys.dao.impl.CompanyDao;
 import com.excilys.entities.Company;
+import com.excilys.service.ICompagnieService;
 
 public class CompanyService implements ICompagnieService {
 

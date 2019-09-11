@@ -1,4 +1,4 @@
-package com.excilys.dao;
+package com.excilys.dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,14 +9,24 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.dao.IComputerDao;
 import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
 
 public class ComputerDao implements IComputerDao {
-	private Connection con;
+	private static Connection con;
+	Statement statement;
+	ResultSet resultset;
+	private static final String LISTOFCOMPUTER = "select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ";
 
 	public ComputerDao() {
 		super();
+		getConnection();
+
+	}
+
+	public void getConnection() {
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db ", "admincdb",
@@ -27,9 +37,11 @@ public class ComputerDao implements IComputerDao {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			e.getMessage();
+
 		} catch (Exception e) {
 			System.out.println("Failed");
 			e.printStackTrace();
+
 		}
 
 	}
@@ -37,16 +49,10 @@ public class ComputerDao implements IComputerDao {
 	@Override
 	public List<Computer> getListComputer() {
 		List<Computer> list = new ArrayList<Computer>();
-		Statement statement = null;
-		ResultSet resultset = null;
 		try {
 			statement = con.createStatement();
 			// execution de la requette
-			// resultset = statement.executeQuery("select cpn.id from company cpn inner join
-			// computer cpt on cpn.id=cpt.company_id; \n" +
-			// "");
-			resultset = statement.executeQuery(
-					"select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ");
+			resultset = statement.executeQuery(LISTOFCOMPUTER);
 
 			// recuperation des données
 			while (resultset.next()) {
@@ -89,4 +95,8 @@ public class ComputerDao implements IComputerDao {
 		return list;
 	}
 
+	@Override
+	public void createComputer(Computer computer) {
+
+	}
 }
