@@ -22,7 +22,7 @@ public class ComputerDao implements IComputerDao {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db ", "admincdb",
 					"qwerty1234");
 			// Do something with the connection
-			System.out.println("Success connexion");
+			System.out.println(" ");
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -42,8 +42,12 @@ public class ComputerDao implements IComputerDao {
 		try {
 			statement = con.createStatement();
 			// execution de la requette
-			resultset = statement.executeQuery("select cpn.id from company cpn inner join computer cpt on cpn.id=cpt.company_id;\n" + 
-					"");
+			// resultset = statement.executeQuery("select cpn.id from company cpn inner join
+			// computer cpt on cpn.id=cpt.company_id; \n" +
+			// "");
+			resultset = statement.executeQuery(
+					"select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ");
+
 			// recuperation des données
 			while (resultset.next()) {
 				int id = resultset.getInt("id");
@@ -51,15 +55,17 @@ public class ComputerDao implements IComputerDao {
 				Timestamp introduced = resultset.getTimestamp("introduced");
 				Timestamp discontinued = resultset.getTimestamp("discontinued");
 				int companyId = resultset.getInt("company_id");
-				
+
 				Computer computer = new Computer();
 				Company company = new Company();
 				computer.setId(id);
 				computer.setName(name);
 				computer.setIntroduced(introduced);
 				computer.setDiscontinued(discontinued);
+
+				company.setId(companyId);
+
 				computer.setCompagnie(company);
-				
 
 				list.add(computer);
 			}
@@ -82,8 +88,5 @@ public class ComputerDao implements IComputerDao {
 		}
 		return list;
 	}
-
-	return list;
-}
 
 }

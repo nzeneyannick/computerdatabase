@@ -15,7 +15,7 @@ public class CompanyDao implements ICompanyDao {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db ", "admincdb",
 					"qwerty1234");
 			// Do something with the connection
-			System.out.println("Success connexion");
+			System.out.println(" ");
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -35,7 +35,7 @@ public class CompanyDao implements ICompanyDao {
 		try {
 			statement = con.createStatement();
 			// execution de la requette
-			resultset = statement.executeQuery("select id, name from company;");
+			resultset = statement.executeQuery("select id, name from company limit 10;");
 			// recuperation des données
 			while (resultset.next()) {
 				int id = resultset.getInt("id");

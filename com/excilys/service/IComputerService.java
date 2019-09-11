@@ -1,5 +1,11 @@
 package com.excilys.service;
 
-public interface IComputerService {
+import java.util.List;
 
+import com.excilys.entities.Company;
+import com.excilys.entities.Computer;
+
+public interface IComputerService {
+	// Affichage de la liste des computers
+		public void getListComputer(List<Computer> list);
 }

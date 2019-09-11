@@ -7,6 +7,9 @@ import com.excilys.entities.Company;
 
 public class CompanyService implements ICompagnieService {
 
+	/**
+	 * Implemenetation de la fonction affichage de la liste des compagnies
+	 */
 	@Override
 	public void getListCompany(List<Company> list) {
 

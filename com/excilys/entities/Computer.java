@@ -65,4 +65,11 @@ public class Computer {
 		this.compagnie = compagnie;
 	}
 
+	@Override
+	public String toString() {
+		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", compagnieId=" + compagnie.getId() + "]";
+	}
+
+	
 }
