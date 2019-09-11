@@ -1,4 +1,5 @@
 package com.excilys.dao;
+
 import java.util.*;
 
 import com.excilys.entities.Company;
@@ -11,5 +12,3 @@ public interface ICompanyDao {
 	 */
 	public List<Company> getListCompany();
 }
-	
-

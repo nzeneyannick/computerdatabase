@@ -2,11 +2,13 @@ package com.excilys.dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.excilys.dao.IComputerDao;
@@ -18,6 +20,7 @@ public class ComputerDao implements IComputerDao {
 	Statement statement;
 	ResultSet resultset;
 	private static final String LISTOFCOMPUTER = "select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ";
+	private static final String NEWCOMPUTER = "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
 
 	public ComputerDao() {
 		super();
@@ -98,5 +101,22 @@ public class ComputerDao implements IComputerDao {
 	@Override
 	public void createComputer(Computer computer) {
 
+		try {
+
+			PreparedStatement preparedStatement = con.prepareStatement(NEWCOMPUTER);
+			preparedStatement.setString(1, computer.getName());
+			preparedStatement.setTimestamp(2, computer.getIntroduced());
+			preparedStatement.setTimestamp(3, computer.getDiscontinued());
+			preparedStatement.setInt(4, computer.getCompagnie().getId());
+
+			preparedStatement.executeUpdate();
+			// System.out.println("Enregistrement dans la bd effectué avec success ---By
+			// preparestatement--- Computer :"
+			// + computer.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
+
 }

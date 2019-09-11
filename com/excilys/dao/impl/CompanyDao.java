@@ -66,7 +66,7 @@ public class CompanyDao implements ICompanyDao {
 		finally {
 			// Fermeture de la connexion
 			try {
-				if (resultset!= null)
+				if (resultset != null)
 					resultset.close();
 				if (statement != null)
 					statement.close();

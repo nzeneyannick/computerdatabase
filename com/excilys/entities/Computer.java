@@ -41,7 +41,7 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public Timestamp getIntroduced() {
 		return introduced;
 	}
 
@@ -49,7 +49,7 @@ public class Computer {
 		this.introduced = introduced;
 	}
 
-	public Date getDiscontinued() {
+	public Timestamp getDiscontinued() {
 		return discontinued;
 	}
 
