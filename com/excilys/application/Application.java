@@ -40,7 +40,8 @@ public class Application {
 		computerService.createComputer(computer);
 
 	}
-	public static void showComputerDetails(int  id) {
+
+	public static void showComputerDetails(int id) {
 
 		System.out.print("\f\r******Affichage des details d'un computer ********\r");
 		ComputerService computerService = new ComputerService();
@@ -48,9 +49,16 @@ public class Application {
 
 	}
 
+	public static void deleteIdComputer(int id) {
+		System.out.print("\f\r******Suppression d'un computer ********\r");
+		ComputerService computerService = new ComputerService();
+		computerService.deleteComputer(id);
+
+	}
+
 	public static void main(String[] args) {
 
-		 Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		System.out.println("====================== Veuillez le numéro de l'action à effectuer ===================== ");
 		System.out.println("======  1 : List companies                                                        ===== ");
 		System.out.println("======  2 : List computer                                                         ===== ");
@@ -91,7 +99,7 @@ public class Application {
 			System.out.println("Veuillez rentrer l'id du computer recherché ");
 			int idc = sc.nextInt();
 			showComputerDetails(idc);
-			
+
 			break;
 		case 4:
 			Computer com = new Computer();
@@ -129,6 +137,12 @@ public class Application {
 			break;
 		case 5:
 			System.out.println();
+			break;
+		case 6:
+			System.out.println("Veuillez l'identifiant du computer à supprimer");
+			Scanner s = new Scanner(System.in);
+			int idComputer = s.nextInt();
+			deleteIdComputer(idComputer);
 			break;
 		default:
 			System.out.print("Veuillez choisir un nombre compris dans la plage");

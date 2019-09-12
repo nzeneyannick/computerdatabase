@@ -21,7 +21,8 @@ public class ComputerDao implements IComputerDao {
 	ResultSet resultset;
 	private static final String LISTOFCOMPUTER = "select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ";
 	private static final String NEWCOMPUTER = "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
-	private static final String findByIDComputer = "select id, name, introduced, discontinued,company_id from computer where id=?";
+	private static final String findByIDComputer = "select id, name, introduced, discontinued,company_id from computer where id=?;";
+	private static final String deleteIdComputer = "delete from computer where id = ?";
 
 	public ComputerDao() {
 		super();
@@ -153,7 +154,16 @@ public class ComputerDao implements IComputerDao {
 
 	@Override
 	public void deleteComputer(int id) {
-		// TODO Auto-generated method stub
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement(deleteIdComputer);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();		
+			System.out.println("Suppression effectué avec succes");
+			//System.out.print(preparedStatement.executeUpdate()	);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

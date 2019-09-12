@@ -32,12 +32,20 @@ public class ComputerService implements IComputerService {
 		System.out.println("Computer créé avec sucess \n" + computer.toString());
 	}
 
+	/**
+	 * Implementation de la fonction delete computer
+	 */
 	@Override
 	public void deleteComputer(int id) {
-		// TODO Auto-generated method stub
+		ComputerDao computerDao =  new ComputerDao();
+		computerDao.deleteComputer(id);
+		System.out.println("Computer numéro :"+id+" supprimé \n");
 
 	}
 
+	/**
+	 * Implementation de la fonction show details computer
+	 */
 	@Override
 	public void showComputerDetail(int idComputer) {
 		ComputerDao computerDao = new ComputerDao();
