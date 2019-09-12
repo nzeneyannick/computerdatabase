@@ -17,11 +17,9 @@ public class ComputerService implements IComputerService {
 		List<Computer> listComputer = new ArrayList<Computer>();
 		ComputerDao computerDao = new ComputerDao();
 		listComputer = computerDao.getListComputer();
-
 		for (Computer computer : listComputer) {
 			System.out.println(computer.toString());
 		}
-
 	}
 
 	/**
@@ -43,7 +41,8 @@ public class ComputerService implements IComputerService {
 	@Override
 	public void showComputerDetail(int idComputer) {
 		ComputerDao computerDao = new ComputerDao();
-		Computer computer = computerDao.showComputerDetail(idComputer);
+		Computer computer = new Computer();
+		computer = computerDao.showComputerDetail(idComputer);
 		// computer = computerDao.showComputerDetail(idComputer);
 		System.out.println(computer.toString());
 

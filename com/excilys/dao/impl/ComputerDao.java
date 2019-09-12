@@ -21,23 +21,20 @@ public class ComputerDao implements IComputerDao {
 	ResultSet resultset;
 	private static final String LISTOFCOMPUTER = "select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ";
 	private static final String NEWCOMPUTER = "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
-	private static final String findByIDComputer = "select name, introduced, discontinued,company_id from computer where id=?";
+	private static final String findByIDComputer = "select id, name, introduced, discontinued,company_id from computer where id=?";
 
 	public ComputerDao() {
 		super();
 		getConnection();
-
 	}
 
 	public void getConnection() {
-
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db ", "admincdb",
 					"qwerty1234");
 			// Do something with the connection
 			System.out.println(" ");
-
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			e.getMessage();
@@ -45,9 +42,7 @@ public class ComputerDao implements IComputerDao {
 		} catch (Exception e) {
 			System.out.println("Failed");
 			e.printStackTrace();
-
 		}
-
 	}
 
 	@Override
@@ -103,21 +98,15 @@ public class ComputerDao implements IComputerDao {
 	public void createComputer(Computer computer) {
 
 		try {
-
 			PreparedStatement preparedStatement = con.prepareStatement(NEWCOMPUTER);
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, computer.getIntroduced());
 			preparedStatement.setTimestamp(3, computer.getDiscontinued());
 			preparedStatement.setInt(4, computer.getCompagnie().getId());
-
 			preparedStatement.executeUpdate();
-			// System.out.println("Enregistrement dans la bd effectué avec success ---By
-			// preparestatement--- Computer :"
-			// + computer.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -127,30 +116,26 @@ public class ComputerDao implements IComputerDao {
 
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(findByIDComputer);
-			preparedStatement.setInt(1,idComputer);
-
+			// Trie effectué sur l'id du computer
+			preparedStatement.setInt(1, idComputer);
 			// recuperation des données
+			resultset = preparedStatement.executeQuery();
+			while (resultset.next()) {
 				int id = resultset.getInt("id");
 				String name = resultset.getString("name");
 				Timestamp introduced = resultset.getTimestamp("introduced");
 				Timestamp discontinued = resultset.getTimestamp("discontinued");
 				int companyId = resultset.getInt("company_id");
-
 				computerDetail.setId(id);
 				computerDetail.setName(name);
 				computerDetail.setIntroduced(introduced);
 				computerDetail.setDiscontinued(discontinued);
-
 				company.setId(companyId);
-
 				computerDetail.setCompagnie(company);
-
+			}
 		} catch (SQLException e) {
-
 			e.printStackTrace();
-		}
-
-		finally {
+		} finally {
 			// Fermeture de la connexion
 			try {
 				if (resultset != null)
@@ -159,11 +144,11 @@ public class ComputerDao implements IComputerDao {
 					statement.close();
 				if (con != null)
 					con.close();
-			} catch (SQLException ignore) {
+			} catch (SQLException e) {
+				e.getStackTrace();
 			}
 		}
 		return computerDetail;
-
 	}
 
 	@Override
