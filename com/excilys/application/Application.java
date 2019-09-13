@@ -3,7 +3,6 @@ package com.excilys.application;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Scanner;
 
 import com.excilys.entities.Company;
@@ -12,18 +11,17 @@ import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
 
 public class Application {
+	static CompanyService companyService = new CompanyService();
+	static ComputerService computerService = new ComputerService();
 
 	public static void getListCompany() {
 		System.out.print("******Affichage de la liste des compagnies ********\r");
-		CompanyService companyService = new CompanyService();
 		companyService.getListCompany();
 	}
 
 	public static void getListComputer() {
 
 		System.out.print("\f\r******Affichage de la liste des computers ********\r");
-
-		ComputerService computerService = new ComputerService();
 		computerService.getListComputer();
 
 	}
@@ -31,7 +29,6 @@ public class Application {
 	public static void createNewComputer(Computer computer) {
 
 		System.out.print("\f\r******Creation d'un new computer ********\r");
-		ComputerService computerService = new ComputerService();
 		computerService.createComputer(computer);
 
 	}
@@ -39,21 +36,18 @@ public class Application {
 	public static void showComputerDetails(int id) {
 
 		System.out.print("\f\r******Affichage des details d'un computer ********\r");
-		ComputerService computerService = new ComputerService();
 		computerService.showComputerDetail(id);
 
 	}
 
 	public static void deleteIdComputer(int id) {
 		System.out.print("\f\r******Suppression d'un computer ********\r");
-		ComputerService computerService = new ComputerService();
 		computerService.deleteComputer(id);
 
 	}
 
 	public static void UpdateComputer(Computer computer) {
 		System.out.print("\f\r******mise à jour d'un computer ********\r");
-		ComputerService computerService = new ComputerService();
 		computerService.updateComputer(computer);
 
 	}
@@ -73,6 +67,7 @@ public class Application {
 		System.out.println("Vous avez saisi le nombre : " + choixUtilisateur);
 
 		int action[] = { 1, 2, 3, 4, 5, 6 };
+
 		switch (choixUtilisateur) {
 		case 1:
 			try {
@@ -105,41 +100,50 @@ public class Application {
 			break;
 		case 4:
 			Computer com = new Computer();
-			Date date = new Date();
-			long time = date.getTime();
-			// System.out.println("Time in Milliseconds: " + time);
-			// Current timesteam
-			Timestamp ts = new Timestamp(time);
-			// System.out.println("Current Time Stamp: " + ts);
-			System.out.println("Veuillez rentrer les information du computer");
-			Scanner infoCpt = new Scanner(System.in);
-			System.out.println("Veuillez saisir le name : \r");
-			String name = infoCpt.next();
-			System.out.println("Valeur courante : introduced => : \r" + ts);
-			// String introduced = infoCpt.next();
+			// Creation de la compagnie afin de stocker la valeur de clé étrangère
+			Company company = new Company();
 
-			System.out.println("Valeur courante : discontinued => : \r" + ts);
-			// String discontinued = infoCpt.next();
+			System.out.println("Veuillez rentrer les information du computer");
+
+			System.out.println("Veuillez saisir le name : \r");
+			Scanner scanName = new Scanner(System.in);
+			String name = scanName.next();
+
+			System.out.println("Veuillez rentrer la date introduced ");
+			Scanner scanDataIntroduced = new Scanner(System.in);
+			String dateIntroduced = scanDataIntroduced.nextLine();
+			DateTimeFormatter formatterIntroduced = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			LocalDateTime localDateTimeIntro = LocalDateTime.parse(dateIntroduced, formatterIntroduced);
+			Timestamp introduced = Timestamp.valueOf(localDateTimeIntro);
+
+			System.out.println("Veuillez rentrer la date discontinued");
+			Scanner scanDataDiscontinued = new Scanner(System.in);
+			String dateDiscontinued = scanDataDiscontinued.nextLine();
+			DateTimeFormatter formatterDiscontinued = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			LocalDateTime localDateTimeDiscon = LocalDateTime.parse(dateDiscontinued, formatterDiscontinued);
+			Timestamp discontinued = Timestamp.valueOf(localDateTimeDiscon);
+
 			System.out.println(" Veuillez saisir le compagnie_id : \r");
-			int company_id = infoCpt.nextInt();
+			Scanner scanId = new Scanner(System.in);
+			int company_id = scanId.nextInt();
+
+			company.setId(company_id);
 
 			/**
 			 * Peuplement du computer avec les variables ci-dessus saisies par l'utilisateur
 			 */
 			com.setName(name);
-			com.setIntroduced(ts);
-			com.setDiscontinued(ts);
+			com.setIntroduced(introduced);
+			com.setDiscontinued(discontinued);
+			com.setCompagnie(company);
 
-			// Creation de la compagnie afin de stocker la valeur de clé étrangère
-			Company comp = new Company();
-			comp.setId(company_id);
-			com.setCompagnie(comp);
-			ComputerService computerService = new ComputerService();
-			computerService.createComputer(com);
+			createNewComputer(com);
+
 			break;
 		case 5:
 			Computer computer = new Computer();
-			Company company = new Company();
+			// Creation de la compagnie afin de stocker la valeur de clé étrangère
+			Company compny = new Company();
 			int idComputer;
 			String nameComputer;
 			Timestamp introducedComputer;
@@ -149,28 +153,23 @@ public class Application {
 			System.out.println("Veuillez rentrer l'id du computer à modifier ");
 			Scanner newdataId = new Scanner(System.in);
 			idComputer = newdataId.nextInt();
-			// computer.setId(idComputer);
 
 			System.out.println("Veuillez rentrer le nouveau name ");
 			Scanner newdataName = new Scanner(System.in);
 			nameComputer = newdataName.nextLine();
-			// computer.setName(nameComputer);
 
-			System.out.println("\nVeuillez rentrer la nouvelle date introduced ");
+			System.out.println("Veuillez rentrer la nouvelle date introduced ");
 			Scanner newdataIntroduced = new Scanner(System.in);
 			/*
 			 * recuperation de la date introduced et discontinued en String à l'entrée et
 			 * conversion en Timestream à la sortie en passant par LocalDateTime
 			 */
-			String dateIntroduced = newdataIntroduced.nextLine();
-			System.out.println(dateIntroduced);
-			// String dateIntroduced = "2017-03-08 12:30";
-			DateTimeFormatter formatterIntroduced = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd
-			// HH:mm");
+			String newdateIntroduced = newdataIntroduced.nextLine();
+			System.out.println(newdateIntroduced);
+			DateTimeFormatter newformatterIntroduced = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-			LocalDateTime dateTimeIntroduced = LocalDateTime.parse(dateIntroduced, formatterIntroduced);
-			introducedComputer = Timestamp.valueOf(dateTimeIntroduced);
+			LocalDateTime dateTimeIntroduced = LocalDateTime.parse(newdateIntroduced, newformatterIntroduced);
+			introducedComputer = Timestamp.valueOf(newdateIntroduced);
 
 			System.out.println("Veuillez rentrer la nouvelle date discontinued ");
 			Scanner newdataDiscontinued = new Scanner(System.in);
@@ -178,26 +177,26 @@ public class Application {
 			 * recuperation de la date introduced et discontinued en String à l'entrée et
 			 * conversion en Timestream à la sortie en passant par LocalDateTime
 			 */
-			String dateDiscontinued = newdataDiscontinued.nextLine();
+			String newdateDiscontinued = newdataDiscontinued.nextLine();
 			// String dateDiscontinued = "2017-03-08 12:30:54";
-			DateTimeFormatter formatterDiscontinued = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			LocalDateTime dateTimeDiscontinued = LocalDateTime.parse(dateDiscontinued, formatterDiscontinued);
-			discontinuedComputer = Timestamp.valueOf(dateTimeDiscontinued);
+			DateTimeFormatter formatterDiscont = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			LocalDateTime dateTimeDiscont = LocalDateTime.parse(newdateDiscontinued, formatterDiscont);
+			discontinuedComputer = Timestamp.valueOf(dateTimeDiscont);
 
 			System.out.println("Veuillez choisir la valeur de la company_id");
 			Scanner newdataCompany_id = new Scanner(System.in);
 
 			companyIdComputer = newdataCompany_id.nextInt();
-			company.setId(companyIdComputer);
-			// computer.setCompagnie(company);
-			/*
-			 * peuplement du bean computer avec les nouvelles données récupérées
+			compny.setId(companyIdComputer);
+
+			/**
+			 * Peuplement du computer avec les variables ci-dessus saisies par l'utilisateur
 			 */
 			computer.setId(idComputer);
 			computer.setName(nameComputer);
 			computer.setIntroduced(introducedComputer);
 			computer.setDiscontinued(discontinuedComputer);
-			computer.setCompagnie(company);
+			computer.setCompagnie(compny);
 
 			UpdateComputer(computer);
 
