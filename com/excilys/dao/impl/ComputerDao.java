@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.excilys.dao.IComputerDao;
@@ -23,6 +22,7 @@ public class ComputerDao implements IComputerDao {
 	private static final String NEWCOMPUTER = "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
 	private static final String findByIDComputer = "select id, name, introduced, discontinued,company_id from computer where id=?;";
 	private static final String deleteIdComputer = "delete from computer where id = ?";
+	private static final String UPDATECOMPUTERBYID = "update computer set name=?, introduced=?,discontinued=?,company_id=? where id=? ;";
 
 	public ComputerDao() {
 		super();
@@ -157,9 +157,26 @@ public class ComputerDao implements IComputerDao {
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(deleteIdComputer);
 			preparedStatement.setInt(1, id);
-			preparedStatement.executeUpdate();		
+			preparedStatement.executeUpdate();
 			System.out.println("Suppression effectué avec succes");
-			//System.out.print(preparedStatement.executeUpdate()	);
+			// System.out.print(preparedStatement.executeUpdate() );
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void updateComputer(Computer computer) {
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement(UPDATECOMPUTERBYID);
+			preparedStatement.setString(1, computer.getName());
+			preparedStatement.setTimestamp(2, computer.getIntroduced());
+			preparedStatement.setTimestamp(3, computer.getDiscontinued());
+			preparedStatement.setInt(4, computer.getCompagnie().getId());
+			preparedStatement.setInt(5, computer.getId());
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

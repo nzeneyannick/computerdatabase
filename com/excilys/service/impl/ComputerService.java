@@ -37,9 +37,9 @@ public class ComputerService implements IComputerService {
 	 */
 	@Override
 	public void deleteComputer(int id) {
-		ComputerDao computerDao =  new ComputerDao();
+		ComputerDao computerDao = new ComputerDao();
 		computerDao.deleteComputer(id);
-		System.out.println("Computer numéro :"+id+" supprimé \n");
+		System.out.println("Computer numéro :" + id + " supprimé \n");
 
 	}
 
@@ -53,6 +53,14 @@ public class ComputerService implements IComputerService {
 		computer = computerDao.showComputerDetail(idComputer);
 		// computer = computerDao.showComputerDetail(idComputer);
 		System.out.println(computer.toString());
+
+	}
+
+	@Override
+	public void updateComputer(Computer computer) {
+		ComputerDao computerDao = new ComputerDao();
+		computerDao.updateComputer(computer);
+		System.out.println("Mise à jour effectué avec succes\n" + computer.toString());
 
 	}
 

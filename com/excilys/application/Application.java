@@ -1,16 +1,11 @@
 package com.excilys.application;
 
-import java.awt.Desktop.Action;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.*;
-import java.util.Map.Entry;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Scanner;
 
-import com.excilys.dao.impl.CompanyDao;
-import com.excilys.dao.impl.ComputerDao;
 import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
 import com.excilys.service.impl.CompanyService;
@@ -53,6 +48,13 @@ public class Application {
 		System.out.print("\f\r******Suppression d'un computer ********\r");
 		ComputerService computerService = new ComputerService();
 		computerService.deleteComputer(id);
+
+	}
+
+	public static void UpdateComputer(Computer computer) {
+		System.out.print("\f\r******mise à jour d'un computer ********\r");
+		ComputerService computerService = new ComputerService();
+		computerService.updateComputer(computer);
 
 	}
 
@@ -136,13 +138,75 @@ public class Application {
 			computerService.createComputer(com);
 			break;
 		case 5:
-			System.out.println();
+			Computer computer = new Computer();
+			Company company = new Company();
+			int idComputer;
+			String nameComputer;
+			Timestamp introducedComputer;
+			Timestamp discontinuedComputer;
+			int companyIdComputer;
+
+			System.out.println("Veuillez rentrer l'id du computer à modifier ");
+			Scanner newdataId = new Scanner(System.in);
+			idComputer = newdataId.nextInt();
+			// computer.setId(idComputer);
+
+			System.out.println("Veuillez rentrer le nouveau name ");
+			Scanner newdataName = new Scanner(System.in);
+			nameComputer = newdataName.nextLine();
+			// computer.setName(nameComputer);
+
+			System.out.println("\nVeuillez rentrer la nouvelle date introduced ");
+			Scanner newdataIntroduced = new Scanner(System.in);
+			/*
+			 * recuperation de la date introduced et discontinued en String à l'entrée et
+			 * conversion en Timestream à la sortie en passant par LocalDateTime
+			 */
+			String dateIntroduced = newdataIntroduced.nextLine();
+			System.out.println(dateIntroduced);
+			// String dateIntroduced = "2017-03-08 12:30";
+			DateTimeFormatter formatterIntroduced = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd
+			// HH:mm");
+
+			LocalDateTime dateTimeIntroduced = LocalDateTime.parse(dateIntroduced, formatterIntroduced);
+			introducedComputer = Timestamp.valueOf(dateTimeIntroduced);
+
+			System.out.println("Veuillez rentrer la nouvelle date discontinued ");
+			Scanner newdataDiscontinued = new Scanner(System.in);
+			/*
+			 * recuperation de la date introduced et discontinued en String à l'entrée et
+			 * conversion en Timestream à la sortie en passant par LocalDateTime
+			 */
+			String dateDiscontinued = newdataDiscontinued.nextLine();
+			// String dateDiscontinued = "2017-03-08 12:30:54";
+			DateTimeFormatter formatterDiscontinued = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			LocalDateTime dateTimeDiscontinued = LocalDateTime.parse(dateDiscontinued, formatterDiscontinued);
+			discontinuedComputer = Timestamp.valueOf(dateTimeDiscontinued);
+
+			System.out.println("Veuillez choisir la valeur de la company_id");
+			Scanner newdataCompany_id = new Scanner(System.in);
+
+			companyIdComputer = newdataCompany_id.nextInt();
+			company.setId(companyIdComputer);
+			// computer.setCompagnie(company);
+			/*
+			 * peuplement du bean computer avec les nouvelles données récupérées
+			 */
+			computer.setId(idComputer);
+			computer.setName(nameComputer);
+			computer.setIntroduced(introducedComputer);
+			computer.setDiscontinued(discontinuedComputer);
+			computer.setCompagnie(company);
+
+			UpdateComputer(computer);
+
 			break;
 		case 6:
 			System.out.println("Veuillez l'identifiant du computer à supprimer");
 			Scanner s = new Scanner(System.in);
-			int idComputer = s.nextInt();
-			deleteIdComputer(idComputer);
+			int idCompt = s.nextInt();
+			deleteIdComputer(idCompt);
 			break;
 		default:
 			System.out.print("Veuillez choisir un nombre compris dans la plage");
