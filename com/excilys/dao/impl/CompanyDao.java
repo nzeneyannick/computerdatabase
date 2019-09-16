@@ -1,7 +1,5 @@
 package com.excilys.dao.impl;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,37 +10,25 @@ import com.excilys.dao.ICompanyDao;
 import com.excilys.entities.Company;
 
 public class CompanyDao implements ICompanyDao {
-	private Connection con;
+	// private Connection con;
 	Statement statement;
 	ResultSet resultset;
+	private Connexion connexion;
 	private static final String LISTOFCOMPANY = "select id, name from company limit 10;";
 
-	public CompanyDao() {
+	private CompanyDao() {
 		super();
-		getConnection();
+		// getConnection();
+		this.connexion = connexion.getInstance();
 
 	}
 
-	public void getConnection() {
+	/** Instance unique pré-initialisée */
+	private static CompanyDao INSTANCE = new CompanyDao();
 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/computer-database-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-					"admincdb", "qwerty1234");
-			// Do something with the connection
-			System.out.println(" ");
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			e.getMessage();
-
-		} catch (Exception e) {
-			System.out.println("Failed");
-			e.printStackTrace();
-
-		}
-
+	/** Point d'accès pour l'instance unique du singleton */
+	public static CompanyDao getInstance() {
+		return INSTANCE;
 	}
 
 	@Override
@@ -50,7 +36,7 @@ public class CompanyDao implements ICompanyDao {
 		List<Company> list = new ArrayList<Company>();
 
 		try {
-			statement = con.createStatement();
+			statement = connexion.getConnection().createStatement();
 			// execution de la requette
 			resultset = statement.executeQuery(LISTOFCOMPANY);
 			// recuperation des données
@@ -76,8 +62,8 @@ public class CompanyDao implements ICompanyDao {
 					resultset.close();
 				if (statement != null)
 					statement.close();
-				if (con != null)
-					con.close();
+				if (connexion.getConnection() != null)
+					connexion.getConnection().close();
 			} catch (SQLException ignore) {
 			}
 		}

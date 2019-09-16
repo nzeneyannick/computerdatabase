@@ -1,7 +1,5 @@
 package com.excilys.dao.impl;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +13,7 @@ import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
 
 public class ComputerDao implements IComputerDao {
-	private static Connection con;
+	private Connexion connexion;
 	Statement statement;
 	ResultSet resultset;
 	private static final String LISTOFCOMPUTER = "select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ";
@@ -24,34 +22,25 @@ public class ComputerDao implements IComputerDao {
 	private static final String deleteIdComputer = "delete from computer where id = ?";
 	private static final String UPDATECOMPUTERBYID = "update computer set name=?, introduced=?,discontinued=?,company_id=? where id=? ;";
 
-	public ComputerDao() {
+	private ComputerDao() {
 		super();
-		getConnection();
+		this.connexion = Connexion.getInstance();
 	}
 
-	public void getConnection() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/computer-database-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-					"admincdb", "qwerty1234");
-			// Do something with the connection
-			System.out.println(" ");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			e.getMessage();
+	/** Instance unique pré-initialisée */
+	private static ComputerDao INSTANCE = new ComputerDao();
 
-		} catch (Exception e) {
-			System.out.println("Failed");
-			e.printStackTrace();
-		}
+	/** Point d'accès pour l'instance unique du singleton */
+	public static ComputerDao getInstance() {
+		return INSTANCE;
 	}
 
 	@Override
 	public List<Computer> getListComputer() {
 		List<Computer> list = new ArrayList<Computer>();
 		try {
-			statement = con.createStatement();
+			// statement = con.createStatement();
+			statement = connexion.getConnection().createStatement();
 			// execution de la requette
 			resultset = statement.executeQuery(LISTOFCOMPUTER);
 
@@ -88,8 +77,8 @@ public class ComputerDao implements IComputerDao {
 					resultset.close();
 				if (statement != null)
 					statement.close();
-				if (con != null)
-					con.close();
+				if (connexion.getConnection() != null)
+					connexion.getConnection().close();
 			} catch (SQLException ignore) {
 			}
 		}
@@ -100,7 +89,7 @@ public class ComputerDao implements IComputerDao {
 	public void createComputer(Computer computer) {
 
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement(NEWCOMPUTER);
+			PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(NEWCOMPUTER);
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, computer.getIntroduced());
 			preparedStatement.setTimestamp(3, computer.getDiscontinued());
@@ -117,7 +106,7 @@ public class ComputerDao implements IComputerDao {
 		Company company = new Company();
 
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement(findByIDComputer);
+			PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(findByIDComputer);
 			// Trie effectué sur l'id du computer
 			preparedStatement.setInt(1, idComputer);
 			// recuperation des données
@@ -144,8 +133,8 @@ public class ComputerDao implements IComputerDao {
 					resultset.close();
 				if (statement != null)
 					statement.close();
-				if (con != null)
-					con.close();
+				if (connexion.getConnection() != null)
+					connexion.getConnection().close();
 			} catch (SQLException e) {
 				e.getStackTrace();
 			}
@@ -156,7 +145,7 @@ public class ComputerDao implements IComputerDao {
 	@Override
 	public void deleteComputer(int id) {
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement(deleteIdComputer);
+			PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(deleteIdComputer);
 			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
 			System.out.println("Suppression effectué avec succes");
@@ -171,7 +160,7 @@ public class ComputerDao implements IComputerDao {
 	@Override
 	public void updateComputer(Computer computer) {
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement(UPDATECOMPUTERBYID);
+			PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(UPDATECOMPUTERBYID);
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, computer.getIntroduced());
 			preparedStatement.setTimestamp(3, computer.getDiscontinued());

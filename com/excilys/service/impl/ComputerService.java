@@ -9,13 +9,19 @@ import com.excilys.service.IComputerService;
 
 public class ComputerService implements IComputerService {
 
+	ComputerDao computerDao;
+
+	public ComputerService() {
+		computerDao = ComputerDao.getInstance();
+	}
+
 	/**
 	 * Implemenetation de la fonction affichage de la liste des computers
 	 */
 	@Override
 	public void getListComputer() {
 		List<Computer> listComputer = new ArrayList<Computer>();
-		ComputerDao computerDao = new ComputerDao();
+		// ComputerDao computerDao = new ComputerDao();
 		listComputer = computerDao.getListComputer();
 		for (Computer computer : listComputer) {
 			System.out.println(computer.toString());
@@ -27,7 +33,7 @@ public class ComputerService implements IComputerService {
 	 */
 	@Override
 	public void createComputer(Computer computer) {
-		ComputerDao computerDao = new ComputerDao();
+		// ComputerDao computerDao = new ComputerDao();
 		computerDao.createComputer(computer);
 		System.out.println("Computer créé avec sucess \n" + computer.toString());
 	}
@@ -37,7 +43,7 @@ public class ComputerService implements IComputerService {
 	 */
 	@Override
 	public void deleteComputer(int id) {
-		ComputerDao computerDao = new ComputerDao();
+		// ComputerDao computerDao = new ComputerDao();
 		computerDao.deleteComputer(id);
 		System.out.println("Computer numéro :" + id + " supprimé \n");
 
@@ -48,7 +54,7 @@ public class ComputerService implements IComputerService {
 	 */
 	@Override
 	public void showComputerDetail(int idComputer) {
-		ComputerDao computerDao = new ComputerDao();
+		// ComputerDao computerDao = new ComputerDao();
 		Computer computer = new Computer();
 		computer = computerDao.showComputerDetail(idComputer);
 		// computer = computerDao.showComputerDetail(idComputer);
@@ -58,7 +64,7 @@ public class ComputerService implements IComputerService {
 
 	@Override
 	public void updateComputer(Computer computer) {
-		ComputerDao computerDao = new ComputerDao();
+		// ComputerDao computerDao = new ComputerDao();
 		computerDao.updateComputer(computer);
 		System.out.println("Mise à jour effectué avec succes\n" + computer.toString());
 
