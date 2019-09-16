@@ -8,6 +8,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.application.Application;
 import com.excilys.dao.IComputerDao;
 import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
@@ -21,6 +25,7 @@ public class ComputerDao implements IComputerDao {
 	private static final String findByIDComputer = "select id, name, introduced, discontinued,company_id from computer where id=?;";
 	private static final String deleteIdComputer = "delete from computer where id = ?";
 	private static final String UPDATECOMPUTERBYID = "update computer set name=?, introduced=?,discontinued=?,company_id=? where id=? ;";
+	final static Logger logger = LoggerFactory.getLogger(Application.class);
 
 	private ComputerDao() {
 		super();
@@ -67,7 +72,7 @@ public class ComputerDao implements IComputerDao {
 			}
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			logger.error("SQEXCEPTION ::" + e);
 		}
 
 		finally {
@@ -80,6 +85,7 @@ public class ComputerDao implements IComputerDao {
 				if (connexion.getConnection() != null)
 					connexion.getConnection().close();
 			} catch (SQLException ignore) {
+				logger.error("SQEXCEPTION ::" + ignore);
 			}
 		}
 		return list;
@@ -96,7 +102,7 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.setInt(4, computer.getCompagnie().getId());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("SQEXCEPTION ::" + e);
 		}
 	}
 
@@ -125,7 +131,7 @@ public class ComputerDao implements IComputerDao {
 				computerDetail.setCompagnie(company);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("SQEXCEPTION ::" + e);
 		} finally {
 			// Fermeture de la connexion
 			try {
@@ -136,7 +142,7 @@ public class ComputerDao implements IComputerDao {
 				if (connexion.getConnection() != null)
 					connexion.getConnection().close();
 			} catch (SQLException e) {
-				e.getStackTrace();
+				logger.error("SQEXCEPTION ::" + e);
 			}
 		}
 		return computerDetail;
@@ -151,8 +157,7 @@ public class ComputerDao implements IComputerDao {
 			System.out.println("Suppression effectué avec succes");
 			// System.out.print(preparedStatement.executeUpdate() );
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("SQEXCEPTION ::" + e);
 		}
 
 	}
@@ -168,8 +173,7 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.setInt(5, computer.getId());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("SQEXCEPTION ::" + e);
 		}
 
 	}

@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
 import com.excilys.service.impl.CompanyService;
@@ -13,8 +16,10 @@ import com.excilys.service.impl.ComputerService;
 public class Application {
 	static CompanyService companyService = new CompanyService();
 	static ComputerService computerService = new ComputerService();
+	final static Logger logger = LoggerFactory.getLogger(Application.class);
 
 	public static void getListCompany() {
+
 		System.out.print("******Affichage de la liste des compagnies ********\r");
 		companyService.getListCompany();
 	}
@@ -73,8 +78,7 @@ public class Application {
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Exception ::" + e);
 
 			}
 			;
@@ -85,8 +89,7 @@ public class Application {
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Exception ::" + e);
 
 			}
 			;

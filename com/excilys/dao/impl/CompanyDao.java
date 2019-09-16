@@ -6,19 +6,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.application.Application;
 import com.excilys.dao.ICompanyDao;
 import com.excilys.entities.Company;
 
 public class CompanyDao implements ICompanyDao {
-	// private Connection con;
+
 	Statement statement;
 	ResultSet resultset;
 	private Connexion connexion;
 	private static final String LISTOFCOMPANY = "select id, name from company limit 10;";
+	final static Logger logger = LoggerFactory.getLogger(Application.class);
 
 	private CompanyDao() {
 		super();
-		// getConnection();
 		this.connexion = connexion.getInstance();
 
 	}
@@ -52,7 +56,7 @@ public class CompanyDao implements ICompanyDao {
 			}
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			logger.error("SQEXCEPTION ::" + e);
 		}
 
 		finally {
@@ -65,6 +69,7 @@ public class CompanyDao implements ICompanyDao {
 				if (connexion.getConnection() != null)
 					connexion.getConnection().close();
 			} catch (SQLException ignore) {
+				logger.error("SQEXCEPTION ::" + ignore);
 			}
 		}
 		return list;
