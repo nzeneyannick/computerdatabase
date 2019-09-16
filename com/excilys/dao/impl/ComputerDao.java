@@ -32,8 +32,9 @@ public class ComputerDao implements IComputerDao {
 	public void getConnection() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db ", "admincdb",
-					"qwerty1234");
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/computer-database-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+					"admincdb", "qwerty1234");
 			// Do something with the connection
 			System.out.println(" ");
 		} catch (ClassNotFoundException e) {

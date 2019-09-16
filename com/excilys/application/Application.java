@@ -143,33 +143,34 @@ public class Application {
 		case 5:
 			Computer computer = new Computer();
 			// Creation de la compagnie afin de stocker la valeur de clé étrangère
-			Company compny = new Company();
-			int idComputer;
-			String nameComputer;
-			Timestamp introducedComputer;
-			Timestamp discontinuedComputer;
-			int companyIdComputer;
+			Company companyUpdate = new Company();
+			int idComputerUpdate;
+			String nameComputerUpdate;
+			Timestamp introducedComputerUpdate;
+			Timestamp discontinuedComputerUpdate;
+			int companyIdComputerUpdate;
 
 			System.out.println("Veuillez rentrer l'id du computer à modifier ");
-			Scanner newdataId = new Scanner(System.in);
-			idComputer = newdataId.nextInt();
+			Scanner idUpdate = new Scanner(System.in);
+			idComputerUpdate = idUpdate.nextInt();
 
 			System.out.println("Veuillez rentrer le nouveau name ");
-			Scanner newdataName = new Scanner(System.in);
-			nameComputer = newdataName.nextLine();
+			Scanner nameUpdate = new Scanner(System.in);
+			nameComputerUpdate = nameUpdate.next();
 
 			System.out.println("Veuillez rentrer la nouvelle date introduced ");
-			Scanner newdataIntroduced = new Scanner(System.in);
+			Scanner scanIntroducedUpdate = new Scanner(System.in);
 			/*
 			 * recuperation de la date introduced et discontinued en String à l'entrée et
 			 * conversion en Timestream à la sortie en passant par LocalDateTime
 			 */
-			String newdateIntroduced = newdataIntroduced.nextLine();
-			System.out.println(newdateIntroduced);
-			DateTimeFormatter newformatterIntroduced = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			String newdateIntroducedUpdate = scanIntroducedUpdate.nextLine();
+			System.out.println(newdateIntroducedUpdate);
+			DateTimeFormatter newformatterIntroducedUpdate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-			LocalDateTime dateTimeIntroduced = LocalDateTime.parse(newdateIntroduced, newformatterIntroduced);
-			introducedComputer = Timestamp.valueOf(newdateIntroduced);
+			LocalDateTime dateTimeIntroduced = LocalDateTime.parse(newdateIntroducedUpdate,
+					newformatterIntroducedUpdate);
+			introducedComputerUpdate = Timestamp.valueOf(dateTimeIntroduced);
 
 			System.out.println("Veuillez rentrer la nouvelle date discontinued ");
 			Scanner newdataDiscontinued = new Scanner(System.in);
@@ -177,26 +178,27 @@ public class Application {
 			 * recuperation de la date introduced et discontinued en String à l'entrée et
 			 * conversion en Timestream à la sortie en passant par LocalDateTime
 			 */
-			String newdateDiscontinued = newdataDiscontinued.nextLine();
+			String newdateDiscontinuedUpdate = newdataDiscontinued.nextLine();
 			// String dateDiscontinued = "2017-03-08 12:30:54";
-			DateTimeFormatter formatterDiscont = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			LocalDateTime dateTimeDiscont = LocalDateTime.parse(newdateDiscontinued, formatterDiscont);
-			discontinuedComputer = Timestamp.valueOf(dateTimeDiscont);
+			DateTimeFormatter formatterDiscontUpdate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			LocalDateTime dateTimeDiscontUpdate = LocalDateTime.parse(newdateDiscontinuedUpdate,
+					formatterDiscontUpdate);
+			discontinuedComputerUpdate = Timestamp.valueOf(dateTimeDiscontUpdate);
 
 			System.out.println("Veuillez choisir la valeur de la company_id");
-			Scanner newdataCompany_id = new Scanner(System.in);
+			Scanner newdataCompany_idUpdate = new Scanner(System.in);
 
-			companyIdComputer = newdataCompany_id.nextInt();
-			compny.setId(companyIdComputer);
+			companyIdComputerUpdate = newdataCompany_idUpdate.nextInt();
+			companyUpdate.setId(companyIdComputerUpdate);
 
 			/**
 			 * Peuplement du computer avec les variables ci-dessus saisies par l'utilisateur
 			 */
-			computer.setId(idComputer);
-			computer.setName(nameComputer);
-			computer.setIntroduced(introducedComputer);
-			computer.setDiscontinued(discontinuedComputer);
-			computer.setCompagnie(compny);
+			computer.setId(idComputerUpdate);
+			computer.setName(nameComputerUpdate);
+			computer.setIntroduced(introducedComputerUpdate);
+			computer.setDiscontinued(discontinuedComputerUpdate);
+			computer.setCompagnie(companyUpdate);
 
 			UpdateComputer(computer);
 
