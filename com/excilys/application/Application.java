@@ -1,17 +1,19 @@
 package com.excilys.application;
 
+import java.util.List;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.excilys.dto.CompanyDto;
 import com.excilys.dto.ComputerDto;
+import com.excilys.entities.Computer;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
 
 public class Application {
-  static CompanyService companyService = new CompanyService();
-  static ComputerService computerService = new ComputerService();
-  final static Logger logger = LoggerFactory.getLogger(Application.class);
+  static CompanyService companyService = CompanyService.getInstance();
+  static ComputerService computerService = ComputerService.getInstance();
+  final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
   public static void getListCompany() {
 
@@ -22,7 +24,11 @@ public class Application {
   public static void getListComputer() {
 
     System.out.print("\f\r******Affichage de la liste des computers ********\r");
-    computerService.getListComputer();
+    List<Computer> listComputer;
+    listComputer = computerService.getListComputer();
+    for (Computer computer : listComputer) {
+      System.out.println(computer.toString());
+    }
 
   }
 
@@ -140,8 +146,8 @@ public class Application {
          */
         computerDto2.setDiscontinuedDto(newdataDiscontinued.nextLine());
         System.out.println("Veuillez choisir la valeur de la company_id");
-        Scanner newdataCompany_idUpdate = new Scanner(System.in);
-        companyDtoUpdate.setIdDto(newdataCompany_idUpdate.nextInt());
+        // Scanner newdataCompany_idUpdate = new Scanner(System.in);
+        companyDtoUpdate.setIdDto(sc.nextInt());
         computerDto2.setCompanyDto(companyDtoUpdate);
 
         UpdateComputer(computerDto2);
@@ -150,14 +156,14 @@ public class Application {
 
       case 6:
         System.out.println("Veuillez l'identifiant du computer à supprimer");
-        Scanner s = new Scanner(System.in);
-        int idCompt = s.nextInt();
+        // Scanner s = new Scanner(System.in);
+        int idCompt = sc.nextInt();
         deleteIdComputer(idCompt);
         break;
       default:
         System.out.print("Veuillez choisir un nombre compris dans la plage");
     }
-
+    sc.close();
   }
 
 }

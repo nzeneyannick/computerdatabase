@@ -4,10 +4,13 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ComputerMapper {
 
   DateTimeFormatter formatter;
+  final static Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 
   public ComputerMapper() {
     formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -24,9 +27,14 @@ public class ComputerMapper {
 
   public LocalDate convertTimeSteamToLocalDate(Timestamp timesteam) {
 
-    LocalDate localDate;
-    localDate = timesteam.toLocalDateTime().toLocalDate();
-    return localDate;
+    LocalDate localDate = null;
+    if (timesteam != null) {
+      localDate = timesteam.toLocalDateTime().toLocalDate();
+    } else {
+      logger.warn("la date recupé est nulle");
+    }
+
+    return (localDate);
 
   }
 

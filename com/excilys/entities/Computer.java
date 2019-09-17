@@ -9,21 +9,7 @@ public class Computer {
   private String name;
   private LocalDate introduced;
   private LocalDate discontinued;
-  private Company compagnie;
-
-  public Computer() {
-
-  }
-
-  public Computer(int id, String name, LocalDate introduced, LocalDate discontinued,
-      Company compagnie) {
-    super();
-    this.id = id;
-    this.name = name;
-    this.introduced = introduced;
-    this.discontinued = discontinued;
-    this.compagnie = compagnie;
-  }
+  private Company company;
 
   public int getId() {
     return id;
@@ -58,24 +44,24 @@ public class Computer {
   }
 
   public Company getCompagnie() {
-    return compagnie;
+    return company;
   }
 
-  public void setCompagnie(Company compagnie) {
-    this.compagnie = compagnie;
+  public void setCompagnie(Company company) {
+    this.company = company;
   }
 
   @Override
   public String toString() {
     return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced
-        + ", discontinued=" + discontinued + ", compagnieId=" + compagnie.getId() + "]";
+        + ", discontinued=" + discontinued + ", compagnie=" + company + "]";
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((compagnie == null) ? 0 : compagnie.hashCode());
+    result = prime * result + ((company == null) ? 0 : company.hashCode());
     result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
     result = prime * result + id;
     result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -92,10 +78,10 @@ public class Computer {
     if (getClass() != obj.getClass())
       return false;
     Computer other = (Computer) obj;
-    if (compagnie == null) {
-      if (other.compagnie != null)
+    if (company == null) {
+      if (other.company != null)
         return false;
-    } else if (!compagnie.equals(other.compagnie))
+    } else if (!company.equals(other.company))
       return false;
     if (discontinued == null) {
       if (other.discontinued != null)

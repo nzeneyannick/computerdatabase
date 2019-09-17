@@ -11,20 +11,25 @@ public class ComputerService implements IComputerService {
 
   ComputerDao computerDao;
 
-  public ComputerService() {
+  private ComputerService() {
     computerDao = ComputerDao.getInstance();
+  }
+
+  /** Instance unique pré-initialisée */
+  private static ComputerService INSTANCE = new ComputerService();
+
+  public static ComputerService getInstance() {
+    return INSTANCE;
   }
 
   /**
    * Implemenetation de la fonction affichage de la liste des computers
    */
   @Override
-  public void getListComputer() {
+  public List getListComputer() {
     List<Computer> listComputer = new ArrayList<Computer>();
     listComputer = computerDao.getListComputer();
-    for (Computer computer : listComputer) {
-      System.out.println(computer.toString());
-    }
+    return listComputer;
   }
 
   /**

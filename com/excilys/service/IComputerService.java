@@ -1,12 +1,13 @@
 package com.excilys.service;
 
+import java.util.List;
 import com.excilys.dto.ComputerDto;
 
 public interface IComputerService {
   /**
    * Affichage de la liste des computers
    */
-  public void getListComputer();
+  public List getListComputer();
 
   /**
    * Creation d'un computer

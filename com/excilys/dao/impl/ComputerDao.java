@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.excilys.application.Application;
 import com.excilys.dao.IComputerDao;
 import com.excilys.dto.ComputerDto;
 import com.excilys.entities.Company;
@@ -31,7 +30,7 @@ public class ComputerDao implements IComputerDao {
   private static final String DELETEIDCOMPUTER = "delete from computer where id = ?";
   private static final String UPDATECOMPUTERBYID =
       "update computer set name=?, introduced=?,discontinued=?,company_id=? where id=? ;";
-  final static Logger logger = LoggerFactory.getLogger(Application.class);
+  final static Logger logger = LoggerFactory.getLogger(ComputerDao.class);
 
   private ComputerDao() {
     super();
@@ -51,12 +50,9 @@ public class ComputerDao implements IComputerDao {
     List<Computer> list = new ArrayList<Computer>();
     ComputerMapper computerMapper = new ComputerMapper();
     try {
-      // statement = con.createStatement();
       statement = connexion.getConnection().createStatement();
-      // execution de la requette
       resultset = statement.executeQuery(LISTOFCOMPUTER);
 
-      // recuperation des données
       while (resultset.next()) {
         int id = resultset.getInt("id");
         String name = resultset.getString("name");
@@ -105,12 +101,17 @@ public class ComputerDao implements IComputerDao {
     try {
       PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(NEWCOMPUTER);
       preparedStatement.setString(1, computerDto.getNameDto());
+
+      computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto());
       preparedStatement.setTimestamp(2,
           computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()));
+
       preparedStatement.setTimestamp(3,
           computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()));
+
       preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
       preparedStatement.executeUpdate();
+
     } catch (SQLException e) {
       logger.error("SQEXCEPTION ::" + e);
     }
@@ -127,7 +128,6 @@ public class ComputerDao implements IComputerDao {
           connexion.getConnection().prepareStatement(FINDCOMPUTERBYID);
       // Trie effectué sur l'id du computer
       preparedStatement.setInt(1, idComputer);
-      // recuperation des données
       resultset = preparedStatement.executeQuery();
       while (resultset.next()) {
         int id = resultset.getInt("id");
@@ -148,7 +148,7 @@ public class ComputerDao implements IComputerDao {
     } catch (SQLException e) {
       logger.error("SQEXCEPTION ::" + e);
     } finally {
-      // Fermeture de la connexion
+
       try {
         if (resultset != null)
           resultset.close();
