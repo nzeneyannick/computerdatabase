@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.excilys.dto.CompanyDto;
 import com.excilys.dto.ComputerDto;
-import com.excilys.entities.Computer;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
 
@@ -72,9 +71,6 @@ public class Application {
         "======  6 : Delete a computer                                                     ===== ");
 
     int choixUtilisateur = sc.nextInt();
-    System.out.println("Vous avez saisi le nombre : " + choixUtilisateur);
-
-    int action[] = {1, 2, 3, 4, 5, 6};
 
     switch (choixUtilisateur) {
       case 1:
@@ -92,29 +88,25 @@ public class Application {
         break;
 
       case 4:
-        Computer com = new Computer();
         CompanyDto companyDto = new CompanyDto();
         ComputerDto computerDto = new ComputerDto();
 
         System.out.println("Veuillez rentrer les information du computer");
         System.out.println("Veuillez saisir le name : \r");
-        Scanner scanName = new Scanner(System.in);
-        String name = scanName.next();
+        String name = sc.next();
         computerDto.setNameDto(name);
 
         System.out.println("Veuillez rentrer la date introduced ");
-        Scanner scanDataIntroduced = new Scanner(System.in);
-        String dateIntroducedDto = scanDataIntroduced.nextLine();
+        sc.nextLine();
+        String dateIntroducedDto = sc.nextLine();
         computerDto.setIntroducedDto(dateIntroducedDto);
 
         System.out.println("Veuillez rentrer la date discontinued");
-        Scanner scanDataDiscontinued = new Scanner(System.in);
-        String dateDiscontinuedDto = scanDataDiscontinued.nextLine();
+        String dateDiscontinuedDto = sc.nextLine();
         computerDto.setDiscontinuedDto(dateDiscontinuedDto);
 
         System.out.println(" Veuillez saisir le compagnie_id : \r");
-        Scanner scanId = new Scanner(System.in);
-        int company_idDto = scanId.nextInt();
+        int company_idDto = sc.nextInt();
         companyDto.setIdDto(company_idDto);
         computerDto.setCompanyDto(companyDto);
 
@@ -127,20 +119,19 @@ public class Application {
         ComputerDto computerDto2 = new ComputerDto();
 
         System.out.println("Veuillez rentrer l'id du computer à modifier ");
-        Scanner idUpdate = new Scanner(System.in);
-        computerDto2.setIdDto(idUpdate.nextInt());
+        computerDto2.setIdDto(sc.nextInt());
 
         System.out.println("Veuillez rentrer le nouveau name ");
-        Scanner nameUpdate = new Scanner(System.in);
-        computerDto2.setNameDto(nameUpdate.next());
+        computerDto2.setNameDto(sc.next());
 
         System.out.println("Veuillez rentrer la nouvelle date introduced ");
-        Scanner scanIntroducedUpdate = new Scanner(System.in);
+
         /*
          * recuperation de la date introduced et discontinued en String à l'entrée et conversion en
          * Timestream à la sortie en passant par LocalDateTime
          */
-        computerDto2.setIntroducedDto(scanIntroducedUpdate.nextLine());
+        sc.nextLine();
+        computerDto2.setIntroducedDto(sc.nextLine());
         System.out.println("Veuillez rentrer la nouvelle date discontinued ");
         Scanner newdataDiscontinued = new Scanner(System.in);
         /*
@@ -150,7 +141,6 @@ public class Application {
         computerDto2.setDiscontinuedDto(newdataDiscontinued.nextLine());
         System.out.println("Veuillez choisir la valeur de la company_id");
         Scanner newdataCompany_idUpdate = new Scanner(System.in);
-        // companyIdComputerUpdate = newdataCompany_idUpdate.nextInt();
         companyDtoUpdate.setIdDto(newdataCompany_idUpdate.nextInt());
         computerDto2.setCompanyDto(companyDtoUpdate);
 
