@@ -5,177 +5,196 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.excilys.application.Application;
 import com.excilys.dao.IComputerDao;
+import com.excilys.dto.ComputerDto;
 import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
+import com.excilys.mapper.ComputerMapper;
 
 public class ComputerDao implements IComputerDao {
-	private Connexion connexion;
-	Statement statement;
-	ResultSet resultset;
-	private static final String LISTOFCOMPUTER = "select cpt.id, cpt.name, cpt.introduced,cpt.discontinued,cpt.company_id  from company cpn inner join computer cpt on cpn.id=cpt.company_id limit 10;\n ";
-	private static final String NEWCOMPUTER = "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
-	private static final String findByIDComputer = "select id, name, introduced, discontinued,company_id from computer where id=?;";
-	private static final String deleteIdComputer = "delete from computer where id = ?";
-	private static final String UPDATECOMPUTERBYID = "update computer set name=?, introduced=?,discontinued=?,company_id=? where id=? ;";
-	final static Logger logger = LoggerFactory.getLogger(Application.class);
+  private Connexion connexion;
+  Statement statement;
+  ResultSet resultset;
+  private static final String LISTOFCOMPUTER = "select " + "cpt.id" + ", cpt.name"
+      + ", cpt.introduced" + ",cpt.discontinued" + ",cpt.company_id " + " from " + "company cpn "
+      + "inner join computer cpt " + "     on cpn.id=cpt.company_id " + "limit 10;\n ";
+  private static final String NEWCOMPUTER =
+      "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
+  private static final String FINDCOMPUTERBYID =
+      "select id, name, introduced, discontinued,company_id from computer where id=?;";
+  private static final String DELETEIDCOMPUTER = "delete from computer where id = ?";
+  private static final String UPDATECOMPUTERBYID =
+      "update computer set name=?, introduced=?,discontinued=?,company_id=? where id=? ;";
+  final static Logger logger = LoggerFactory.getLogger(Application.class);
 
-	private ComputerDao() {
-		super();
-		this.connexion = Connexion.getInstance();
-	}
+  private ComputerDao() {
+    super();
+    this.connexion = Connexion.getInstance();
+  }
 
-	/** Instance unique pré-initialisée */
-	private static ComputerDao INSTANCE = new ComputerDao();
+  /** Instance unique pré-initialisée */
+  private static ComputerDao INSTANCE = new ComputerDao();
 
-	/** Point d'accès pour l'instance unique du singleton */
-	public static ComputerDao getInstance() {
-		return INSTANCE;
-	}
+  /** Point d'accès pour l'instance unique du singleton */
+  public static ComputerDao getInstance() {
+    return INSTANCE;
+  }
 
-	@Override
-	public List<Computer> getListComputer() {
-		List<Computer> list = new ArrayList<Computer>();
-		try {
-			// statement = con.createStatement();
-			statement = connexion.getConnection().createStatement();
-			// execution de la requette
-			resultset = statement.executeQuery(LISTOFCOMPUTER);
+  @Override
+  public List<Computer> getListComputer() {
+    List<Computer> list = new ArrayList<Computer>();
+    ComputerMapper computerMapper = new ComputerMapper();
+    try {
+      // statement = con.createStatement();
+      statement = connexion.getConnection().createStatement();
+      // execution de la requette
+      resultset = statement.executeQuery(LISTOFCOMPUTER);
 
-			// recuperation des données
-			while (resultset.next()) {
-				int id = resultset.getInt("id");
-				String name = resultset.getString("name");
-				Timestamp introduced = resultset.getTimestamp("introduced");
-				Timestamp discontinued = resultset.getTimestamp("discontinued");
-				int companyId = resultset.getInt("company_id");
+      // recuperation des données
+      while (resultset.next()) {
+        int id = resultset.getInt("id");
+        String name = resultset.getString("name");
+        Timestamp introduced = resultset.getTimestamp("introduced");
+        Timestamp discontinued = resultset.getTimestamp("discontinued");
+        int companyId = resultset.getInt("company_id");
 
-				Computer computer = new Computer();
-				Company company = new Company();
-				computer.setId(id);
-				computer.setName(name);
-				computer.setIntroduced(introduced);
-				computer.setDiscontinued(discontinued);
+        Computer computer = new Computer();
+        Company company = new Company();
+        computer.setId(id);
+        computer.setName(name);
+        computer.setIntroduced(computerMapper.convertTimeSteamToLocalDate(introduced));
+        computer.setDiscontinued(computerMapper.convertTimeSteamToLocalDate(discontinued));
 
-				company.setId(companyId);
+        company.setId(companyId);
 
-				computer.setCompagnie(company);
+        computer.setCompagnie(company);
 
-				list.add(computer);
-			}
-		} catch (SQLException e) {
+        list.add(computer);
+      }
+    } catch (SQLException e) {
 
-			logger.error("SQEXCEPTION ::" + e);
-		}
+      logger.error("SQEXCEPTION ::" + e);
+    }
 
-		finally {
-			// Fermeture de la connexion
-			try {
-				if (resultset != null)
-					resultset.close();
-				if (statement != null)
-					statement.close();
-				if (connexion.getConnection() != null)
-					connexion.getConnection().close();
-			} catch (SQLException ignore) {
-				logger.error("SQEXCEPTION ::" + ignore);
-			}
-		}
-		return list;
-	}
+    finally {
+      // Fermeture de la connexion
+      try {
+        if (resultset != null)
+          resultset.close();
+        if (statement != null)
+          statement.close();
+        if (connexion.getConnection() != null)
+          connexion.getConnection().close();
+      } catch (SQLException ignore) {
+        logger.error("SQEXCEPTION ::" + ignore);
+      }
+    }
+    return list;
+  }
 
-	@Override
-	public void createComputer(Computer computer) {
+  @Override
+  public void createComputer(ComputerDto computerDto) {
+    ComputerMapper computerMapper = new ComputerMapper();
 
-		try {
-			PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(NEWCOMPUTER);
-			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setTimestamp(2, computer.getIntroduced());
-			preparedStatement.setTimestamp(3, computer.getDiscontinued());
-			preparedStatement.setInt(4, computer.getCompagnie().getId());
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			logger.error("SQEXCEPTION ::" + e);
-		}
-	}
+    try {
+      PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(NEWCOMPUTER);
+      preparedStatement.setString(1, computerDto.getNameDto());
+      preparedStatement.setTimestamp(2,
+          computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()));
+      preparedStatement.setTimestamp(3,
+          computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()));
+      preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      logger.error("SQEXCEPTION ::" + e);
+    }
+  }
 
-	@Override
-	public Computer showComputerDetail(int idComputer) {
-		Computer computerDetail = new Computer();
-		Company company = new Company();
+  @Override
+  public Computer showComputerDetail(int idComputer) {
+    Computer computerDetail = new Computer();
+    Company company = new Company();
+    ComputerMapper computerMapper = new ComputerMapper();
 
-		try {
-			PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(findByIDComputer);
-			// Trie effectué sur l'id du computer
-			preparedStatement.setInt(1, idComputer);
-			// recuperation des données
-			resultset = preparedStatement.executeQuery();
-			while (resultset.next()) {
-				int id = resultset.getInt("id");
-				String name = resultset.getString("name");
-				Timestamp introduced = resultset.getTimestamp("introduced");
-				Timestamp discontinued = resultset.getTimestamp("discontinued");
-				int companyId = resultset.getInt("company_id");
-				computerDetail.setId(id);
-				computerDetail.setName(name);
-				computerDetail.setIntroduced(introduced);
-				computerDetail.setDiscontinued(discontinued);
-				company.setId(companyId);
-				computerDetail.setCompagnie(company);
-			}
-		} catch (SQLException e) {
-			logger.error("SQEXCEPTION ::" + e);
-		} finally {
-			// Fermeture de la connexion
-			try {
-				if (resultset != null)
-					resultset.close();
-				if (statement != null)
-					statement.close();
-				if (connexion.getConnection() != null)
-					connexion.getConnection().close();
-			} catch (SQLException e) {
-				logger.error("SQEXCEPTION ::" + e);
-			}
-		}
-		return computerDetail;
-	}
+    try {
+      PreparedStatement preparedStatement =
+          connexion.getConnection().prepareStatement(FINDCOMPUTERBYID);
+      // Trie effectué sur l'id du computer
+      preparedStatement.setInt(1, idComputer);
+      // recuperation des données
+      resultset = preparedStatement.executeQuery();
+      while (resultset.next()) {
+        int id = resultset.getInt("id");
+        String name = resultset.getString("name");
+        LocalDate introduced =
+            computerMapper.convertTimeSteamToLocalDate(resultset.getTimestamp("introduced"));
+        LocalDate discontinued =
+            computerMapper.convertTimeSteamToLocalDate(resultset.getTimestamp("discontinued"));
+        int companyId = resultset.getInt("company_id");
+        computerDetail.setId(id);
+        computerDetail.setName(name);
 
-	@Override
-	public void deleteComputer(int id) {
-		try {
-			PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(deleteIdComputer);
-			preparedStatement.setInt(1, id);
-			preparedStatement.executeUpdate();
-			System.out.println("Suppression effectué avec succes");
-			// System.out.print(preparedStatement.executeUpdate() );
-		} catch (SQLException e) {
-			logger.error("SQEXCEPTION ::" + e);
-		}
+        computerDetail.setIntroduced(introduced);
+        computerDetail.setDiscontinued(discontinued);
+        company.setId(companyId);
+        computerDetail.setCompagnie(company);
+      }
+    } catch (SQLException e) {
+      logger.error("SQEXCEPTION ::" + e);
+    } finally {
+      // Fermeture de la connexion
+      try {
+        if (resultset != null)
+          resultset.close();
+        if (statement != null)
+          statement.close();
+        if (connexion.getConnection() != null)
+          connexion.getConnection().close();
+      } catch (SQLException e) {
+        logger.error("SQEXCEPTION ::" + e);
+      }
+    }
+    return computerDetail;
+  }
 
-	}
+  @Override
+  public void deleteComputer(int id) {
+    try {
+      PreparedStatement preparedStatement =
+          connexion.getConnection().prepareStatement(DELETEIDCOMPUTER);
+      preparedStatement.setInt(1, id);
+      preparedStatement.executeUpdate();
+      System.out.println("Suppression effectué avec succes");
+    } catch (SQLException e) {
+      logger.error("SQEXCEPTION ::" + e);
+    }
 
-	@Override
-	public void updateComputer(Computer computer) {
-		try {
-			PreparedStatement preparedStatement = connexion.getConnection().prepareStatement(UPDATECOMPUTERBYID);
-			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setTimestamp(2, computer.getIntroduced());
-			preparedStatement.setTimestamp(3, computer.getDiscontinued());
-			preparedStatement.setInt(4, computer.getCompagnie().getId());
-			preparedStatement.setInt(5, computer.getId());
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			logger.error("SQEXCEPTION ::" + e);
-		}
+  }
 
-	}
+  @Override
+  public void updateComputer(ComputerDto computerDto) {
+    ComputerMapper computerMapper = new ComputerMapper();
+    try {
+      PreparedStatement preparedStatement =
+          connexion.getConnection().prepareStatement(UPDATECOMPUTERBYID);
+      preparedStatement.setString(1, computerDto.getNameDto());
+      preparedStatement.setTimestamp(2,
+          computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()));
+      preparedStatement.setTimestamp(3,
+          computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()));
+      preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
+      preparedStatement.setInt(5, computerDto.getIdDto());
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      logger.error("SQEXCEPTION ::" + e);
+    }
+
+  }
 
 }
