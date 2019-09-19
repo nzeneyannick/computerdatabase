@@ -15,13 +15,13 @@ public class CompanyDao implements ICompanyDao {
 
   Statement statement;
   ResultSet resultset;
-  private Connexion connexion;
+  private  ConnexionBd connexion ;
   private static final String LISTOFCOMPANY = "select id, name from company limit 10;";
   final static Logger logger = LoggerFactory.getLogger(Application.class);
 
   private CompanyDao() {
     super();
-    this.connexion = connexion.getInstance();
+    this.connexion = ConnexionBd.getInstance();
 
   }
 
@@ -33,12 +33,13 @@ public class CompanyDao implements ICompanyDao {
     return INSTANCE;
   }
 
-  @Override
   public List<Company> getListCompany() {
     List<Company> list = new ArrayList<Company>();
 
     try {
-      statement = connexion.getConnection().createStatement();
+      //statement = connexion.getConnection().createStatement();
+    	statement = connexion.getConnexionBd().createStatement();
+      
       // execution de la requette
       resultset = statement.executeQuery(LISTOFCOMPANY);
       // recuperation des données
@@ -63,8 +64,8 @@ public class CompanyDao implements ICompanyDao {
           resultset.close();
         if (statement != null)
           statement.close();
-        if (connexion.getConnection() != null)
-          connexion.getConnection().close();
+        if (connexion.getConnexionBd() != null)
+          connexion.getConnexionBd().close();
       } catch (SQLException ignore) {
         logger.error("SQEXCEPTION ::" + ignore);
       }

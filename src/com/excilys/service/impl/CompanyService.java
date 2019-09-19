@@ -24,7 +24,6 @@ public class CompanyService implements ICompagnieService {
     return INSTANCE;
   }
 
-  @Override
   public void getListCompany() {
     List<Company> listCompany = new ArrayList<Company>();
     listCompany = companyDao.getListCompany();
