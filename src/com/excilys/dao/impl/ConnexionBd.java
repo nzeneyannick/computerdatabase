@@ -1,56 +1,67 @@
 package com.excilys.dao.impl;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.application.Application;
 
 public class ConnexionBd {
 
-    Connection          con = null;
-    Statement           sta;
-    ResultSet           re;
+	Connection con = null;
 
-    String NomDriver = "com.mysql.jdbc.Driver";    
-    String url = "jdbc:mysql://localhost/computer-database-db";
-    String login = "admincdb";
-    String pwd = "qwerty1234"; 
-    
-    private ConnexionBd() {
-    	
-    }
-    /** Instance unique pré-initialisée */
-    private static ConnexionBd INSTANCE = new ConnexionBd();
-    
-    public static ConnexionBd getInstance() {
+	final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
+
+	private ConnexionBd() {
+
+	}
+
+	/** Instance unique pré-initialisée */
+	private static ConnexionBd INSTANCE = new ConnexionBd();
+
+	public static ConnexionBd getInstance() {
 		return INSTANCE;
 	}
-    
-    public Connection getConnexionBd() {
-    	
-        try {
-            Class.forName(NomDriver);
-            con = DriverManager.getConnection(url, login, pwd);
-            System.out.println("Overture de la connection");
-            //sta = con.createStatement();
-        }
-        catch (ClassNotFoundException ex) {
-            System.err.println("Ne peut pas trouver les classes du conducteur de la base de données.");
-            System.err.println(ex);
-        }
-        catch (SQLException ex) {
-            System.err.println("pas de connection au base de de donnee.");
-            System.err.println(ex);
-        }
-        
-        return con;
-     }
-  
-   
+
+	public Connection getConnexionBd() {
+
+		try {
+			FileInputStream fileDb = new FileInputStream("src/com/excilys/properties/db.properties");
+			Properties prop = new Properties();
+			prop.load(fileDb);
+
+			Class.forName(prop.getProperty("NomDriver"));
+
+			con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("login"),
+					prop.getProperty("pwd"));
+
+		} catch (FileNotFoundException e) {
+			LOGGER.error("Impossible de trouver le fichier properties", e);
+
+		} catch (IOException e) {
+			LOGGER.error("erreur lors du chargement du fichier properties");
+
+		} catch (ClassNotFoundException ex) {
+			LOGGER.error("Ne peut pas trouver les classes du conducteur de la base de données.");
+
+		} catch (SQLException ex) {
+			LOGGER.error("pas de connection a la  base de donnee.");
+		}
+
+		return con;
+	}
+
 	public void fermer() {
 		try {
-			re.close();
+			con.close();
 		} catch (SQLException e) {
 			System.out.println("Problème de fermeture de la Base de données");
 		}
-		System.out.println("Base de données Férmée");
+		System.out.println("Base de données Fermée");
 	}
 }
