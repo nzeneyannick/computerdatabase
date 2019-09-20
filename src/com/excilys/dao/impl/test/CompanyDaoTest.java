@@ -1,14 +1,16 @@
 package com.excilys.dao.impl.test;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
 
 import com.excilys.dao.impl.CompanyDao;
 import com.excilys.entities.Company;
 
-import junit.framework.TestCase;
-
-public class CompanyDaoTest extends TestCase{
+public class CompanyDaoTest {
 
 	CompanyDao companyDao;
 
@@ -17,6 +19,7 @@ public class CompanyDaoTest extends TestCase{
 		companyDao = CompanyDao.getInstance();
 	}
 
+	@Test
 	public void testGetlistCompany() {
 		List<Company> listCompany = new ArrayList<Company>();
 		listCompany.addAll(companyDao.getListCompany());
