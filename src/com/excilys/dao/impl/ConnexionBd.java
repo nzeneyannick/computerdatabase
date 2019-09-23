@@ -51,6 +51,7 @@ public class ConnexionBd {
 
 		} catch (SQLException ex) {
 			LOGGER.error("pas de connection a la  base de donnee.");
+			ex.printStackTrace();
 		}
 
 		return con;
