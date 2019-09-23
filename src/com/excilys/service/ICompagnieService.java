@@ -10,7 +10,7 @@ public interface ICompagnieService {
 	 *  Affichage de la liste des compagnies
 	 * 
 	 */
-	public void getListCompany() ;
+	public List<Company>  getListCompany() ;
 	
 
 

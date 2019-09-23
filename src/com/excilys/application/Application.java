@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.CompanyDto;
 import com.excilys.dto.ComputerDto;
+import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
@@ -20,7 +21,12 @@ public class Application {
 	public static void getListCompany() {
 
 		System.out.print("******Affichage de la liste des compagnies ********\r");
-		companyService.getListCompany();
+		List<Company> listCompany = companyService.getListCompany();
+		for (Company company:listCompany) {
+			System.out.println(company.toString());
+		}
+		
+		
 	}
 
 	public static void getListComputer() {
@@ -84,7 +90,7 @@ public class Application {
 
 		switch (choixUtilisateur) {
 		case 1:
-			getListCompany();
+			getListCompany();			
 			break;
 
 		case 2:

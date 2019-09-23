@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.excilys.dao.impl.CompanyDao;
 import com.excilys.entities.Company;
+import com.excilys.entities.Computer;
 import com.excilys.service.ICompagnieService;
 
 public class CompanyService implements ICompagnieService {
@@ -23,14 +24,14 @@ public class CompanyService implements ICompagnieService {
   public static CompanyService getInstance() {
     return INSTANCE;
   }
-
-  public void getListCompany() {
+  
+  public List<Company> getListCompany() {
     List<Company> listCompany = new ArrayList<Company>();
     listCompany = companyDao.getListCompany();
-    for (Company company : listCompany) {
-      System.out.println(company.toString() + " \r");
+    return listCompany;
+   
     }
 
   }
 
-}
+

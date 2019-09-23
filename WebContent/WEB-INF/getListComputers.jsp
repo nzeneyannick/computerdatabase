@@ -3,16 +3,20 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Affichage d'un client</title>
+<title>list computers</title>
 <link type="text/css" rel="stylesheet" href="#" />
 </head>
 <body>
-	<c:out value="test" />
+	<br>
+	<center>
+		<c:out value="Affichage de la liste des computers" />
+	</center>
+	<hr>
 	<%-- Puis affichage des données enregistrées dans la liste  transmis par la servlet --%>
 	<p>
 
 		<c:forEach var="listCom" items="${listComputer}">
-			<c:out value="${listCom}" />
+			<c:out value="${listCom}" /><br>
 		</c:forEach>
 	</p>
 </body>
