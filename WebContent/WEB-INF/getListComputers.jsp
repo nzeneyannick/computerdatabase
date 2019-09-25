@@ -15,9 +15,13 @@
 	<%-- Puis affichage des données enregistrées dans la liste  transmis par la servlet --%>
 	<p>
 
-		<c:forEach var="listCom" items="${listComputer}">
+	<%-- 	<c:forEach var="listCom" items="${listComputer}"> 
 			<c:out value="${listCom}" /><br>
 		</c:forEach>
+	--%> 	
+		
+		<c:out value="${computer}" /><br>
+		
 	</p>
 </body>
 </html>
