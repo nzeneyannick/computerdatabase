@@ -1,4 +1,4 @@
-package com.excilys.dao.impl.test;
+package test.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,7 +9,10 @@ import java.util.List;
 import org.junit.Test;
 
 import com.excilys.dao.impl.ComputerDao;
-import com.excilys.entities.Computer;
+
+import main.java.com.excilys.entities.Computer;
+
+
 
 public class ComputerDaoTest {
 	ComputerDao computerDao;
