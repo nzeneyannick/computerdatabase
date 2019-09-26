@@ -1,4 +1,4 @@
-package test.java.com.excilys.dao;
+package java.com.excilys.dao;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -7,9 +7,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import main.java.com.excilys.dao.impl.CompanyDao;
-import main.java.com.excilys.entities.Company;
-
+import com.excilys.dao.impl.CompanyDao;
+import com.excilys.entities.Company;
 
 
 public class CompanyDaoTest {

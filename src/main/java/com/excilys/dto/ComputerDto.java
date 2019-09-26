@@ -1,4 +1,4 @@
-package main.java.com.excilys.dto;
+package com.excilys.dto;
 
 public class ComputerDto {
 
@@ -48,13 +48,13 @@ public class ComputerDto {
     this.companyDto = companyDto;
   }
 
-  @Override
+
   public String toString() {
     return "ComputerDto [id=" + idDto + ", name=" + nameDto + ", introduced=" + introducedDto
         + ", discontinued=" + discontinuedDto + ", id company=" + companyDto.getIdDto() + "]";
   }
 
-  @Override
+  
   public int hashCode() {
     final int prime = 31;
     int result = 1;
@@ -66,7 +66,7 @@ public class ComputerDto {
     return result;
   }
 
-  @Override
+  
   public boolean equals(Object obj) {
     if (this == obj)
       return true;

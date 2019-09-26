@@ -1,9 +1,11 @@
-package main.java.com.excilys.service;
+package com.excilys.service;
 
 import java.util.List;
 
-import main.java.com.excilys.dto.ComputerDto;
-import main.java.com.excilys.entities.Computer;
+import com.excilys.dto.ComputerDto;
+import com.excilys.entities.Computer;
+
+
 
 
 public interface IComputerService {

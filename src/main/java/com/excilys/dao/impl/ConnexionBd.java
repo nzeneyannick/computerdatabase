@@ -33,7 +33,8 @@ public class ConnexionBd {
 		try {
 			//FileInputStream fileDb = new FileInputStream("src/com/excilys/properties/db.properties");
 			//FileInputStream fileDb = new FileInputStream("src/db.properties");
-			FileInputStream fileDb = new FileInputStream("WebContent/resources/db.properties");
+			//FileInputStream fileDb = new FileInputStream("WebContent/resources/db.properties");
+			FileInputStream fileDb = new FileInputStream("src/resources/db.properties");
 			
 			
 

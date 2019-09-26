@@ -1,4 +1,4 @@
-package main.java.com.excilys.servlet;
+package com.excilys.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import main.java.com.excilys.entities.Company;
-import main.java.com.excilys.entities.Computer;
-import main.java.com.excilys.service.impl.CompanyService;
-import main.java.com.excilys.service.impl.ComputerService;
+import com.excilys.entities.Company;
+import com.excilys.entities.Computer;
+import com.excilys.service.impl.CompanyService;
+import com.excilys.service.impl.ComputerService;
 
 
 

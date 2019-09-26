@@ -1,12 +1,12 @@
-package main.java.com.excilys.service.impl;
+package com.excilys.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.com.excilys.dao.impl.ComputerDao;
-import main.java.com.excilys.dto.ComputerDto;
-import main.java.com.excilys.entities.Computer;
-import main.java.com.excilys.service.IComputerService;
+import com.excilys.dao.impl.ComputerDao;
+import com.excilys.dto.ComputerDto;
+import com.excilys.entities.Computer;
+import com.excilys.service.IComputerService;
 
 
 public class ComputerService implements IComputerService {

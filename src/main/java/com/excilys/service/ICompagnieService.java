@@ -1,8 +1,8 @@
-package main.java.com.excilys.service;
+package com.excilys.service;
 
 import java.util.List;
 
-import main.java.com.excilys.entities.Company;
+import com.excilys.entities.Company;
 
 
 

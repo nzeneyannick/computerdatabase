@@ -1,8 +1,10 @@
-package main.java.com.excilys.dao;
+package com.excilys.dao;
 
 import java.util.*;
 
-import main.java.com.excilys.entities.Company;
+import com.excilys.entities.Company;
+
+
 
 
 

@@ -1,4 +1,4 @@
-package main.java.com.excilys.entities;
+package com.excilys.entities;
 public class Company {
 
   private int id;
@@ -30,12 +30,12 @@ public class Company {
     this.name = name;
   }
 
-  @Override
+  
   public String toString() {
     return "Company [id=" + id + ", name=" + name + "]";
   }
 
-  @Override
+  
   public int hashCode() {
     final int prime = 31;
     int result = 1;
@@ -44,7 +44,7 @@ public class Company {
     return result;
   }
 
-  @Override
+
   public boolean equals(Object obj) {
     if (this == obj)
       return true;

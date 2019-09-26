@@ -1,4 +1,5 @@
-package main.java.com.excilys.application;
+
+package com.excilys.application;
 
 import java.util.List;
 import java.util.Scanner;
@@ -6,12 +7,13 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import main.java.com.excilys.dto.CompanyDto;
-import main.java.com.excilys.dto.ComputerDto;
-import main.java.com.excilys.entities.Company;
-import main.java.com.excilys.entities.Computer;
-import main.java.com.excilys.service.impl.CompanyService;
-import main.java.com.excilys.service.impl.ComputerService;
+import com.excilys.dto.CompanyDto;
+import com.excilys.dto.ComputerDto;
+import com.excilys.entities.Company;
+import com.excilys.entities.Computer;
+import com.excilys.service.impl.CompanyService;
+import com.excilys.service.impl.ComputerService;
+
 
 
 

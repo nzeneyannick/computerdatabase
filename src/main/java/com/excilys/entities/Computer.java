@@ -1,8 +1,8 @@
-package main.java.com.excilys.entities;
+package com.excilys.entities;
 
 import java.time.LocalDate;
 
-// @SuppressWarnings("unused")
+ 
 public class Computer {
 
   private int id;
@@ -51,13 +51,13 @@ public class Computer {
     this.company = company;
   }
 
-  @Override
+
   public String toString() {
     return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced
         + ", discontinued=" + discontinued + ", compagnie=" + company + "]";
   }
 
-  @Override
+ 
   public int hashCode() {
     final int prime = 31;
     int result = 1;
@@ -69,7 +69,7 @@ public class Computer {
     return result;
   }
 
-  @Override
+
   public boolean equals(Object obj) {
     if (this == obj)
       return true;

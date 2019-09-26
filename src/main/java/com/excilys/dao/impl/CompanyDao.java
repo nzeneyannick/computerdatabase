@@ -1,4 +1,4 @@
-package main.java.com.excilys.dao.impl;
+package com.excilys.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,9 +8,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import main.java.com.excilys.application.Application;
-import main.java.com.excilys.dao.ICompanyDao;
-import main.java.com.excilys.entities.Company;
+import com.excilys.application.Application;
+import com.excilys.dao.ICompanyDao;
+import com.excilys.entities.Company;
 
 
 public class CompanyDao implements ICompanyDao {
