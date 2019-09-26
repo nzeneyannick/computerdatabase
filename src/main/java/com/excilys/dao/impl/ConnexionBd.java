@@ -1,33 +1,19 @@
-package  main.java.com.excilys.dao.impl;
+package com.excilys.dao.impl;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import main.java.com.excilys.application.Application;
-
-
+import com.excilys.application.Application;
 
 public class ConnexionBd {
 
 	Connection con = null;
-	/*ajout bundle*/
-	private static ResourceBundle resource = ResourceBundle.getBundle("db");	
-    private static String url;
-    private static String driver;
-    private static String username;
-    private static String password;
-    /*fin ajout bundle*/
-	
-
 
 	final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
@@ -47,55 +33,26 @@ public class ConnexionBd {
 		try {
 			//FileInputStream fileDb = new FileInputStream("src/com/excilys/properties/db.properties");
 			//FileInputStream fileDb = new FileInputStream("src/db.properties");
-			
-			
-			//FileInputStream fileDb = new FileInputStream("WebContent/resources/db.properties");
-			//System.out.println("PATH: " + System.getProperty("user.dir"));
-			
-			/*bundle commente*/
-			//FileInputStream fileDb = new FileInputStream("src/resources/db.properties");
-			/*bundle ajoute*/
-		    url = resource.getString("url");
-		    driver = resource.getString("NomDriver");
-		    username = resource.getString("login");
-		    password = resource.getString("pwd");
-		    /*fin bundle ajoute*/
-
+			FileInputStream fileDb = new FileInputStream("WebContent/resources/db.properties");
 			
 			
 
-			//Properties prop = new Properties();
-			
-			/*bundle commente*/
-			//prop.load(fileDb);
-			
-			
-			//DEBUGGER VOIR CE QU'IL YA DANS LES PROPERTIES
-			//Set contenus = prop.keySet();
-			//Iterator iter = contenus.iterator();
-			//while(iter.hasNext()) {
-				//System.out.println("KEY: " + iter.next());
-			//}
-			//prop.list(arg0);
+			Properties prop = new Properties();
+			prop.load(fileDb);
 
-			//Class.forName(prop.getProperty("NomDriver"));
-			Class.forName("driver");
-			con = DriverManager.getConnection(url, username, password);
-			
-			/*bundle commente*/
-			//con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("login"),
-					//prop.getProperty("pwd"));
+			Class.forName(prop.getProperty("NomDriver"));
 
-		//} catch (FileNotFoundException e) {
-			//LOGGER.error("Impossible de trouver le fichier properties", e);
-	
-		//} catch (IOException e) {
-		//	LOGGER.error("erreur lors du chargement du fichier properties");
+			con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("login"),
+					prop.getProperty("pwd"));
+
+		} catch (FileNotFoundException e) {
+			LOGGER.error("Impossible de trouver le fichier properties", e);
+
+		} catch (IOException e) {
+			LOGGER.error("erreur lors du chargement du fichier properties");
 
 		} catch (ClassNotFoundException ex) {
-			LOGGER.error("Ne peut pas trouver les classes du conducteur de la base de données.", ex);
-	
-			
+			LOGGER.error("Ne peut pas trouver les classes du conducteur de la base de données.");
 
 		} catch (SQLException ex) {
 			LOGGER.error("pas de connection a la  base de donnee.");
