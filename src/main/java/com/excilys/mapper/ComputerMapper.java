@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class ComputerMapper {
 
 	DateTimeFormatter formatter;
-	final static Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
+	//final static Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 
 	public ComputerMapper() {
 		formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

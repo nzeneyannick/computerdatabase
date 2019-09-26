@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/views/editComputer")
+@WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
 
-	//public static final String VUE = "/views/editComputer.html";
+	public static final String VUE = "/views/editComputer.jsp";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+		request.getRequestDispatcher(VUE).forward(request, response);
 	}
 
 }

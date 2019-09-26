@@ -3,6 +3,9 @@ package com.excilys.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.dao.impl.ComputerDao;
 import com.excilys.dto.ComputerDto;
 import com.excilys.entities.Computer;
@@ -12,16 +15,20 @@ import com.excilys.service.IComputerService;
 public class ComputerService implements IComputerService {
 
   ComputerDao computerDao;
+	//final static Logger logger = LoggerFactory.getLogger(ComputerService.class);
 
   private ComputerService() {
     computerDao = ComputerDao.getInstance();
   }
 
   /** Instance unique pré-initialisée */
-  private static ComputerService INSTANCE = new ComputerService();
+  private static ComputerService INSTANCE;
 
   public static ComputerService getInstance() {
-    return INSTANCE;
+	  if (INSTANCE == null)
+      {   INSTANCE = new ComputerService(); 
+      }
+      return INSTANCE;
   }
 
   /**
