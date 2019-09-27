@@ -25,19 +25,20 @@ import com.excilys.service.impl.ComputerService;
 public class dashboard extends HttpServlet {
 
 	public static final String VUE = "/views/dashboard.jsp";
-	//public static final String VUE = "/views/dashboard.jsp";
+	 //public static final String VUE = "/views.jsp";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//Computer c = new Computer();
-		ComputerService computerService = ComputerService.getInstance();
-		//c = cs.showComputerDetail(582);
+
+		ComputerService computerService = ComputerService.getInstance();		
+
 		List<Computer> listComputer = new ArrayList<Computer>();
 		listComputer = computerService.getListComputer();
+		int sumComputer =listComputer.size();
 		
-		request.setAttribute("listComputer", listComputer);
 
-		// forward the request to view.jsp
+		request.setAttribute("listComputer", listComputer);
+		request.setAttribute("sumComputer", sumComputer);
+
 		request.getRequestDispatcher(VUE).forward(request, response);
 	}
 

@@ -17,19 +17,18 @@ import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
 import com.excilys.mapper.ComputerMapper;
 
-
 public class ComputerDao implements IComputerDao {
 	private ConnexionBd connexion;
 	Statement statement;
 	ResultSet resultset;
 	private static final String LISTOFCOMPUTER = "select " + "cpt.id" + ", cpt.name" + ", cpt.introduced"
-			+ ",cpt.discontinued" + ",cpt.company_id " + " from " + "company cpn " + "inner join computer cpt "
-			+ "     on cpn.id=cpt.company_id " + "limit 10;\n ";
+			+ ",cpt.discontinued" + ",cpt.company_id " + ", cpn.name" + " from " + "company cpn "
+			+ "inner join computer cpt " + "     on cpn.id=cpt.company_id " + " order by cpt.id ;\n ";
 	private static final String NEWCOMPUTER = "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
 	private static final String FINDCOMPUTERBYID = "select id, name, introduced, discontinued,company_id from computer where id=?;";
 	private static final String DELETEIDCOMPUTER = "delete from computer where id = ?";
 	private static final String UPDATECOMPUTERBYID = "update computer set name=?, introduced=?,discontinued=?,company_id=? where id=? ;";
-	//final static Logger logger = LoggerFactory.getLogger(ComputerDao.class);
+	// final static Logger logger = LoggerFactory.getLogger(ComputerDao.class);
 
 	private ComputerDao() {
 		super();
@@ -53,20 +52,22 @@ public class ComputerDao implements IComputerDao {
 			resultset = statement.executeQuery(LISTOFCOMPUTER);
 
 			while (resultset.next()) {
-				int id = resultset.getInt("id");
-				String name = resultset.getString("name");
-				Timestamp introduced = resultset.getTimestamp("introduced");
-				Timestamp discontinued = resultset.getTimestamp("discontinued");
-				int companyId = resultset.getInt("company_id");
+				int id = resultset.getInt("cpt.id");
+				String nameComputer = resultset.getString("cpt.name");
+				Timestamp introduced = resultset.getTimestamp("cpt.introduced");
+				Timestamp discontinued = resultset.getTimestamp("cpt.discontinued");
+				int companyId = resultset.getInt("cpt.company_id");
+				String nameCompany = resultset.getString("cpn.name");
 
 				Computer computer = new Computer();
 				Company company = new Company();
 				computer.setId(id);
-				computer.setName(name);
+				computer.setName(nameComputer);
 				computer.setIntroduced(computerMapper.convertTimeSteamToLocalDate(introduced));
 				computer.setDiscontinued(computerMapper.convertTimeSteamToLocalDate(discontinued));
 
 				company.setId(companyId);
+				company.setName(nameCompany);
 
 				computer.setCompagnie(company);
 
@@ -74,7 +75,7 @@ public class ComputerDao implements IComputerDao {
 			}
 		} catch (SQLException e) {
 
-			//logger.error("SQEXCEPTION ::" + e);
+			// logger.error("SQEXCEPTION ::" + e);
 		}
 
 		finally {
@@ -87,7 +88,7 @@ public class ComputerDao implements IComputerDao {
 				if (connexion.getConnexionBd() != null)
 					connexion.getConnexionBd().close();
 			} catch (SQLException ignore) {
-				//logger.error("SQEXCEPTION ::" + ignore);
+				// logger.error("SQEXCEPTION ::" + ignore);
 			}
 		}
 		return list;
@@ -110,7 +111,7 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			//logger.error("SQEXCEPTION ::" + e);
+			// logger.error("SQEXCEPTION ::" + e);
 		}
 	}
 
@@ -140,7 +141,7 @@ public class ComputerDao implements IComputerDao {
 				computerDetail.setCompagnie(company);
 			}
 		} catch (SQLException e) {
-			//logger.error("SQEXCEPTION ::" + e);
+			// logger.error("SQEXCEPTION ::" + e);
 		} finally {
 
 			try {
@@ -151,7 +152,7 @@ public class ComputerDao implements IComputerDao {
 				if (connexion.getConnexionBd() != null)
 					connexion.getConnexionBd().close();
 			} catch (SQLException e) {
-				//logger.error("SQEXCEPTION ::" + e);
+				// logger.error("SQEXCEPTION ::" + e);
 			}
 		}
 		return computerDetail;
@@ -164,7 +165,7 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.executeUpdate();
 			System.out.println("Suppression effectué avec succes");
 		} catch (SQLException e) {
-			//logger.error("SQEXCEPTION ::" + e);
+			// logger.error("SQEXCEPTION ::" + e);
 		}
 
 	}
@@ -181,7 +182,7 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.setInt(5, computerDto.getIdDto());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			//logger.error("SQEXCEPTION ::" + e);
+			// logger.error("SQEXCEPTION ::" + e);
 		}
 
 	}

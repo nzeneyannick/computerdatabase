@@ -20,7 +20,7 @@ import com.excilys.service.impl.ComputerService;
 public class Application {
 	static CompanyService companyService = CompanyService.getInstance();
 	static ComputerService computerService = ComputerService.getInstance();
-	final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
+	//final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
 	public static void getListCompany() {
 

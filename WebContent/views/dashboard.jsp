@@ -27,7 +27,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">121 Computers found</h1>
+			<h1 id="homeTitle"><c:out value="${sumComputer}"/> Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -83,7 +83,7 @@
 							<td><a href="editComputer.html" onclick="">${item.name}</a></td>
 							<td>${item.introduced}</td>
 							<td>${item.discontinued}</td>
-							<!-- <td>Apple Inc.</td>   -->
+							<td>${item.compagnie.name}</td>  
 						</tr>
 
 					</c:forEach>

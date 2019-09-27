@@ -16,7 +16,7 @@ public class ConnexionBd {
 
 	Connection con = null;
 
-	//final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
+	// final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
 	private ConnexionBd() {
 
@@ -30,47 +30,15 @@ public class ConnexionBd {
 	}
 
 	public Connection getConnexionBd() {
-		
-		
 
 		try {
-			//FileInputStream fileDb = new FileInputStream("src/com/excilys/properties/db.properties");
-			//FileInputStream fileDb = new FileInputStream("src/db.properties");
-			//FileInputStream fileDb = new FileInputStream("WebContent/resources/db.properties");
-			//FileInputStream fileDb = new FileInputStream("src/main/resources/db.properties");
-			
-			ResourceBundle r = ResourceBundle.getBundle("db");
-			System.out.print("test ressource bundle"+r .getString("NomDriver"));
-			
-			
-			
 
-			//Properties prop = new Properties();
-			//prop.load(fileDb);
-
-			//Class.forName(prop.getProperty("NomDriver"));
+			ResourceBundle r = ResourceBundle.getBundle("db");			
 			Class.forName(r.getString("NomDriver"));
-
-			//con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("login"),
-					//prop.getProperty("pwd"));
-			
-			con = DriverManager.getConnection(r.getString("url"), r.getString("login"),
-					r.getString("pwd"));
-
-		//} catch (FileNotFoundException e) {
-			//LOGGER.error("Impossible de trouver le fichier properties", e);
-		} catch ( Exception e) {
-			//LOGGER.error("Impossible de trouver le fichier properties", e);
-
-		//} catch (IOException e) {
-			//LOGGER.error("erreur lors du chargement du fichier properties", e);
-
-		//} catch (ClassNotFoundException ex) {
-			//LOGGER.error("Ne peut pas trouver les classes du conducteur de la base de données.");
-
-		//} catch (SQLException ex) {
-			//LOGGER.error("pas de connection a la  base de donnee.");
-			//ex.printStackTrace();
+			con = DriverManager.getConnection(r.getString("url"), r.getString("login"), r.getString("pwd"));			
+		
+		} catch (Exception e) {
+			// LOGGER.error("Impossible de trouver le fichier properties", e);
 		}
 
 		return con;
