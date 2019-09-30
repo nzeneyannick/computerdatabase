@@ -4,13 +4,17 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+//import org.apache.log4j.Logger;
+
+import com.excilys.dao.impl.ConnexionBd;
+
 
 public class ComputerMapper {
 
 	DateTimeFormatter formatter;
-	//final static Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
+	
+	//final static Logger LOGGER = Logger.getLogger(ConnexionBd.class);
 
 	public ComputerMapper() {
 		formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

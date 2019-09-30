@@ -1,22 +1,15 @@
 package com.excilys.dao.impl;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.*;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ResourceBundle;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.excilys.application.Application;
+//import org.apache.log4j.Logger;
+//import org.apache.log4j.PropertyConfigurator;
 
 public class ConnexionBd {
 
-	Connection con = null;
-
 	// final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
+	// PropertyConfigurator.configure(Application.class.getClassLoader().getResource("log4j.properties"));
 
 	private ConnexionBd() {
 
@@ -30,13 +23,13 @@ public class ConnexionBd {
 	}
 
 	public Connection getConnexionBd() {
-
+		Connection con = null;
 		try {
 
-			ResourceBundle r = ResourceBundle.getBundle("db");			
+			ResourceBundle r = ResourceBundle.getBundle("db");
 			Class.forName(r.getString("NomDriver"));
-			con = DriverManager.getConnection(r.getString("url"), r.getString("login"), r.getString("pwd"));			
-		
+			con = DriverManager.getConnection(r.getString("url"), r.getString("login"), r.getString("pwd"));
+
 		} catch (Exception e) {
 			// LOGGER.error("Impossible de trouver le fichier properties", e);
 		}
@@ -44,12 +37,4 @@ public class ConnexionBd {
 		return con;
 	}
 
-	public void fermer() {
-		try {
-			con.close();
-		} catch (SQLException e) {
-			System.out.println("Problème de fermeture de la Base de données");
-		}
-		System.out.println("Base de données Fermée");
-	}
 }

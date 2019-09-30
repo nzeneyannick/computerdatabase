@@ -2,10 +2,11 @@
 package com.excilys.application;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.apache.log4j.Logger;
+//import org.apache.log4j.PropertyConfigurator;
 
 import com.excilys.dto.CompanyDto;
 import com.excilys.dto.ComputerDto;
@@ -15,12 +16,11 @@ import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
 
 
-
-
 public class Application {
 	static CompanyService companyService = CompanyService.getInstance();
 	static ComputerService computerService = ComputerService.getInstance();
 	//final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
+	//final static Logger LOGGER = Logger.getLogger(Application.class);
 
 	public static void getListCompany() {
 
@@ -71,6 +71,13 @@ public class Application {
 	}
 
 	public static void main(String[] args) {
+		//ResourceBundle res =ResourceBundle.getBundle("log4j");
+		//System.out.println(res.getString("log4j.rootLogger"));
+		//try {
+		//PropertyConfigurator.configure(Application.class.getClassLoader().getResource("log4j.properties"));
+		//}catch(Exception e) {e.getStackTrace();}
+		
+			
 
 		Scanner sc = new Scanner(System.in);
 		System.out.println("====================== Veuillez le numéro de l'action à effectuer =====================");

@@ -9,9 +9,11 @@
 </head>
 <body>
 	<h3>Computer info</h3>
-	<p>ID : ${emp.id}</p>
+<%-- 	<p>ID : ${emp.id}</p>
 	<p>Name : ${emp.name}</p>
-
+--%>
+	<c:out value="${info}" />
+	<%-- 
 	<c:forEach items="${listComputer}" var="item" varStatus="vs">
    <c:out value="${ pays }"/><br/>
      ${item.compagnie.name}<br>
@@ -20,6 +22,9 @@
    
 
 	</c:forEach>
+	
+	--%>
 
 </body>
 </html>
+

@@ -27,26 +27,26 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
-					<form action="addComputer" method="POST">
+					<form action="addComputer" method="GET">
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
+									type="text" class="form-control" id="computerName" name ="name"
 									placeholder="Computer name">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									type="date" class="form-control" id="introduced"
-									placeholder="Introduced date">
+									placeholder="Introduced date" name ="introduced">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									type="date" class="form-control" id="discontinued"
-									placeholder="Discontinued date">
+									placeholder="Discontinued date" name ="discontinued">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId">
+									class="form-control" id="companyId" name="idCompany">
 									<option value="0">--</option>
 								</select>
 							</div>
