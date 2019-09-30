@@ -1,3 +1,4 @@
+
 package java.com.excilys.dao;
 
 import static org.junit.Assert.assertEquals;
@@ -5,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -32,9 +34,13 @@ public class ComputerDaoTest {
 	public void testshowComputerDetail() {
 
 		int testId = 575;
-		Computer computer = new Computer();
-		computer = computerDao.showComputerDetail(testId);
-		assertEquals(testId, computer.getId());
+		
+		Optional<Computer> computer = computerDao.showComputerDetail(testId);
+		
+		assertEquals(true, computer.isPresent());
+		
+		Computer comp  = computer.get();
+		assertEquals(testId, comp.getId());
 
 	}
 

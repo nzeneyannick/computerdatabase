@@ -8,8 +8,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-//import org.apache.log4j.Logger;
+import java.util.Optional;
 
 import com.excilys.dao.IComputerDao;
 import com.excilys.dto.ComputerDto;
@@ -19,14 +18,60 @@ import com.excilys.mapper.ComputerMapper;
 
 public class ComputerDao implements IComputerDao {
 
-	private static final String LISTOFCOMPUTER = "select " + "cpt.id" + ", cpt.name" + ", cpt.introduced"
-			+ ",cpt.discontinued" + ",cpt.company_id " + ", cpn.name" + " from " + "company cpn "
-			+ "inner join computer cpt " + "     on cpn.id=cpt.company_id " + " order by cpt.id ;\n ";
-	private static final String NEWCOMPUTER = "INSERT INTO computer(name,introduced, discontinued,company_id ) VALUES (?,?,?,?);";
-	private static final String FINDCOMPUTERBYID = "select id, name, introduced, discontinued,company_id from computer where id=?;";
-	private static final String DELETEIDCOMPUTER = "delete from computer where id = ?";
-	private static final String UPDATECOMPUTERBYID = "update computer set name=?, introduced=?,discontinued=?,company_id=? where id=? ;";
-	// final static Logger logger = LoggerFactory.getLogger(ComputerDao.class);
+	private static final String LISTOFCOMPUTER = ""
+			+ "SELECT " 
+					+ "cpt.id" 
+					+ ", cpt.name" 
+					+ ", cpt.introduced"
+					+ ",cpt.discontinued"
+					+ ",cpt.company_id "
+					+ ", cpn.name"
+			+ " FROM " 
+					+ "company cpn "
+					+ "inner join computer cpt "
+					+ "     on cpn.id=cpt.company_id "
+			+ " ORDER BY"
+					+ " cpt.id ;\n ";
+
+
+	private static final String NEWCOMPUTER = ""
+			+ "INSERT INTO "
+			+ 	"computer("
+			+ 			"name"
+			+ 			",introduced "
+			+		    ",discontinued"
+			+ 			",company_id )"
+			+ 			"VALUES (?,?,?,?);";	
+	
+	private static final String FINDCOMPUTERBYID = ""
+			+ "SELECT "
+					+ " id"
+					+ ", name"
+					+ ", introduced"
+					+ ", discontinued"
+					+ ",company_id "
+			+ "FROM "
+					+ "computer "
+			+ "WHERE"
+			+ " id=?;";
+	
+	private static final String DELETEIDCOMPUTER = ""
+			+ "DELETE"
+			+ " FROM "
+					+ "computer"
+			+ " WHERE"
+					+ " id = ?";
+	
+	private static final String UPDATECOMPUTERBYID = ""
+			+ "UPDATE"
+					+ " computer"
+			+ "SET "
+					+ "name=?"
+					+ ", introduced=?"
+					+ ",discontinued=?"
+					+ ",company_id=? "
+			+ "WHERE"
+					+ " id=? ;";
 
 	private ComputerDao() {
 
@@ -45,9 +90,9 @@ public class ComputerDao implements IComputerDao {
 		ComputerMapper computerMapper = new ComputerMapper();
 		try {
 			ConnexionBd connexion = ConnexionBd.getInstance();
-			Statement statement = connexion.getConnexionBd().createStatement();
+			Statement statement = connexion.getConnexionBd().createStatement();			
 			ResultSet resultset = statement.executeQuery(LISTOFCOMPUTER);
-
+			
 			while (resultset.next()) {
 				int id = resultset.getInt("cpt.id");
 				String nameComputer = resultset.getString("cpt.name");
@@ -70,6 +115,7 @@ public class ComputerDao implements IComputerDao {
 
 				list.add(computer);
 			}
+			
 		} catch (SQLException e) {
 
 			// LOGGER.error("SQEXCEPTION ::" + e);
@@ -87,10 +133,15 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.setString(1, computerDto.getNameDto());
 
 			computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto());
-			preparedStatement.setTimestamp(2, computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()));
+			if (computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).isPresent()) {
+				Timestamp intro = computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).get();
+				preparedStatement.setTimestamp(2, intro);
+			}
 
-			preparedStatement.setTimestamp(3,
-					computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()));
+			if (computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).isPresent()) {
+				Timestamp disco = computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).get();
+				preparedStatement.setTimestamp(3, disco);
+			}
 
 			preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
 			preparedStatement.executeUpdate();
@@ -100,10 +151,13 @@ public class ComputerDao implements IComputerDao {
 		}
 	}
 
-	public Computer showComputerDetail(int idComputer) {
+	public Optional<Computer> showComputerDetail(int idComputer) {
 		Computer computerDetail = new Computer();
 		Company company = new Company();
 		ComputerMapper computerMapper = new ComputerMapper();
+		if (idComputer == 0) {
+			return Optional.empty();
+		}
 
 		try {
 			ConnexionBd connexion = ConnexionBd.getInstance();
@@ -115,8 +169,9 @@ public class ComputerDao implements IComputerDao {
 			while (resultset.next()) {
 				int id = resultset.getInt("id");
 				String name = resultset.getString("name");
-				LocalDate introduced = computerMapper.convertTimeSteamToLocalDate(resultset.getTimestamp("introduced"));
-				LocalDate discontinued = computerMapper
+				Optional<LocalDate> introduced = computerMapper
+						.convertTimeSteamToLocalDate(resultset.getTimestamp("introduced"));
+				Optional<LocalDate> discontinued = computerMapper
 						.convertTimeSteamToLocalDate(resultset.getTimestamp("discontinued"));
 				int companyId = resultset.getInt("company_id");
 				computerDetail.setId(id);
@@ -130,7 +185,7 @@ public class ComputerDao implements IComputerDao {
 		} catch (SQLException e) {
 			// LOGGER.error("SQEXCEPTION ::" + e);
 		}
-		return computerDetail;
+		return Optional.of(computerDetail);
 	}
 
 	public void deleteComputer(int id) {
@@ -139,7 +194,9 @@ public class ComputerDao implements IComputerDao {
 			PreparedStatement preparedStatement = connexion.getConnexionBd().prepareStatement(DELETEIDCOMPUTER);
 			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
+
 			System.out.println("Suppression effectué avec succes");
+
 		} catch (SQLException e) {
 			// LOGGER.error("SQEXCEPTION ::" + e);
 		}
@@ -152,9 +209,17 @@ public class ComputerDao implements IComputerDao {
 			ConnexionBd connexion = ConnexionBd.getInstance();
 			PreparedStatement preparedStatement = connexion.getConnexionBd().prepareStatement(UPDATECOMPUTERBYID);
 			preparedStatement.setString(1, computerDto.getNameDto());
-			preparedStatement.setTimestamp(2, computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()));
-			preparedStatement.setTimestamp(3,
-					computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()));
+			if (computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).isPresent()) {
+				Timestamp intro = computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).get();
+				preparedStatement.setTimestamp(2, intro);
+
+			}
+
+			if (computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).isPresent()) {
+				Timestamp disco = computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).get();
+				preparedStatement.setTimestamp(3, disco);
+			}
+
 			preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
 			preparedStatement.setInt(5, computerDto.getIdDto());
 			preparedStatement.executeUpdate();

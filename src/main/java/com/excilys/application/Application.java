@@ -2,11 +2,7 @@
 package com.excilys.application;
 
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Scanner;
-
-//import org.apache.log4j.Logger;
-//import org.apache.log4j.PropertyConfigurator;
 
 import com.excilys.dto.CompanyDto;
 import com.excilys.dto.ComputerDto;
@@ -15,22 +11,18 @@ import com.excilys.entities.Computer;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
 
-
 public class Application {
 	static CompanyService companyService = CompanyService.getInstance();
 	static ComputerService computerService = ComputerService.getInstance();
-	//final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
-	//final static Logger LOGGER = Logger.getLogger(Application.class);
 
 	public static void getListCompany() {
 
 		System.out.print("******Affichage de la liste des compagnies ********\r");
 		List<Company> listCompany = companyService.getListCompany();
-		for (Company company:listCompany) {
+		for (Company company : listCompany) {
 			System.out.println(company.toString());
 		}
-		
-		
+
 	}
 
 	public static void getListComputer() {
@@ -71,13 +63,6 @@ public class Application {
 	}
 
 	public static void main(String[] args) {
-		//ResourceBundle res =ResourceBundle.getBundle("log4j");
-		//System.out.println(res.getString("log4j.rootLogger"));
-		//try {
-		//PropertyConfigurator.configure(Application.class.getClassLoader().getResource("log4j.properties"));
-		//}catch(Exception e) {e.getStackTrace();}
-		
-			
 
 		Scanner sc = new Scanner(System.in);
 		System.out.println("====================== Veuillez le numéro de l'action à effectuer =====================");
@@ -101,7 +86,7 @@ public class Application {
 
 		switch (choixUtilisateur) {
 		case 1:
-			getListCompany();			
+			getListCompany();
 			break;
 
 		case 2:
@@ -109,8 +94,9 @@ public class Application {
 			break;
 
 		case 3:
+			int idc = 0;
 			System.out.println("Veuillez rentrer l'id du computer recherché ");
-			int idc = sc.nextInt();
+			idc = sc.nextInt();
 			showComputerDetails(idc);
 			break;
 
@@ -121,14 +107,8 @@ public class Application {
 			System.out.println("Veuillez rentrer les information du computer");
 			System.out.println("Veuillez saisir le name : \r");
 			String name = sc.next();
-			// while (name.isEmpty()) {
-			// System.out.println("le champ name doit etre saisi");
-			// }
-			// if (name.isEmpty()) {
-			// System.out.println("entrer un nom correct");
-			/// } else {
-			computerDto.setNameDto(name);
-			// }
+
+			computerDto.setNameDto(name);			
 
 			System.out.println("Veuillez rentrer la date introduced ");
 			sc.nextLine();
@@ -145,11 +125,7 @@ public class Application {
 			computerDto.setCompanyDto(companyDto);
 
 			createNewComputer(computerDto);
-			// System.out.println((name.isEmpty() || dateIntroducedDto.isEmpty() ||
-			// dateDiscontinuedDto.isEmpty()
-			// || company_idDto == -1) ? "Veuillez remplir les champs"
-			// : "Computer créé avec sucess \n" + computerDto.toString());
-			// if (name)
+
 			System.out.println("Computer créé avec sucess \n" + computerDto.toString());
 
 			break;
@@ -165,21 +141,13 @@ public class Application {
 
 			System.out.println("Veuillez rentrer la nouvelle date introduced ");
 
-			/*
-			 * recuperation de la date introduced et discontinued en String à l'entrée et
-			 * conversion en Timestream à la sortie en passant par LocalDateTime
-			 */
 			sc.nextLine();
 			computerDto2.setIntroducedDto(sc.nextLine());
 			System.out.println("Veuillez rentrer la nouvelle date discontinued ");
 			Scanner newdataDiscontinued = new Scanner(System.in);
-			/*
-			 * recuperation de la date introduced et discontinued en String à l'entrée et
-			 * conversion en Timestream à la sortie en passant par LocalDateTime
-			 */
+
 			computerDto2.setDiscontinuedDto(newdataDiscontinued.nextLine());
 			System.out.println("Veuillez choisir la valeur de la company_id");
-			// Scanner newdataCompany_idUpdate = new Scanner(System.in);
 			companyDtoUpdate.setIdDto(sc.nextInt());
 			computerDto2.setCompanyDto(companyDtoUpdate);
 
@@ -189,7 +157,6 @@ public class Application {
 
 		case 6:
 			System.out.println("Veuillez l'identifiant du computer à supprimer");
-			// Scanner s = new Scanner(System.in);
 			int idCompt = sc.nextInt();
 			deleteIdComputer(idCompt);
 			break;

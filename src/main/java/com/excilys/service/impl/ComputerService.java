@@ -2,71 +2,68 @@ package com.excilys.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.util.Optional;
 
 import com.excilys.dao.impl.ComputerDao;
 import com.excilys.dto.ComputerDto;
 import com.excilys.entities.Computer;
 import com.excilys.service.IComputerService;
 
-
 public class ComputerService implements IComputerService {
 
-  ComputerDao computerDao;
-	//final static Logger logger = LoggerFactory.getLogger(ComputerService.class);
+	ComputerDao computerDao;
+	// final static Logger logger = LoggerFactory.getLogger(ComputerService.class);
 
-  private ComputerService() {
-    computerDao = ComputerDao.getInstance();
-  }
+	private ComputerService() {
+		computerDao = ComputerDao.getInstance();
+	}
 
-  /** Instance unique pré-initialisée */
-  private static ComputerService INSTANCE;
+	/** Instance unique pré-initialisée */
+	private static ComputerService INSTANCE;
 
-  public static ComputerService getInstance() {
-	  if (INSTANCE == null)
-      {   INSTANCE = new ComputerService(); 
-      }
-      return INSTANCE;
-  }
+	public static ComputerService getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new ComputerService();
+		}
+		return INSTANCE;
+	}
 
-  /**
-   * Implemenetation de la fonction affichage de la liste des computers
-   */
-  public List<Computer> getListComputer() {
-    List<Computer> listComputer = new ArrayList<Computer>();
-    listComputer = computerDao.getListComputer();
-    return listComputer;
-  }
+	/**
+	 * Implemenetation de la fonction affichage de la liste des computers
+	 */
+	public List<Computer> getListComputer() {
+		List<Computer> listComputer = new ArrayList<Computer>();
+		listComputer = computerDao.getListComputer();
+		return listComputer;
+	}
 
-  /**
-   * Implementation de la fonction creation d'un computer
-   */
-  public void createComputer(ComputerDto computerDto) {
-    computerDao.createComputer(computerDto);
-  }
+	/**
+	 * Implementation de la fonction creation d'un computer
+	 */
+	public void createComputer(ComputerDto computerDto) {
+		computerDao.createComputer(computerDto);
+	}
 
-  /**
-   * Implementation de la fonction delete computer
-   */
-  public void deleteComputer(int id) {
-    computerDao.deleteComputer(id);
-    System.out.println("Computer numéro :" + id + " supprimé \n");
+	/**
+	 * Implementation de la fonction delete computer
+	 */
+	public void deleteComputer(int id) {
+		computerDao.deleteComputer(id);
 
-  }
+	}
 
-  /**
-   * Implementation de la fonction show details computer
-   */
-  public Computer showComputerDetail(int idComputer) {
-    Computer computer = new Computer();
-    computer = computerDao.showComputerDetail(idComputer);
-   
-return computer;
-  }
+	/**
+	 * Implementation de la fonction show details computer
+	 */
+	public Optional<Computer> showComputerDetail(int idComputer) {
 
-  public void updateComputer(ComputerDto computerDto) {
-    computerDao.updateComputer(computerDto);
-  }
+		Optional<Computer> computer = computerDao.showComputerDetail(idComputer);
+
+		return computer;
+	}
+
+	public void updateComputer(ComputerDto computerDto) {
+		computerDao.updateComputer(computerDto);
+	}
 
 }
