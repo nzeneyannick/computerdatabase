@@ -13,6 +13,8 @@ public interface ICompagnieService {
 	 */
 	public List<Company>  getListCompany() ;
 	
+	public Company findCompanyByName(String nameCompany) ;
+	
 
 
 }

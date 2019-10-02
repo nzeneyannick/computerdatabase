@@ -63,6 +63,13 @@ public class Application {
 	}
 
 	public static void main(String[] args) {
+		
+		System.out.println("testons");
+		String val = "Cray";
+		Company company = companyService.findCompanyByName(val) ;
+		System.out.println(company.toString());
+		
+		
 
 		Scanner sc = new Scanner(System.in);
 		System.out.println("====================== Veuillez le numéro de l'action à effectuer =====================");

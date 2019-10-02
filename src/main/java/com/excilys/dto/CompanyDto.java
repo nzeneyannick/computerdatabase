@@ -1,5 +1,6 @@
 package com.excilys.dto;
 
+
 public class CompanyDto {
   private int idDto;
   private String nameDto;
@@ -21,12 +22,14 @@ public class CompanyDto {
   }
 
   
-  public String toString() {
+  @Override
+public String toString() {
     return "CompanyDto [idDto=" + idDto + ", nameDto=" + nameDto + "]";
   }
 
  
-  public int hashCode() {
+  @Override
+public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + idDto;
@@ -35,7 +38,8 @@ public class CompanyDto {
   }
 
  
-  public boolean equals(Object obj) {
+  @Override
+public boolean equals(Object obj) {
     if (this == obj)
       return true;
     if (obj == null)

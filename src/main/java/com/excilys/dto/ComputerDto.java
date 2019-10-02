@@ -49,13 +49,15 @@ public class ComputerDto {
   }
 
 
-  public String toString() {
-    return "ComputerDto [id=" + idDto + ", name=" + nameDto + ", introduced=" + introducedDto
-        + ", discontinued=" + discontinuedDto + ", id company=" + companyDto.getIdDto() + "]";
+  @Override
+public String toString() {
+    return "ComputerDto [ name=" + nameDto + ", introduced=" + introducedDto
+        + ", discontinued=" + discontinuedDto + ", name company=" + this.companyDto.getNameDto() + "]";
   }
 
   
-  public int hashCode() {
+  @Override
+public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((companyDto == null) ? 0 : companyDto.hashCode());
@@ -67,7 +69,8 @@ public class ComputerDto {
   }
 
   
-  public boolean equals(Object obj) {
+  @Override
+public boolean equals(Object obj) {
     if (this == obj)
       return true;
     if (obj == null)

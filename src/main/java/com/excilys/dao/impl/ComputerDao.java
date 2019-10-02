@@ -85,6 +85,7 @@ public class ComputerDao implements IComputerDao {
 		return INSTANCE;
 	}
 
+	@Override
 	public List<Computer> getListComputer() {
 		List<Computer> list = new ArrayList<Computer>();
 		ComputerMapper computerMapper = new ComputerMapper();
@@ -124,6 +125,7 @@ public class ComputerDao implements IComputerDao {
 		return list;
 	}
 
+	@Override
 	public void createComputer(ComputerDto computerDto) {
 		ComputerMapper computerMapper = new ComputerMapper();
 
@@ -147,10 +149,12 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			// logger.error("SQEXCEPTION ::" + e);
 		}
 	}
 
+	@Override
 	public Optional<Computer> showComputerDetail(int idComputer) {
 		Computer computerDetail = new Computer();
 		Company company = new Company();
@@ -188,6 +192,7 @@ public class ComputerDao implements IComputerDao {
 		return Optional.of(computerDetail);
 	}
 
+	@Override
 	public void deleteComputer(int id) {
 		try {
 			ConnexionBd connexion = ConnexionBd.getInstance();
@@ -203,6 +208,7 @@ public class ComputerDao implements IComputerDao {
 
 	}
 
+	@Override
 	public void updateComputer(ComputerDto computerDto) {
 		ComputerMapper computerMapper = new ComputerMapper();
 		try {
