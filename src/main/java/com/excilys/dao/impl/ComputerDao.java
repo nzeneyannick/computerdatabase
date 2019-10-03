@@ -138,11 +138,14 @@ public class ComputerDao implements IComputerDao {
 			if (computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).isPresent()) {
 				Timestamp intro = computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).get();
 				preparedStatement.setTimestamp(2, intro);
+				
+				
 			}
 
 			if (computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).isPresent()) {
 				Timestamp disco = computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).get();
 				preparedStatement.setTimestamp(3, disco);
+			
 			}
 
 			preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());

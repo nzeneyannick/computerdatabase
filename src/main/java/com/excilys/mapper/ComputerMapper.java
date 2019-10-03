@@ -12,10 +12,11 @@ public class ComputerMapper {
 
 	public ComputerMapper() {
 		formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 	}
 
 	public Optional<Timestamp> convertStringToTImeSteam(String dateString) {
-		if (dateString == null) {
+		if (dateString != null) {
 			Timestamp timeStamp;
 			LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
 			timeStamp = Timestamp.valueOf(localDateTime);

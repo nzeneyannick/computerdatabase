@@ -61,6 +61,7 @@ public class AddComputer extends HttpServlet {
 		 * Recuperation des données saisi par l'utilisateur
 		 */
 
+		//Text text = new Text("foo");
 		String nameComputer = "";
 		String introduced = "";
 		String discontinued = "";
@@ -80,7 +81,8 @@ public class AddComputer extends HttpServlet {
 			// href=\"views \"addComputer.jsp \">Cliquer ici</a> pour acceder au formulaire,
 			// de
 			// creation d'un computer";
-			message = "Vous n'avez pas rempli tous les champs obligatoires. <br> <a href=\"views \"addComputer.jsp \">Cliquer ici</a> pour acceder au formulaire, de creation d'un computer";
+			message = "Vous n'avez pas rempli tous les champs obligatoires";
+					//+ " <br> <a href=\"views \"addComputer.jsp \">Cliquer ici</a> pour acceder au formulaire, de creation d'un computer";
 
 			erreur = true;
 

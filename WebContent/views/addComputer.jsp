@@ -27,7 +27,7 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
-					<p><c:out value="${message}"></c:out></p>
+					<p class="alert alert-success"> <c:out value="${message}"></c:out></p>
 					<form action="addComputer" method="POST">
 						<fieldset>
 							<div class="form-group">
@@ -55,7 +55,7 @@
 
 								</select>
 							</div>
-							<c:out value="${erreur}"/>
+				<%--			 <c:out value="${erreur}"/>                --%>
 							<c:out value="${computerDto}"/>
 						</fieldset>
 						<div class="actions pull-right">

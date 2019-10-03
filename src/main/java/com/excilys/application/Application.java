@@ -1,6 +1,11 @@
 
 package com.excilys.application;
 
+
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,11 +68,21 @@ public class Application {
 	}
 
 	public static void main(String[] args) {
+		DateFormat formatter ;
+
 		
-		System.out.println("testons");
-		String val = "Cray";
-		Company company = companyService.findCompanyByName(val) ;
-		System.out.println(company.toString());
+		   try {
+			   formatter= new SimpleDateFormat("dd/MM/yyyy");
+			      String dte = "08/10/2019";
+			      
+			       // you can change format of date
+			      Date date = formatter.parse(dte);
+			      Timestamp timeStampDate = new Timestamp(date.getTime());
+			      
+
+			       System.out.println("valeur : " +timeStampDate);
+			    } catch (Exception e) {
+			      System.out.println("Exception :" + e);}
 		
 		
 
