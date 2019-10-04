@@ -37,7 +37,6 @@ public class AddComputer extends HttpServlet {
 		CompanyService companyService = CompanyService.getInstance();
 		List<Company> listComp = companyService.getListCompany();
 
-	
 		Set<Company> listCompany = new HashSet<Company>(listComp);
 
 		request.setAttribute("listCompany", listCompany);
@@ -55,13 +54,11 @@ public class AddComputer extends HttpServlet {
 
 		Set<Company> listCompany = new HashSet<Company>(listComp);
 
-		request.setAttribute("listCompany", listCompany);		
-		
+		request.setAttribute("listCompany", listCompany);
+
 		/*
 		 * Recuperation des données saisi par l'utilisateur
 		 */
-
-		//Text text = new Text("foo");
 		String nameComputer = "";
 		String introduced = "";
 		String discontinued = "";
@@ -77,34 +74,29 @@ public class AddComputer extends HttpServlet {
 
 		if (nameComputer.trim().isEmpty() || introduced.trim().isEmpty() || discontinued.trim().isEmpty()
 				|| nameCompany.trim().isEmpty()) {
-			// message = "Vous n'avez pas rempli tous les champs obligatoires. <br> <a
-			// href=\"views \"addComputer.jsp \">Cliquer ici</a> pour acceder au formulaire,
-			// de
-			// creation d'un computer";
-			message = "Vous n'avez pas rempli tous les champs obligatoires";
-					//+ " <br> <a href=\"views \"addComputer.jsp \">Cliquer ici</a> pour acceder au formulaire, de creation d'un computer";
 
+			message = "Vous n'avez pas rempli tous les champs obligatoires";
 			erreur = true;
 
 		} else {
 
 			message = "Computer créé avec succès";
+			System.out.println(introduced);
 			erreur = false;
 		}
 
 		/*
 		 * peuplement des beans via les données saisies par l'utilisateur
 		 */
-		
-		//CompanyService companyService = CompanyService.getInstance();
+
+		// CompanyService companyService = CompanyService.getInstance();
 		Company company = companyService.findCompanyByName(nameCompany);
-		
+
 		CompanyDto companyDto = new CompanyDto();
 		companyDto.setIdDto(company.getId());
 		companyDto.setNameDto(company.getName());
-		
-	
-		ComputerDto computerDto = new ComputerDto();	
+
+		ComputerDto computerDto = new ComputerDto();
 
 		computerDto.setNameDto(nameComputer);
 		computerDto.setIntroducedDto(introduced);

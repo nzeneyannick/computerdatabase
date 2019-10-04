@@ -27,7 +27,18 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
-					<p class="alert alert-success"> <c:out value="${message}"></c:out></p>
+					<c:if test="${erreur==false}">
+						<p class="alert alert-success">
+							<c:out value="${message}"></c:out>
+						</p>
+					</c:if>
+
+					<c:if test="${erreur==true}">
+						<p class="alert alert-danger">
+							<c:out value="${message}"></c:out>
+						</p>
+					</c:if>
+
 					<form action="addComputer" method="POST">
 						<fieldset>
 							<div class="form-group">
@@ -46,17 +57,16 @@
 									placeholder="Discontinued date" name="discontinued">
 							</div>
 							<div class="form-group">
-								<label for="companyId">Company</label> 
-								<select
+								<label for="companyId">Company</label> <select
 									class="form-control" id="companyId" name="nameCompany">
 									<c:forEach items="${listCompany}" var="item">
-										<option >${item.name}</option>
+										<option>${item.name}</option>
 									</c:forEach>
 
 								</select>
 							</div>
-				<%--			 <c:out value="${erreur}"/>                --%>
-							<c:out value="${computerDto}"/>
+							<%--			 <c:out value="${erreur}"/>                --%>
+							<c:out value="${computerDto}" />
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Add" class="btn btn-primary">
