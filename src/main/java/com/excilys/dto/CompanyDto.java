@@ -1,10 +1,10 @@
 package com.excilys.dto;
 
-import javax.validation.constraints.NotNull;
+
 
 public class CompanyDto {
 	
-	@NotNull
+
 	private int idDto;
 	private String nameDto;
 

@@ -16,11 +16,13 @@ import com.excilys.dto.ComputerDto;
 import com.excilys.entities.Company;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
+import com.excilys.validateur.ValidateurFront;
 
 @SuppressWarnings("serial")
 @WebServlet("/addComputer")
 public class AddComputer extends HttpServlet {
 
+	ValidateurFront validateur = new ValidateurFront();
 	public static final String VUE = "/views/addComputer.jsp";
 
 	public static final String CHAMP_NAME_COMPUTER = "name";
@@ -72,24 +74,28 @@ public class AddComputer extends HttpServlet {
 		String message;
 		boolean erreur;
 
-		if (nameComputer.trim().isEmpty() || introduced.trim().isEmpty() || discontinued.trim().isEmpty()
-				|| nameCompany.trim().isEmpty()) {
-
-			message = "Vous n'avez pas rempli tous les champs obligatoires";
-			erreur = true;
-
-		} else {
-
+		try {
+			validateur.checkDateOrName(nameComputer);
+			validateur.checkDateOrName(introduced);
+			validateur.checkDateOrName(discontinued);
+			validateur.checkDateOrName(nameCompany);
+			erreur = false;
 			message = "Computer créé avec succès";
 			System.out.println(introduced);
-			erreur = false;
+
+		} catch (Exception e) {
+			message = "Vous n'avez pas rempli tous les champs obligatoires";
+			erreur = true;
+			e.printStackTrace();
+			System.out.println(introduced);
 		}
 
-		/*
-		 * peuplement des beans via les données saisies par l'utilisateur
-		 */
+		try {
+			validateur.isValidRange(introduced, discontinued);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		// CompanyService companyService = CompanyService.getInstance();
 		Company company = companyService.findCompanyByName(nameCompany);
 
 		CompanyDto companyDto = new CompanyDto();

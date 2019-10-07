@@ -3,12 +3,6 @@ package com.excilys.application;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import com.excilys.dto.CompanyDto;
 import com.excilys.dto.ComputerDto;
@@ -16,12 +10,12 @@ import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
-import com.excilys.validateur.Validateur;
+import com.excilys.validateur.ValidateurBack;
 
 public class Application {
 	private static CompanyService companyService = CompanyService.getInstance();
 	private static ComputerService computerService = ComputerService.getInstance();
-	private static Validateur validateur = new Validateur();
+	private static ValidateurBack validateur = new ValidateurBack();
 
 	public static void getListCompany() {
 
@@ -70,23 +64,6 @@ public class Application {
 
 	}
 
-	public static void checkData(Object o) {
-
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(o);
-		if (constraintViolations.size() > 0) {
-			System.out.println("Impossible de valider les donnees du bean : ");
-			for (ConstraintViolation<Object> contraintes : constraintViolations) {
-
-				System.out.println("  " + contraintes.getRootBeanClass().getSimpleName() + "."
-						+ contraintes.getPropertyPath() + " " + contraintes.getMessage());
-			}
-		} else {
-			System.out.println("Les donnees du bean sont validees");
-		}
-
-	}
 
 	public static void main(String[] args) {
 

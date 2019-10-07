@@ -34,22 +34,8 @@ public class ComputerMapper {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	public Optional<LocalDate> convertStringToLocalDate(String dateString) {
 
-		return (Optional<LocalDate>) ((dateString != null) ? Optional.of(LocalDate.parse(dateString))
-				: Optional.empty());
 
-	}
 
-	public Optional<Timestamp> convertLocalDateToTimesteam(LocalDate localDate) {
-		if (localDate != null) {
-			String formattedString = localDate.format(formatter);
-			Timestamp timeSteam = Timestamp.valueOf(formattedString);
-			return Optional.of(timeSteam);
-
-		} else
-			return Optional.empty();
-	}
 
 }
