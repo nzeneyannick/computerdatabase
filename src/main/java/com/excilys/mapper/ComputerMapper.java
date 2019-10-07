@@ -34,7 +34,6 @@ public class ComputerMapper {
 
 	}
 
-	/* non appele */
 	@SuppressWarnings("unchecked")
 	public Optional<LocalDate> convertStringToLocalDate(String dateString) {
 
@@ -43,7 +42,6 @@ public class ComputerMapper {
 
 	}
 
-	/* non appele */
 	public Optional<Timestamp> convertLocalDateToTimesteam(LocalDate localDate) {
 		if (localDate != null) {
 			String formattedString = localDate.format(formatter);

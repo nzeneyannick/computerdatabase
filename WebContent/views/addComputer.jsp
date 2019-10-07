@@ -59,6 +59,7 @@
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
 									class="form-control" id="companyId" name="nameCompany">
+
 									<c:forEach items="${listCompany}" var="item">
 										<option>${item.name}</option>
 									</c:forEach>

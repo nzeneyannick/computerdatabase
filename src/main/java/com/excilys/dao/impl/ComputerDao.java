@@ -202,9 +202,6 @@ public class ComputerDao implements IComputerDao {
 			PreparedStatement preparedStatement = connexion.getConnexionBd().prepareStatement(DELETEIDCOMPUTER);
 			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
-
-			System.out.println("Suppression effectué avec succes");
-
 		} catch (SQLException e) {
 			// LOGGER.error("SQEXCEPTION ::" + e);
 		}

@@ -30,6 +30,17 @@
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<div class="label label-default pull-right">id: 0</div>
 					<h1>Edit Computer</h1>
+					<c:if test="${erreur==false}">
+						<p class="alert alert-success">
+							<c:out value="${message}"></c:out>
+						</p>
+					</c:if>
+
+					<c:if test="${erreur==true}">
+						<p class="alert alert-danger">
+							<c:out value="${message}"></c:out>
+						</p>
+					</c:if>
 
 					<form action="editComputer" method="POST">
 						<input type="hidden" value="0" id="id" />
@@ -38,24 +49,29 @@
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
 									type="text" class="form-control" id="computerName"
-									placeholder="Computer name">
+									placeholder="Computer name" name="name">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									type="date" class="form-control" id="introduced"
-									placeholder="Introduced date">
+									placeholder="Introduced date" name="introduced">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									type="date" class="form-control" id="discontinued"
-									placeholder="Discontinued date">
+									placeholder="Discontinued date" name="discontinued">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId">
-									<option value="0">--</option>
+									class="form-control" id="companyId" name="nameCompany">
+
+									<c:forEach items="${listCompany}" var="item">
+										<option>${item.name}</option>
+									</c:forEach>
+
 								</select>
 							</div>
+							<c:out value="${computerDto}" />
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Edit" class="btn btn-primary">

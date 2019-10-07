@@ -17,6 +17,7 @@ import com.excilys.entities.Company;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
 
+@SuppressWarnings("serial")
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
 
@@ -99,15 +100,16 @@ public class EditComputer extends HttpServlet {
 		computerDto.setIntroducedDto(introduced);
 		computerDto.setDiscontinuedDto(discontinued);
 		computerDto.setCompanyDto(companyDto);
+		
 
 		/*
 		 * Insertion en base de donnée
 		 */
 		ComputerService computerService = ComputerService.getInstance();
-		computerService.createComputer(computerDto);
+		computerService.updateComputer(computerDto);
 
 		request.setAttribute("message", message);
-
+                                                                                                                                                                 
 		request.setAttribute("erreur", erreur);
 
 		request.setAttribute("computerDto", computerDto);

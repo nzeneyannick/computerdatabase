@@ -1,13 +1,14 @@
 
 package com.excilys.application;
 
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import com.excilys.dto.CompanyDto;
 import com.excilys.dto.ComputerDto;
@@ -15,10 +16,12 @@ import com.excilys.entities.Company;
 import com.excilys.entities.Computer;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
+import com.excilys.validateur.Validateur;
 
 public class Application {
-	static CompanyService companyService = CompanyService.getInstance();
-	static ComputerService computerService = ComputerService.getInstance();
+	private static CompanyService companyService = CompanyService.getInstance();
+	private static ComputerService computerService = ComputerService.getInstance();
+	private static Validateur validateur = new Validateur();
 
 	public static void getListCompany() {
 
@@ -67,24 +70,25 @@ public class Application {
 
 	}
 
+	public static void checkData(Object o) {
+
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(o);
+		if (constraintViolations.size() > 0) {
+			System.out.println("Impossible de valider les donnees du bean : ");
+			for (ConstraintViolation<Object> contraintes : constraintViolations) {
+
+				System.out.println("  " + contraintes.getRootBeanClass().getSimpleName() + "."
+						+ contraintes.getPropertyPath() + " " + contraintes.getMessage());
+			}
+		} else {
+			System.out.println("Les donnees du bean sont validees");
+		}
+
+	}
+
 	public static void main(String[] args) {
-		DateFormat formatter ;
-
-		
-		   try {
-			   formatter= new SimpleDateFormat("dd/MM/yyyy");
-			      String dte = "08/10/2019";
-			      
-			       // you can change format of date
-			      Date date = formatter.parse(dte);
-			      Timestamp timeStampDate = new Timestamp(date.getTime());
-			      
-
-			       System.out.println("valeur : " +timeStampDate);
-			    } catch (Exception e) {
-			      System.out.println("Exception :" + e);}
-		
-		
 
 		Scanner sc = new Scanner(System.in);
 		System.out.println("====================== Veuillez le numéro de l'action à effectuer =====================");
@@ -102,6 +106,7 @@ public class Application {
 				.println("=         5 : Update a computer                                                         = ");
 		System.out
 				.println("=         6 : Delete a computer                                                         = ");
+
 		System.out.println("======================================================================================= ");
 
 		int choixUtilisateur = sc.nextInt();
@@ -130,16 +135,44 @@ public class Application {
 			System.out.println("Veuillez saisir le name : \r");
 			String name = sc.next();
 
-			computerDto.setNameDto(name);			
+			try {
+				validateur.checkDateOrName(name);
+			} catch (Exception e) {
+			
+				e.printStackTrace();
+			}
+
+			computerDto.setNameDto(name);
 
 			System.out.println("Veuillez rentrer la date introduced ");
 			sc.nextLine();
 			String dateIntroducedDto = sc.nextLine();
+			try {
+				validateur.checkDateOrName(dateIntroducedDto);
+			} catch (Exception e) {
+		
+				e.printStackTrace();
+			}
+
 			computerDto.setIntroducedDto(dateIntroducedDto);
 
 			System.out.println("Veuillez rentrer la date discontinued");
 			String dateDiscontinuedDto = sc.nextLine();
+
 			computerDto.setDiscontinuedDto(dateDiscontinuedDto);
+			try {
+				validateur.checkDateOrName(dateDiscontinuedDto);
+			} catch (Exception e) {
+			
+				e.printStackTrace();
+			}
+
+			try {
+				validateur.isValidRange(dateIntroducedDto, dateDiscontinuedDto);
+			} catch (Exception e) {
+			
+				e.printStackTrace();
+			}
 
 			System.out.println(" Veuillez saisir le compagnie_id : \r");
 			int company_idDto = sc.nextInt();
@@ -159,14 +192,34 @@ public class Application {
 			computerDto2.setIdDto(sc.nextInt());
 
 			System.out.println("Veuillez rentrer le nouveau name ");
+			try {
+				validateur.checkDateOrName(sc.next());
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
 			computerDto2.setNameDto(sc.next());
 
 			System.out.println("Veuillez rentrer la nouvelle date introduced ");
-
 			sc.nextLine();
+
+			try {
+				validateur.checkDateOrName(sc.nextLine());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			computerDto2.setIntroducedDto(sc.nextLine());
 			System.out.println("Veuillez rentrer la nouvelle date discontinued ");
 			Scanner newdataDiscontinued = new Scanner(System.in);
+
+			try {
+				validateur.checkDateOrName(newdataDiscontinued.nextLine());
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
 
 			computerDto2.setDiscontinuedDto(newdataDiscontinued.nextLine());
 			System.out.println("Veuillez choisir la valeur de la company_id");
@@ -180,12 +233,21 @@ public class Application {
 		case 6:
 			System.out.println("Veuillez l'identifiant du computer à supprimer");
 			int idCompt = sc.nextInt();
-			deleteIdComputer(idCompt);
+			try {
+				validateur.checkId(idCompt);
+				deleteIdComputer(idCompt);
+				System.out.println("Suppression effectué avec succes");
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+			
 			break;
+
 		default:
 			System.out.print("Veuillez choisir un nombre compris dans la plage");
 		}
 		sc.close();
-	}
 
+	}
 }
