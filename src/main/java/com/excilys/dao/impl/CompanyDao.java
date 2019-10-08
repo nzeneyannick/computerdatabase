@@ -1,5 +1,6 @@
 package com.excilys.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,9 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.apache.log4j.Logger;
 import com.excilys.dao.ICompanyDao;
 import com.excilys.entities.Company;
+import com.excilys.utils.DBUtil;
+
 
 public class CompanyDao implements ICompanyDao {
 
@@ -29,10 +31,7 @@ public class CompanyDao implements ICompanyDao {
 					+ " company"
 			+ " WHERE"
 					+ " name =  ?" ;
-		
 	
-	
-	// final static Logger logger = LoggerFactory.getLogger(Application.class);
 
 	private CompanyDao() {
 
@@ -51,8 +50,8 @@ public class CompanyDao implements ICompanyDao {
 		List<Company> list = new ArrayList<Company>();
 
 		try {
-			ConnexionBd connexion = ConnexionBd.getInstance();
-			Statement statement = connexion.getConnexionBd().createStatement();
+			Connection connection = DBUtil.getDataSource().getConnection();
+			Statement statement = connection.createStatement();
 			ResultSet resultset = statement.executeQuery(LISTOFCOMPANY);
 			while (resultset.next()) {
 				int id = resultset.getInt("id");
@@ -66,7 +65,7 @@ public class CompanyDao implements ICompanyDao {
 			}
 		} catch (SQLException e) {
 
-			// LOGGER.error("SQEXCEPTION ::" + e);
+		 e.printStackTrace();
 		}
 
 		return list;
@@ -78,9 +77,9 @@ public class CompanyDao implements ICompanyDao {
 		
 		
 		try {
-			ConnexionBd connexion = ConnexionBd.getInstance();
-			PreparedStatement preparedStatement = connexion.getConnexionBd().prepareStatement(FINDBYNAME);
-			// Trie effectué sur le name de la company
+			Connection connection = DBUtil.getDataSource().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(FINDBYNAME);
+			
 			preparedStatement.setString(1, nameCompany);
 			ResultSet resultset = preparedStatement.executeQuery();
 
@@ -91,7 +90,7 @@ public class CompanyDao implements ICompanyDao {
 				company.setName(name);
 			}
 		} catch (SQLException e) {
-			// LOGGER.error("SQEXCEPTION ::" + e);
+		
 			e.printStackTrace();
 		}
 		return company;
