@@ -1,7 +1,5 @@
 package com.excilys.dto;
 
-import java.time.LocalDate;
-
 public class ComputerDto {
 
 	private int idDto;
@@ -56,8 +54,8 @@ public class ComputerDto {
 
 	@Override
 	public String toString() {
-		return "ComputerDto [ name=" + nameDto + ", introduced=" + introducedDto + ", discontinued=" + discontinuedDto
-				+ ", name company=" + this.companyDto.getNameDto() + "]";
+		return "ComputerDto [Id="+idDto+ "name=" + nameDto + ", introduced=" + introducedDto + ", discontinued=" + discontinuedDto
+				 + "idCompany= "+this.companyDto.getIdDto()+"name company=" +this.companyDto.getNameDto() + "]";
 	}
 
 	@Override
@@ -106,10 +104,5 @@ public class ComputerDto {
 		return true;
 	}
 
-	public boolean isValidRange(LocalDate startDate, LocalDate endDate) {
-
-		return endDate.compareTo(startDate) >= 0;
-
-	}
 
 }

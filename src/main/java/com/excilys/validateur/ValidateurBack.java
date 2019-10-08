@@ -21,7 +21,7 @@ public class ValidateurBack {
 
 		if ("null".equals(value) || value.isEmpty()) {
 
-			throw new Exception("Veuillez remplir les champs");
+			throw new Exception("Veuillez remplir les champs name et date");
 		}
 		
 

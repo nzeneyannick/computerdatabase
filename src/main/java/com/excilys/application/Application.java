@@ -166,41 +166,53 @@ public class Application {
 			ComputerDto computerDto2 = new ComputerDto();
 
 			System.out.println("Veuillez rentrer l'id du computer à modifier ");
-			computerDto2.setIdDto(sc.nextInt());
-
-			System.out.println("Veuillez rentrer le nouveau name ");
+			int idCompt = sc.nextInt();
 			try {
-				validateur.checkDateOrName(sc.next());
+				validateur.checkId(idCompt);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			computerDto2.setIdDto(idCompt);
+			
+			sc.nextLine();
+			System.out.println("Veuillez rentrer le nouveau name ");
+			String nameCompt = sc.nextLine();
+			try {
+				validateur.checkDateOrName(nameCompt);
 			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
-
-			computerDto2.setNameDto(sc.next());
+			
+			computerDto2.setNameDto(nameCompt);
 
 			System.out.println("Veuillez rentrer la nouvelle date introduced ");
-			sc.nextLine();
+			String dateIntroCompt = sc.nextLine();
 
 			try {
-				validateur.checkDateOrName(sc.nextLine());
+				validateur.checkDateOrName(dateIntroCompt);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			computerDto2.setIntroducedDto(sc.nextLine());
+			computerDto2.setIntroducedDto(dateIntroCompt);
 			System.out.println("Veuillez rentrer la nouvelle date discontinued ");
-			Scanner newdataDiscontinued = new Scanner(System.in);
+			String dateDiscon = sc.nextLine();
+			//Scanner newdataDiscontinued = new Scanner(System.in);
 
 			try {
-				validateur.checkDateOrName(newdataDiscontinued.nextLine());
+				validateur.checkDateOrName(dateDiscon);
 			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
-
-			computerDto2.setDiscontinuedDto(newdataDiscontinued.nextLine());
+			
+			//newdataDiscontinued.nextLine();
+			computerDto2.setDiscontinuedDto(dateDiscon);
+			
 			System.out.println("Veuillez choisir la valeur de la company_id");
-			companyDtoUpdate.setIdDto(sc.nextInt());
+			
+			companyDtoUpdate.setIdDto(Integer.parseInt(sc.nextLine()));
 			computerDto2.setCompanyDto(companyDtoUpdate);
 
 			UpdateComputer(computerDto2);
@@ -209,10 +221,10 @@ public class Application {
 
 		case 6:
 			System.out.println("Veuillez l'identifiant du computer à supprimer");
-			int idCompt = sc.nextInt();
+			int idCompter = sc.nextInt();
 			try {
-				validateur.checkId(idCompt);
-				deleteIdComputer(idCompt);
+				validateur.checkId(idCompter);
+				deleteIdComputer(idCompter);
 				System.out.println("Suppression effectué avec succes");
 			} catch (Exception e) {
 

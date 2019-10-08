@@ -31,7 +31,7 @@ public class ComputerDao implements IComputerDao {
 					+ "inner join computer cpt "
 					+ "     on cpn.id=cpt.company_id "
 			+ " ORDER BY"
-					+ " cpt.id ;\n ";
+					+ " cpt.id ;";
 
 
 	private static final String NEWCOMPUTER = ""
@@ -60,18 +60,18 @@ public class ComputerDao implements IComputerDao {
 			+ " FROM "
 					+ "computer"
 			+ " WHERE"
-					+ " id = ?";
+					+ " id = ?;";
 	
 	private static final String UPDATECOMPUTERBYID = ""
 			+ "UPDATE"
 					+ " computer"
 			+ "SET "
-					+ "name=?"
-					+ ", introduced=?"
+					+ " name = ?"
+					+ ",introduced=?"
 					+ ",discontinued=?"
 					+ ",company_id=? "
 			+ "WHERE"
-					+ " id=? ;";
+					+ " id = ?;";
 
 	private ComputerDao() {
 
@@ -231,6 +231,7 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// LOGGER.error("SQEXCEPTION ::" + e);
+			e.printStackTrace();
 		}
 
 	}

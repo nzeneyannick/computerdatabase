@@ -1,8 +1,10 @@
 package com.excilys.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -16,22 +18,33 @@ import com.excilys.dto.ComputerDto;
 import com.excilys.entities.Company;
 import com.excilys.service.impl.CompanyService;
 import com.excilys.service.impl.ComputerService;
+import com.excilys.validateur.ValidateurFront;
 
 @SuppressWarnings("serial")
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
 
+	private ValidateurFront validateur = new ValidateurFront();
 	public static final String VUE = "/views/editComputer.jsp";
 	public static final String CHAMP_NAME_COMPUTER = "name";
 	public static final String CHAMP_INTRODUCED = "introduced";
 	public static final String CHAMP_DISCONTINUED = "discontinued";
 	public static final String CHAMP_NAME_COMPANY = "nameCompany";
+	public static final String CHAMP_ID_COMPUTER = "id";
+	public static String id = "";
+
+	private String resultat;
+	private Map<String, String> erreurs = new HashMap<String, String>();
+
+	public void setErreurs(String key, String value) {
+		erreurs.put(key, value);
+	}
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		 * Récupération de la liste des compagnies pour affichage du menu deroulant
-		 */
+
+		id = request.getParameter(CHAMP_ID_COMPUTER);
+
 		CompanyService companyService = CompanyService.getInstance();
 		List<Company> listComp = companyService.getListCompany();
 
@@ -40,24 +53,17 @@ public class EditComputer extends HttpServlet {
 		request.setAttribute("listCompany", listCompany);
 
 		request.getRequestDispatcher(VUE).forward(request, response);
-		
+
 	}
-	
+
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		 * Récupération de la liste des compagnies pour affichage du menu deroulant
-		 */
+
+		boolean erreur;
 		CompanyService companyService = CompanyService.getInstance();
 		List<Company> listComp = companyService.getListCompany();
+		request.setAttribute("listCompany", listComp);
 
-		Set<Company> listCompany = new HashSet<Company>(listComp);
-
-		request.setAttribute("listCompany", listCompany);
-
-		/*
-		 * Recuperation des données saisi par l'utilisateur
-		 */
 		String nameComputer = "";
 		String introduced = "";
 		String discontinued = "";
@@ -68,51 +74,59 @@ public class EditComputer extends HttpServlet {
 		discontinued = request.getParameter(CHAMP_DISCONTINUED);
 		nameCompany = request.getParameter(CHAMP_NAME_COMPANY);
 
-		String message;
-		boolean erreur;
+		int idCompt = Integer.parseInt(id);
 
-		if (nameComputer.trim().isEmpty() || introduced.trim().isEmpty() || discontinued.trim().isEmpty()
-				|| nameCompany.trim().isEmpty()) {
+		try {
+			validateur.checkDateOrName(nameComputer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			setErreurs(CHAMP_NAME_COMPUTER, e.getMessage());
 
-			message = "Vous n'avez pas rempli tous les champs obligatoires";
-			erreur = true;
-
-		} else {
-
-			message = "Computer modifié avec succès";
-			erreur = false;
+		}
+		try {
+			validateur.checkDateOrName(introduced);
+		} catch (Exception e) {
+			e.printStackTrace();
+			setErreurs(CHAMP_INTRODUCED, e.getMessage());
+		}
+		try {
+			validateur.checkDateOrName(discontinued);
+		} catch (Exception e) {
+			e.printStackTrace();
+			setErreurs(CHAMP_DISCONTINUED, e.getMessage());
 		}
 
-		/*
-		 * peuplement des beans via les données saisies par l'utilisateur
-		 */
+		if (erreurs.isEmpty()) {
+			try {
+				validateur.isValidRange(introduced, discontinued);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-		// CompanyService companyService = CompanyService.getInstance();
-		Company company = companyService.findCompanyByName(nameCompany);
+			CompanyDto companyDto = new CompanyDto();
+			Company company = new Company();
+			company=companyService.findCompanyByName(nameCompany);			
+			companyDto.setIdDto(company.getId());
+			ComputerDto computerDto = new ComputerDto();
+			computerDto.setIdDto(idCompt);
+			computerDto.setNameDto(nameComputer);
+			computerDto.setIntroducedDto(introduced);
+			computerDto.setDiscontinuedDto(discontinued);
+			computerDto.setCompanyDto(companyDto);
 
-		CompanyDto companyDto = new CompanyDto();
-		companyDto.setIdDto(company.getId());
-		companyDto.setNameDto(company.getName());
+			ComputerService computerService = ComputerService.getInstance();
+			computerService.updateComputer(computerDto);
+			resultat = "Computer modifié avec succès";
+			erreur = false;
 
-		ComputerDto computerDto = new ComputerDto();
+			request.setAttribute("computerDto", computerDto);
+		} else {
+			resultat = "echec de la création du Computer";
+			erreur = true;
+		}
 
-		computerDto.setNameDto(nameComputer);
-		computerDto.setIntroducedDto(introduced);
-		computerDto.setDiscontinuedDto(discontinued);
-		computerDto.setCompanyDto(companyDto);
-		
-
-		/*
-		 * Insertion en base de donnée
-		 */
-		ComputerService computerService = ComputerService.getInstance();
-		computerService.updateComputer(computerDto);
-
-		request.setAttribute("message", message);
-                                                                                                                                                                 
 		request.setAttribute("erreur", erreur);
-
-		request.setAttribute("computerDto", computerDto);
+		request.setAttribute("message", resultat);
 		request.getRequestDispatcher(VUE).forward(request, response);
 
 	}
