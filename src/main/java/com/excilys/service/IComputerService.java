@@ -31,5 +31,11 @@ public interface IComputerService {
 	 * Mise à jour d'un computer
 	 */
 	public void updateComputer(ComputerDto computerDto);
+	
+	/**
+	 * 
+	 *trie par le nom
+	 */
+	public List<Computer> findByName(String nameComputer);
 
 }

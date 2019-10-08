@@ -17,18 +17,19 @@ import com.excilys.entities.Computer;
 import com.excilys.mapper.ComputerMapper;
 
 public class ComputerDao implements IComputerDao {
+	private ComputerMapper computerMapper = new ComputerMapper();
 
 	private static final String LISTOFCOMPUTER = ""
 			+ "SELECT " 
-					+ "cpt.id" 
-					+ ", cpt.name" 
-					+ ", cpt.introduced"
-					+ ",cpt.discontinued"
-					+ ",cpt.company_id "
+					+ " cpt.id" 
+					+ " ,cpt.name" 
+					+ " ,cpt.introduced"
+					+ " ,cpt.discontinued"
+					+ " ,cpt.company_id "
 					+ ", cpn.name"
 			+ " FROM " 
-					+ "company cpn "
-					+ "inner join computer cpt "
+					+ "computer cpt "
+					+ "left join company cpn "
 					+ "     on cpn.id=cpt.company_id "
 			+ " ORDER BY"
 					+ " cpt.id ;";
@@ -72,6 +73,26 @@ public class ComputerDao implements IComputerDao {
 					+ ",company_id=? "
 			+ "WHERE"
 					+ " id = ?;";
+	
+	private static final String FINDBYNAME = ""
+			+ "SELECT " 
+					+ "cpt.id" 
+					+ " ,cpt.name" 
+					+ " ,cpt.introduced"
+					+ " ,cpt.discontinued"
+					+ " ,cpt.company_id "
+					+ " ,cpn.name"
+			+ " FROM " 
+					+ " computer cpt "
+					+ " left join company cpn "
+					+ " on cpn.id=cpt.company_id "
+			+ " WHERE "
+					+ " cpt.name like ?"					
+			+ " ORDER BY"
+					+ " cpt.name;";
+				
+	
+	
 
 	private ComputerDao() {
 
@@ -210,7 +231,7 @@ public class ComputerDao implements IComputerDao {
 
 	@Override
 	public void updateComputer(ComputerDto computerDto) {
-		ComputerMapper computerMapper = new ComputerMapper();
+		
 		try {
 			ConnexionBd connexion = ConnexionBd.getInstance();
 			PreparedStatement preparedStatement = connexion.getConnexionBd().prepareStatement(UPDATECOMPUTERBYID);
@@ -234,6 +255,52 @@ public class ComputerDao implements IComputerDao {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public List<Computer> findByName(String nameComputer) {
+		
+		Company company = new Company();
+		List<Computer> listComputer = new ArrayList<Computer>();
+		
+		
+		try {
+			ConnexionBd connexion = ConnexionBd.getInstance();
+			PreparedStatement preparedStatement = connexion.getConnexionBd().prepareStatement(FINDBYNAME);
+			
+			preparedStatement.setString(1, nameComputer);
+			ResultSet resultset = preparedStatement.executeQuery();
+
+			while (resultset.next()) {
+				int idShow = resultset.getInt("id");				
+				String nameComputerShow = resultset.getString("cpt.name");
+				Timestamp introducedShow = resultset.getTimestamp("cpt.introduced");
+				Timestamp discontinuedShow = resultset.getTimestamp("cpt.discontinued");
+				int companyIdShow = resultset.getInt("cpt.company_id");
+				String nameCompany = resultset.getString("cpn.name");
+
+				Computer computer = new Computer();
+				//Company companyShow = new Company();
+				computer.setId(idShow);
+				computer.setName(nameComputerShow);
+				computer.setIntroduced(computerMapper.convertTimeSteamToLocalDate(introducedShow));
+				computer.setDiscontinued(computerMapper.convertTimeSteamToLocalDate(discontinuedShow));
+
+				company.setId(companyIdShow);
+				company.setName(nameCompany);
+				
+				computer.setCompagnie(company);
+				listComputer.add(computer);				
+			
+			}
+		} catch (SQLException e) {
+			// LOGGER.error("SQEXCEPTION ::" + e);
+			e.printStackTrace();
+		}
+		return listComputer;
+		
+		
+		
 	}
 
 }

@@ -31,5 +31,10 @@ public interface IComputerDao {
 	 * Fonction mise à jour d'un computer
 	 */
 	public void updateComputer(ComputerDto computerDto);
-
+	
+	
+	/**
+	 * fonction de recherche par nom
+	 * */
+	public List<Computer> findByName(String name);
 }

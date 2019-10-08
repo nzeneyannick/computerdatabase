@@ -31,6 +31,7 @@ public class ComputerService implements IComputerService {
 	/**
 	 * Implemenetation de la fonction affichage de la liste des computers
 	 */
+	@Override
 	public List<Computer> getListComputer() {
 		List<Computer> listComputer = new ArrayList<Computer>();
 		listComputer = computerDao.getListComputer();
@@ -40,6 +41,7 @@ public class ComputerService implements IComputerService {
 	/**
 	 * Implementation de la fonction creation d'un computer
 	 */
+	@Override
 	public void createComputer(ComputerDto computerDto) {
 		computerDao.createComputer(computerDto);
 	}
@@ -47,6 +49,7 @@ public class ComputerService implements IComputerService {
 	/**
 	 * Implementation de la fonction delete computer
 	 */
+	@Override
 	public void deleteComputer(int id) {
 		computerDao.deleteComputer(id);
 
@@ -55,6 +58,7 @@ public class ComputerService implements IComputerService {
 	/**
 	 * Implementation de la fonction show details computer
 	 */
+	@Override
 	public Optional<Computer> showComputerDetail(int idComputer) {
 
 		Optional<Computer> computer = computerDao.showComputerDetail(idComputer);
@@ -62,8 +66,18 @@ public class ComputerService implements IComputerService {
 		return computer;
 	}
 
+	@Override
 	public void updateComputer(ComputerDto computerDto) {
 		computerDao.updateComputer(computerDto);
+	}
+
+	@Override
+	public List<Computer> findByName(String nameComputer) {
+
+		List<Computer> listComputer = new ArrayList<Computer>();
+		listComputer = computerDao.findByName(nameComputer);
+		
+		return listComputer;
 	}
 
 }
