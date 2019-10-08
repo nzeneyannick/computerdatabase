@@ -65,16 +65,18 @@ public class ComputerDao implements IComputerDao {
 			+ " WHERE"
 					+ " id = ?;";
 	
-	private static final String UPDATECOMPUTERBYID = ""
-			+ "UPDATE"
-					+ " computer"
-			+ "SET "
-					+ " name = ?"
-					+ ",introduced=?"
-					+ ",discontinued=?"
-					+ ",company_id=? "
-			+ " WHERE"
-					+ " id = ?;";
+
+	private static final String UPDATECOMPUTERBYID = 
+			"UPDATE "
+					+ "computer"
+			+ " set "
+					+ "name=?"
+					+ ", introduced=?"
+					+ ", discontinued=?"
+					+ ", company_id=? "
+			+ "where"
+					+ " id =?;";
+
 	
 	private static final String FINDBYNAME = ""
 			+ "SELECT " 
@@ -250,6 +252,7 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
 			preparedStatement.setInt(5, computerDto.getIdDto());
 			preparedStatement.executeUpdate();
+			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
