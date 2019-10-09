@@ -14,9 +14,8 @@
    </bean>
 
    <!-- Definition for CompanyDao bean -->
-   <bean id = "CompanyDao" 
-      class = "com.excilys.dao.impl.CompanyDao">
-  <!--    <property name = "dataSource" ref = "dataSource" />  -->  
+   <bean id = "CompanyService" 
+      class = "com.excilys.service.impl.CompanyService">      
    </bean>
       
 </beans>

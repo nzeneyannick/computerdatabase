@@ -1,9 +1,5 @@
 package com.excilys.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,23 +11,10 @@ import com.excilys.utils.DBUtil;
 
 public class CompanyDao implements ICompanyDao {
 
-	private static final String LISTOFCOMPANY = 
-			"SELECT "
-					+ "id"
-					+ ",name"
-		+ " FROM"
-					+ " company"
-					+ " limit 10;";
-	
-	private static final String FINDBYNAME =""
-			+ "SELECT "
-					+ "id"
-					+ ", name"
-			+ " FROM"
-					+ " company"
-			+ " WHERE"
-					+ " name =  ?" ;
-	
+	private static final String LISTOFCOMPANY = "SELECT " + "id" + ",name" + " FROM" + " company" + " limit 10;";
+
+	private static final String FINDBYNAME = "" + "SELECT " + "id" + ", name" + " FROM" + " company" + " WHERE"
+			+ " name =  ?";
 
 	private CompanyDao() {
 
@@ -45,71 +28,47 @@ public class CompanyDao implements ICompanyDao {
 		return INSTANCE;
 	}
 
-//	@Override
-//	public List<Company> getListCompany() {
-//		List<Company> list = new ArrayList<Company>();
-//
-//		try {
-//			Connection connection = DBUtil.getDataSource().getConnection();
-//			Statement statement = connection.createStatement();
-//			ResultSet resultset = statement.executeQuery(LISTOFCOMPANY);
-//			while (resultset.next()) {
-//				int id = resultset.getInt("id");
-//				String name = resultset.getString("name");
-//
-//				Company company = new Company();
-//				company.setId(id);
-//				company.setName(name);
-//
-//				list.add(company);
-//			}
-//		} catch (SQLException e) {
-//
-//		 e.printStackTrace();
-//		}
-//
-//		return list;
-//	}
-	
 	@Override
 	public List<Company> getListCompany() {
-		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());		
-		List<Company> listCompany  = vjdbcTemplate.query(LISTOFCOMPANY, new CompanyMapper());
+		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
+		List<Company> listCompany = vjdbcTemplate.query(LISTOFCOMPANY, new CompanyMapper());
 		return listCompany;
-		
-		};
-		
-	
-			
+	};
 
-			
-
+//	@Override
+//	public Company findCompanyByName(String nameCompany) {
+//		Company company = new Company();
+//		
+//		
+//		try {
+//			Connection connection = DBUtil.getDataSource().getConnection();
+//			PreparedStatement preparedStatement = connection.prepareStatement(FINDBYNAME);
+//			
+//			preparedStatement.setString(1, nameCompany);
+//			ResultSet resultset = preparedStatement.executeQuery();
+//
+//			while (resultset.next()) {
+//				int id = resultset.getInt("id");
+//				String name = resultset.getString("name");			
+//				company.setId(id);
+//				company.setName(name);
+//			}
+//		} catch (SQLException e) {
+//		
+//			e.printStackTrace();
+//		}
+//		return company;
+//		
+//		
+//
+//	}
 
 	@Override
 	public Company findCompanyByName(String nameCompany) {
-		Company company = new Company();
-		
-		
-		try {
-			Connection connection = DBUtil.getDataSource().getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(FINDBYNAME);
-			
-			preparedStatement.setString(1, nameCompany);
-			ResultSet resultset = preparedStatement.executeQuery();
-
-			while (resultset.next()) {
-				int id = resultset.getInt("id");
-				String name = resultset.getString("name");			
-				company.setId(id);
-				company.setName(name);
-			}
-		} catch (SQLException e) {
-		
-			e.printStackTrace();
-		}
+		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
+		Company company = vjdbcTemplate.queryForObject(FINDBYNAME, new Object[] { new String(nameCompany) },
+				new CompanyMapper());
 		return company;
-		
-		
-
 	}
+
 }
