@@ -34,35 +34,7 @@ public class CompanyDao implements ICompanyDao {
 		List<Company> listCompany = vjdbcTemplate.query(LISTOFCOMPANY, new CompanyMapper());
 		return listCompany;
 	};
-
-//	@Override
-//	public Company findCompanyByName(String nameCompany) {
-//		Company company = new Company();
-//		
-//		
-//		try {
-//			Connection connection = DBUtil.getDataSource().getConnection();
-//			PreparedStatement preparedStatement = connection.prepareStatement(FINDBYNAME);
-//			
-//			preparedStatement.setString(1, nameCompany);
-//			ResultSet resultset = preparedStatement.executeQuery();
-//
-//			while (resultset.next()) {
-//				int id = resultset.getInt("id");
-//				String name = resultset.getString("name");			
-//				company.setId(id);
-//				company.setName(name);
-//			}
-//		} catch (SQLException e) {
-//		
-//			e.printStackTrace();
-//		}
-//		return company;
-//		
-//		
-//
-//	}
-
+	
 	@Override
 	public Company findCompanyByName(String nameCompany) {
 		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());

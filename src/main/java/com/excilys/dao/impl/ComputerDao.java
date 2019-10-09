@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.excilys.dao.IComputerDao;
 import com.excilys.dto.ComputerDto;
 import com.excilys.entities.Company;
@@ -109,14 +111,20 @@ public class ComputerDao implements IComputerDao {
 
 	@Override
 	public List<Computer> getListComputer() {
-		List<Computer> list = new ArrayList<Computer>();
+		
+		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
+		List<Computer> listComputer = vjdbcTemplate.query(LISTOFCOMPUTER, new ComputerMapper() );
+		
+		
+		
+		
+		
+		
 		ComputerMapper computerMapper = new ComputerMapper();
 		try {
 			
 			Connection connection = DBUtil.getDataSource().getConnection();	
-			Statement statement = connection.createStatement();
-			
-			//Statement statement = connection.getConnexionBd().createStatement();			
+			Statement statement = connection.createStatement();		
 			ResultSet resultset = statement.executeQuery(LISTOFCOMPUTER);
 			
 			while (resultset.next()) {
@@ -139,14 +147,14 @@ public class ComputerDao implements IComputerDao {
 
 				computer.setCompagnie(company);
 
-				list.add(computer);
+				listComputer.add(computer);
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return list;
+		return listComputer;
 	}
 
 	@Override

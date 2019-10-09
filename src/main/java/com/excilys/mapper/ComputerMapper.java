@@ -1,12 +1,19 @@
 package com.excilys.mapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-public class ComputerMapper {
+import org.springframework.jdbc.core.RowMapper;
+
+import com.excilys.entities.Company;
+import com.excilys.entities.Computer;
+
+public class ComputerMapper implements RowMapper<Computer>{
 
 	DateTimeFormatter formatter;
 
@@ -31,7 +38,20 @@ public class ComputerMapper {
 
 		return (Optional<LocalDate>) ((timesteam != null) ? Optional.of(timesteam.toLocalDateTime().toLocalDate())
 				: Optional.empty());
+	}
 
+	@Override
+	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Computer computer = new Computer();
+		Company company = new Company();
+		computer.setId(rs.getInt("cpt.id"));
+		computer.setName(rs.getString("cpt.name"));
+		computer.setIntroduced(convertTimeSteamToLocalDate(rs.getTimestamp("cpt.introduced")));
+		computer.setDiscontinued(convertTimeSteamToLocalDate(rs.getTimestamp("cpt.discontinued")));
+		company.setId(rs.getInt("cpt.company_id"));
+		company.setName(rs.getString("cpn.name"));
+		computer.setCompagnie(company);		
+		return computer;
 	}
 
 

@@ -1,21 +1,28 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<beans xmlns = "http://www.springframework.org/schema/beans"
-   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd ">
 
-   <!-- Initialization for data source -->
-   <bean id = "dataSource" 
-      class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
-      <property name = "driverClassName" value = "com.mysql.jdbc.Driver"/>
-      <property name = "url" value = "jdbc:mysql://localhost:3306/computer-database-db"/>
-      <property name = "username" value = "admincdb"/>
-      <property name = "password" value = "qwerty1234"/>
-   </bean>
+	<!-- Initialization for data source -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/computer-database-db" />
+		<property name="username" value="admincdb" />
+		<property name="password" value="qwerty1234" />
+	</bean>
 
-   <!-- Definition for CompanyDao bean -->
-   <bean id = "CompanyService" 
-      class = "com.excilys.service.impl.CompanyService">      
-   </bean>
-      
+	<!-- Definition for CompanyDao bean -->
+	<bean id="CompanyService"
+		class="com.excilys.service.impl.CompanyService">
+	</bean>
+
+	<bean id="ComputerService"
+		class="com.excilys.service.impl.ComputerService">
+	</bean>
+
+
 </beans>
