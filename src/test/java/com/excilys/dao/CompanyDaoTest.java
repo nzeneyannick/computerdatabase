@@ -1,4 +1,4 @@
-package java.com.excilys.dao;
+package com.excilys.dao;
 
 import static org.junit.Assert.assertNotNull;
 

@@ -8,7 +8,7 @@ import com.excilys.entities.Company;
 
 
 
-public interface ICompanyDao {
+public interface ICompanyDao  {
 	/**
 	 * 
 	 * Fonction retournant la Liste des compagnies en base

@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.excilys.dao.ICompanyDao;
 import com.excilys.entities.Company;
+import com.excilys.mapper.CompanyMapper;
 import com.excilys.utils.DBUtil;
-
 
 public class CompanyDao implements ICompanyDao {
 
@@ -45,31 +45,45 @@ public class CompanyDao implements ICompanyDao {
 		return INSTANCE;
 	}
 
+//	@Override
+//	public List<Company> getListCompany() {
+//		List<Company> list = new ArrayList<Company>();
+//
+//		try {
+//			Connection connection = DBUtil.getDataSource().getConnection();
+//			Statement statement = connection.createStatement();
+//			ResultSet resultset = statement.executeQuery(LISTOFCOMPANY);
+//			while (resultset.next()) {
+//				int id = resultset.getInt("id");
+//				String name = resultset.getString("name");
+//
+//				Company company = new Company();
+//				company.setId(id);
+//				company.setName(name);
+//
+//				list.add(company);
+//			}
+//		} catch (SQLException e) {
+//
+//		 e.printStackTrace();
+//		}
+//
+//		return list;
+//	}
+	
 	@Override
 	public List<Company> getListCompany() {
-		List<Company> list = new ArrayList<Company>();
+		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());		
+		List<Company> listCompany  = vjdbcTemplate.query(LISTOFCOMPANY, new CompanyMapper());
+		return listCompany;
+		
+		};
+		
+	
+			
 
-		try {
-			Connection connection = DBUtil.getDataSource().getConnection();
-			Statement statement = connection.createStatement();
-			ResultSet resultset = statement.executeQuery(LISTOFCOMPANY);
-			while (resultset.next()) {
-				int id = resultset.getInt("id");
-				String name = resultset.getString("name");
+			
 
-				Company company = new Company();
-				company.setId(id);
-				company.setName(name);
-
-				list.add(company);
-			}
-		} catch (SQLException e) {
-
-		 e.printStackTrace();
-		}
-
-		return list;
-	}
 
 	@Override
 	public Company findCompanyByName(String nameCompany) {
