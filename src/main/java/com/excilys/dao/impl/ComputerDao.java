@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -110,50 +109,10 @@ public class ComputerDao implements IComputerDao {
 	}
 
 	@Override
-	public List<Computer> getListComputer() {
+	public List<Computer> getListComputer() {	
 		
 		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
 		List<Computer> listComputer = vjdbcTemplate.query(LISTOFCOMPUTER, new ComputerMapper() );
-		
-		
-		
-		
-		
-		
-		ComputerMapper computerMapper = new ComputerMapper();
-		try {
-			
-			Connection connection = DBUtil.getDataSource().getConnection();	
-			Statement statement = connection.createStatement();		
-			ResultSet resultset = statement.executeQuery(LISTOFCOMPUTER);
-			
-			while (resultset.next()) {
-				int id = resultset.getInt("cpt.id");
-				String nameComputer = resultset.getString("cpt.name");
-				Timestamp introduced = resultset.getTimestamp("cpt.introduced");
-				Timestamp discontinued = resultset.getTimestamp("cpt.discontinued");
-				int companyId = resultset.getInt("cpt.company_id");
-				String nameCompany = resultset.getString("cpn.name");
-
-				Computer computer = new Computer();
-				Company company = new Company();
-				computer.setId(id);
-				computer.setName(nameComputer);
-				computer.setIntroduced(computerMapper.convertTimeSteamToLocalDate(introduced));
-				computer.setDiscontinued(computerMapper.convertTimeSteamToLocalDate(discontinued));
-
-				company.setId(companyId);
-				company.setName(nameCompany);
-
-				computer.setCompagnie(company);
-
-				listComputer.add(computer);
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
 		return listComputer;
 	}
 
