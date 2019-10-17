@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -25,10 +26,13 @@ import com.excilys.cdb.service.impl.CompanyService;
 import com.excilys.cdb.service.impl.ComputerService;
 import com.excilys.cdb.validateur.ValidateurFront;
 
+import ch.qos.logback.classic.Logger;
+
 @Component
 @SuppressWarnings("serial")
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
+	private static final Logger LOG = (Logger) LoggerFactory.getLogger(EditComputer.class);
 	@Autowired
 	CompanyService companyService;
 	@Autowired
@@ -94,20 +98,20 @@ public class EditComputer extends HttpServlet {
 		try {
 			validateur.checkDateOrName(nameComputer);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Error chechDateOrName", e);
 			setErreurs(CHAMP_NAME_COMPUTER, e.getMessage());
 
 		}
 		try {
 			validateur.checkDateOrName(introduced);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Error chechDateOrName", e);
 			setErreurs(CHAMP_INTRODUCED, e.getMessage());
 		}
 		try {
 			validateur.checkDateOrName(discontinued);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Error chechDateOrName", e);
 			setErreurs(CHAMP_DISCONTINUED, e.getMessage());
 		}
 
@@ -115,7 +119,7 @@ public class EditComputer extends HttpServlet {
 			try {
 				validateur.isValidRange(introduced, discontinued);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("Error isValidRange", e);
 			}
 
 			CompanyDto companyDto = new CompanyDto();

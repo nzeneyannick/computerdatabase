@@ -12,6 +12,7 @@ import com.excilys.cdb.utils.DBUtil;
 
 @Repository
 public class CompanyDao implements ICompanyDao {
+	
 
 	private static final String LISTOFCOMPANY = "SELECT " + "id" + ",name" + " FROM" + " company" + " limit 10;";
 

@@ -4,6 +4,7 @@ package com.excilys.cdb.application;
 import java.util.List;
 import java.util.Scanner;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +18,17 @@ import com.excilys.cdb.service.impl.CompanyService;
 import com.excilys.cdb.service.impl.ComputerService;
 import com.excilys.cdb.validateur.ValidateurBack;
 
+import ch.qos.logback.classic.Logger;
+
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = "com.excilys.cdb")
 public class Application {
+
 	@Autowired
-	private static CompanyService companyService  ;
+	private static CompanyService companyService;
 	@Autowired
-	private static ComputerService computerService ;
+	private static ComputerService computerService;
 	private static ValidateurBack validateur = new ValidateurBack();
 
 	public static void getListCompany() {
@@ -73,7 +77,6 @@ public class Application {
 		computerService.updateComputer(computerDto);
 
 	}
-
 
 	public static void main(String[] args) {
 
@@ -125,7 +128,7 @@ public class Application {
 			try {
 				validateur.checkDateOrName(name);
 			} catch (Exception e) {
-			
+
 				e.printStackTrace();
 			}
 
@@ -137,7 +140,7 @@ public class Application {
 			try {
 				validateur.checkDateOrName(dateIntroducedDto);
 			} catch (Exception e) {
-		
+
 				e.printStackTrace();
 			}
 
@@ -150,14 +153,14 @@ public class Application {
 			try {
 				validateur.checkDateOrName(dateDiscontinuedDto);
 			} catch (Exception e) {
-			
+
 				e.printStackTrace();
 			}
 
 			try {
 				validateur.isValidRange(dateIntroducedDto, dateDiscontinuedDto);
 			} catch (Exception e) {
-			
+
 				e.printStackTrace();
 			}
 
@@ -179,11 +182,11 @@ public class Application {
 			int idCompt = sc.nextInt();
 			try {
 				validateur.checkId(idCompt);
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			computerDto2.setIdDto(idCompt);
-			
+
 			sc.nextLine();
 			System.out.println("Veuillez rentrer le nouveau name ");
 			String nameCompt = sc.nextLine();
@@ -193,7 +196,7 @@ public class Application {
 
 				e.printStackTrace();
 			}
-			
+
 			computerDto2.setNameDto(nameCompt);
 
 			System.out.println("Veuillez rentrer la nouvelle date introduced ");
@@ -215,11 +218,11 @@ public class Application {
 
 				e.printStackTrace();
 			}
-			
+
 			computerDto2.setDiscontinuedDto(dateDiscon);
-			
+
 			System.out.println("Veuillez choisir la valeur de la company_id");
-			
+
 			companyDtoUpdate.setIdDto(Integer.parseInt(sc.nextLine()));
 			computerDto2.setCompanyDto(companyDtoUpdate);
 
@@ -238,7 +241,7 @@ public class Application {
 
 				e.printStackTrace();
 			}
-			
+
 			break;
 
 		default:
