@@ -37,7 +37,7 @@ public class ComputerDao implements IComputerDao {
 					+ "left join company cpn "
 					+ "     on cpn.id=cpt.company_id "
 			+ " ORDER BY"
-					+ " cpt.id ;";
+					+ " cpt.id, cpt.name ;";
 
 
 	private static final String NEWCOMPUTER = ""
@@ -113,12 +113,12 @@ public class ComputerDao implements IComputerDao {
 			Connection connection = DBUtil.getDataSource().getConnection();				
 			PreparedStatement preparedStatement = connection.prepareStatement(NEWCOMPUTER);			
 			preparedStatement.setString(1, computerDto.getNameDto());
-
 			computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto());
+			
 			if (computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).isPresent()) {
 				Timestamp intro = computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).get();
 				preparedStatement.setTimestamp(2, intro);				
-			}
+			}	
 			
 			if (computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).isPresent()) {
 				Timestamp disco = computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).get();
@@ -128,8 +128,6 @@ public class ComputerDao implements IComputerDao {
 			preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
 			preparedStatement.executeUpdate();			
 			connection.commit();
-			
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -145,11 +143,9 @@ public class ComputerDao implements IComputerDao {
 
 		try {
 			Connection connection = DBUtil.getDataSource().getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(FINDCOMPUTERBYID);
-	
+			PreparedStatement preparedStatement = connection.prepareStatement(FINDCOMPUTERBYID);	
 			preparedStatement.setInt(1, idComputer);
 			ResultSet resultset = preparedStatement.executeQuery();
-
 			while (resultset.next()) {
 				int id = resultset.getInt("id");
 				String name = resultset.getString("name");
@@ -160,7 +156,6 @@ public class ComputerDao implements IComputerDao {
 				int companyId = resultset.getInt("company_id");
 				computerDetail.setId(id);
 				computerDetail.setName(name);
-
 				computerDetail.setIntroduced(introduced);
 				computerDetail.setDiscontinued(discontinued);
 				company.setId(companyId);
@@ -194,7 +189,6 @@ public class ComputerDao implements IComputerDao {
 			if (computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).isPresent()) {
 				Timestamp intro = computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).get();
 				preparedStatement.setTimestamp(2, intro);
-
 			}
 
 			if (computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).isPresent()) {
@@ -209,19 +203,16 @@ public class ComputerDao implements IComputerDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public List<Computer> findByName(String nameComputer) {
 		
 		Company company = new Company();
-		List<Computer> listComputer = new ArrayList<Computer>();
-		
+		List<Computer> listComputer = new ArrayList<Computer>();		
 		
 		try {
 			Connection connection = DBUtil.getDataSource().getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(FINDBYNAME);
-			
+			PreparedStatement preparedStatement = connection.prepareStatement(FINDBYNAME);			
 			preparedStatement.setString(1, nameComputer);
 			ResultSet resultset = preparedStatement.executeQuery();
 
@@ -232,29 +223,20 @@ public class ComputerDao implements IComputerDao {
 				Timestamp discontinuedShow = resultset.getTimestamp("cpt.discontinued");
 				int companyIdShow = resultset.getInt("cpt.company_id");
 				String nameCompany = resultset.getString("cpn.name");
-
 				Computer computer = new Computer();
-
 				computer.setId(idShow);
 				computer.setName(nameComputerShow);
 				computer.setIntroduced(computerMapper.convertTimeSteamToLocalDate(introducedShow));
 				computer.setDiscontinued(computerMapper.convertTimeSteamToLocalDate(discontinuedShow));
-
 				company.setId(companyIdShow);
-				company.setName(nameCompany);
-				
+				company.setName(nameCompany);				
 				computer.setCompagnie(company);
-				listComputer.add(computer);				
-			
+				listComputer.add(computer);					
 			}
-		} catch (SQLException e) {
-			
+		} catch (SQLException e) {			
 			e.printStackTrace();
 		}
-		return listComputer;
-		
-		
-		
+		return listComputer;		
 	}
 
 }

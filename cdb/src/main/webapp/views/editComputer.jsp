@@ -20,8 +20,8 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard"> Application - Computer
+				Database </a>
 		</div>
 	</header>
 	<section id="main">
@@ -49,17 +49,20 @@
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
 									type="text" class="form-control" id="computerName"
-									placeholder="Computer name" name="name">
+									placeholder="name" value="${param.name}"
+									name="name">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									type="date" class="form-control" id="introduced"
-									placeholder="Introduced date" name="introduced">
+									placeholder="Introduced date" value="${param.introduced}"
+									name="introduced">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									type="date" class="form-control" id="discontinued"
-									placeholder="Discontinued date" name="discontinued">
+									placeholder="Discontinued date" value="${param.discontinued}"
+									name="discontinued">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
@@ -71,11 +74,11 @@
 
 								</select>
 							</div>
-							<c:out value="${computerDto}" />
+							
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Edit" class="btn btn-primary">
-							or <a href="dashboard.html" class="btn btn-default">Cancel</a>
+							or <a href="dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 				</div>

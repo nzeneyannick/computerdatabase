@@ -37,6 +37,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 	@SuppressWarnings("unchecked")
 	public Optional<LocalDate> convertTimeSteamToLocalDate(Timestamp timesteam) {
+		
 
 		return (Optional<LocalDate>) ((timesteam != null) ? Optional.of(timesteam.toLocalDateTime().toLocalDate())
 				: Optional.empty());

@@ -18,19 +18,25 @@
 
 </head>
 <body>
+
+
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.jsp"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard"> Application - Computer
+				Database </a>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle"><c:out value="${sumComputer}"/> Computers found</h1>
+			<h1 id="homeTitle">
+				<c:out value="${sumComputer}" />
+				Computers found
+			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="dashboard" method="POST" class="form-inline">
+					<form id="searchForm" action="dashboard" method="POST"
+						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input
@@ -46,7 +52,7 @@
 			</div>
 		</div>
 
-		<form id="deleteForm" action="#" method="POST">
+		<form id="deleteForm" action="dashboard" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -79,12 +85,11 @@
 					<c:forEach items="${listComputer}" var="item">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="0"></td>
+								class="cb" value="${item.id}"></td>
 							<td><a href="editComputer?id=${item.id}">${item.name}</a></td>
-						
 							<td>${item.introduced}</td>
 							<td>${item.discontinued}</td>
-							<td>${item.compagnie.name}</td>  
+							<td>${item.compagnie.name}</td>
 						</tr>
 
 					</c:forEach>
@@ -117,6 +122,7 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>
+
 
 </body>
 </html>

@@ -18,7 +18,5 @@
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/entities/Computer.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/dao/impl/ComputerDao.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/servlet/AddComputer.java
-/home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/application/Application2.java
-/home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/application/AppConfiguration.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/servlet/EditComputer.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/service/IComputerService.java

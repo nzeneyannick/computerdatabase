@@ -29,9 +29,10 @@ import com.excilys.cdb.validateur.ValidateurFront;
 import ch.qos.logback.classic.Logger;
 
 @Component
-@SuppressWarnings("serial")
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = (Logger) LoggerFactory.getLogger(EditComputer.class);
 	@Autowired
 	CompanyService companyService;
@@ -47,12 +48,12 @@ public class EditComputer extends HttpServlet {
 	public static String id = "";
 
 	private String resultat;
-	 @Override
-	  public void init(
-	      ServletConfig config) throws ServletException {
-	    super.init(config);
-	    SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-	  }
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
 
 	private Map<String, String> erreurs = new HashMap<String, String>();
 
@@ -136,8 +137,6 @@ public class EditComputer extends HttpServlet {
 			computerService.updateComputer(computerDto);
 			resultat = "Computer modifié avec succès";
 			erreur = false;
-
-			request.setAttribute("computerDto", computerDto);
 		} else {
 			resultat = "echec de la création du Computer";
 			erreur = true;
