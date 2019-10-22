@@ -14,6 +14,8 @@
 	type="text/css">
 <link href="css/main.css" rel="stylesheet" media="screen"
 	type="text/css">
+	<link href="css/sorttable.css" rel="stylesheet" media="screen"
+	type="text/css">
 
 
 </head>
@@ -57,7 +59,8 @@
 		</form>
 
 		<div class="container" style="margin-top: 10px;">
-			<table class="table table-striped table-bordered">
+			
+			<table class="table table-striped table-bordered sortable">
 				<thead>
 					<tr>
 						<!-- Variable declarations for passing labels as parameters -->
@@ -122,6 +125,7 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>
+	<script src="js/sorttable.js"></script>
 
 
 </body>
