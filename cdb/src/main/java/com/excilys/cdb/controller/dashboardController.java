@@ -9,11 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.cdb.entities.Company;
@@ -39,7 +38,7 @@ public class dashboardController {
 
 	private static final Logger LOG = (Logger) LoggerFactory.getLogger(dashboardController.class);
 
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	@GetMapping(value = "/dashboard")
 	public String dashboard(ModelMap model) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 		listComputer = computerService.getListComputer();
@@ -50,7 +49,7 @@ public class dashboardController {
 
 	}
 
-	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
+	@PostMapping(value = "/dashboard")
 	public String findComputerByName(@ModelAttribute("search") String search,
 			@ModelAttribute("selection") String[] selection, ModelMap model) {
 		List<Computer> listComputer = computerService.findByName(search);
@@ -70,14 +69,14 @@ public class dashboardController {
 		return "dashboard";
 	}
 
-	@RequestMapping(value = "/addComputer", method = RequestMethod.GET)
+	@GetMapping(value = "/addComputer")
 	public String addComputer(ModelMap model) {
 		List<Company> listComp = companyService.getListCompany();
 		model.addAttribute("listCompany", listComp);
 		return "addComputer";
 	}
 
-	@RequestMapping(value = "/addComputer", method = RequestMethod.POST)
+	@PostMapping(value = "/addComputer")
 	public String addComputerValues(@ModelAttribute("name") String name,
 			@ModelAttribute("introduced") String introduced, @ModelAttribute("discontinued") String discontinued,
 			@ModelAttribute("nameCompany") String nameCompany, ModelMap model) {
@@ -140,7 +139,7 @@ public class dashboardController {
 		return "addComputer";
 	}
 
-	@RequestMapping(value = "/editComputer", method = RequestMethod.GET)
+	@GetMapping(value = "/editComputer")
 	public String editComputer(@RequestParam("id") String id, ModelMap model) {
 		List<Company> listComp = companyService.getListCompany();
 		IdCompUpdate = id;
@@ -148,7 +147,7 @@ public class dashboardController {
 		return "editComputer";
 	}
 
-	@RequestMapping(value = "/editComputer", method = RequestMethod.POST)
+	@PostMapping(value = "/editComputer")
 	public String updateComputerValues(@ModelAttribute("name") String name,
 			@ModelAttribute("introduced") String introduced, @ModelAttribute("discontinued") String discontinued,
 			@ModelAttribute("nameCompany") String nameCompany, ModelMap model) {
