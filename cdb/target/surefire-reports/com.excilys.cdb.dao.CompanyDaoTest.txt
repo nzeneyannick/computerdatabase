@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.excilys.cdb.dao.CompanyDaoTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE!
-testGetlistCompany(com.excilys.cdb.dao.CompanyDaoTest)  Time elapsed: 0.001 sec  <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 sec <<< FAILURE!
+testGetlistCompany(com.excilys.cdb.dao.CompanyDaoTest)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.NullPointerException
 	at com.excilys.cdb.dao.CompanyDaoTest.testGetlistCompany(CompanyDaoTest.java:23)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)

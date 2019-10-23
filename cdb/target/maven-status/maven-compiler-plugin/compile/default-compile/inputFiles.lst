@@ -1,7 +1,9 @@
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/dao/ICompanyDao.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/entities/Company.java
+/home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/controller/HelloController.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/dao/IComputerDao.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/mapper/ComputerMapper.java
+/home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/config/AppInitializer.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/service/impl/CompanyService.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/validateur/ValidateurBack.java
 /home/excilys/eclipse-workspace/new/computerdatabase/cdb/src/main/java/com/excilys/cdb/dto/ComputerDto.java
