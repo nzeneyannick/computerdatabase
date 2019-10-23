@@ -9,9 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.cdb.entities.Company;
 import com.excilys.cdb.entities.Computer;
@@ -26,17 +29,13 @@ import ch.qos.logback.classic.Logger;
 @RequestMapping("/")
 public class dashboardController {
 
+	String IdCompUpdate;
 	@Autowired
 	private ComputerService computerService;
 	@Autowired
 	private CompanyService companyService;
 	private ValidateurFront validateur = new ValidateurFront();
 	private String resultat;
-	private Map<String, String> erreurs = new HashMap<String, String>();
-
-	public void setErreurs(String key, String value) {
-		erreurs.put(key, value);
-	}
 
 	private static final Logger LOG = (Logger) LoggerFactory.getLogger(dashboardController.class);
 
@@ -83,31 +82,31 @@ public class dashboardController {
 			@ModelAttribute("introduced") String introduced, @ModelAttribute("discontinued") String discontinued,
 			@ModelAttribute("nameCompany") String nameCompany, ModelMap model) {
 
+		Map<String, String> erreurs = new HashMap<String, String>();
 		boolean erreur;
-
 		try {
 			validateur.checkDateOrName(name);
 		} catch (Exception e) {
 			LOG.error("Error checkNameComputer", e);
-			setErreurs(name, e.getMessage());
+			erreurs.put(name, e.getMessage());
 		}
 		try {
 			validateur.checkDateOrName(introduced);
 		} catch (Exception e) {
 			LOG.error("Error checkDateIntroduced", e);
-			setErreurs(introduced, e.getMessage());
+			erreurs.put(introduced, e.getMessage());
 		}
 		try {
 			validateur.checkDateOrName(discontinued);
 		} catch (Exception e) {
 			LOG.error("Error checkDateDiscontinued", e);
-			setErreurs(discontinued, e.getMessage());
+			erreurs.put(discontinued, e.getMessage());
 		}
 		try {
 			validateur.checkDateOrName(nameCompany);
 		} catch (Exception ex) {
 			LOG.error("Error checkNameCompany", ex);
-			setErreurs(nameCompany, ex.getMessage());
+			erreurs.put(nameCompany, ex.getMessage());
 		}
 
 		if (erreurs.isEmpty()) {
@@ -116,7 +115,6 @@ public class dashboardController {
 			} catch (Exception ex) {
 				LOG.error("Error isValidRangeDate", ex);
 			}
-
 			Company company = companyService.findCompanyByName(nameCompany);
 			CompanyDto companyDto = new CompanyDto();
 			companyDto.setIdDto(company.getId());
@@ -140,5 +138,76 @@ public class dashboardController {
 		model.addAttribute("message", resultat);
 
 		return "addComputer";
+	}
+
+	@RequestMapping(value = "/editComputer", method = RequestMethod.GET)
+	public String editComputer(@RequestParam("id") String id, ModelMap model) {
+		List<Company> listComp = companyService.getListCompany();
+		IdCompUpdate = id;
+		model.addAttribute("listCompany", listComp);
+		return "editComputer";
+	}
+
+	@RequestMapping(value = "/editComputer", method = RequestMethod.POST)
+	public String updateComputerValues(@ModelAttribute("name") String name,
+			@ModelAttribute("introduced") String introduced, @ModelAttribute("discontinued") String discontinued,
+			@ModelAttribute("nameCompany") String nameCompany, ModelMap model) {
+
+		CompanyDto companyDto = new CompanyDto();
+		ComputerDto computerDto = new ComputerDto();
+		Company company = new Company();
+
+		Map<String, String> erreurs = new HashMap<String, String>();
+		boolean erreur;
+		try {
+			int idCompt = Integer.parseInt(IdCompUpdate);
+			computerDto.setIdDto(idCompt);
+		} catch (NumberFormatException e) {
+			erreurs.put("idUpdate", e.getMessage());
+		}
+
+		try {
+			validateur.checkDateOrName(name);
+			computerDto.setNameDto(name);
+		} catch (Exception e) {
+			LOG.error("Error chechDateOrName", e);
+			erreurs.put(name, e.getMessage());
+		}
+		try {
+			validateur.checkDateOrName(introduced);
+			computerDto.setIntroducedDto(introduced);
+		} catch (Exception e) {
+			LOG.error("Error chechDateOrName", e);
+			erreurs.put(introduced, e.getMessage());
+		}
+		try {
+			validateur.checkDateOrName(discontinued);
+			computerDto.setDiscontinuedDto(discontinued);
+		} catch (Exception e) {
+			LOG.error("Error chechDateOrName", e);
+			erreurs.put(discontinued, e.getMessage());
+		}
+		if (erreurs.isEmpty()) {
+			try {
+				validateur.isValidRange(introduced, discontinued);
+			} catch (Exception e) {
+				LOG.error("Error isValidRange", e);
+			}
+
+			company = companyService.findCompanyByName(nameCompany);
+			companyDto.setIdDto(company.getId());
+			computerDto.setCompanyDto(companyDto);
+
+			computerService.updateComputer(computerDto);
+			resultat = "Computer modifié avec succès";
+			erreur = false;
+		} else {
+			resultat = "echec de la création du Computer";
+			erreur = true;
+		}
+		model.addAttribute("erreur", erreur);
+		model.addAttribute("message", resultat);
+		
+		return "editComputer";
 	}
 }
