@@ -101,8 +101,9 @@
 						<failOnMissingWebXml>false</failOnMissingWebXml>
 					</configuration>
 				</plugin>
+
 			</plugins>
 		</pluginManagement>
-		 <finalName>computer-database</finalName>
+		<finalName>computer-database</finalName>
 	</build>
 </project>
