@@ -55,9 +55,15 @@ public class ComputerMapper implements RowMapper<Computer> {
 		computer.setCompagnie(company);		
 		return computer;
 	}
+/*a mapper pour appeler cette fonction et creer lobjet computer pr le sauvegarder dans hibernate*/
 
-
-
+public Optional<LocalDate> convertStringToLocalDate(String date) {
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+	LocalDate localDate   = LocalDate.parse(date, formatter);
+	return (Optional<LocalDate>) ((date != null) ? Optional.of(localDate)
+			: Optional.empty());
+	
+}
 
 
 }

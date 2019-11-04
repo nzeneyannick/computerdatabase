@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import com.excilys.cdb.entities.Company;
 import com.excilys.cdb.entities.Computer;
 import com.excilys.cdb.service.impl.CompanyService;
@@ -23,7 +24,6 @@ import com.excilys.cdb.validateur.*;
 import com.excilys.cdb.dto.*;
 
 import ch.qos.logback.classic.Logger;
-
 @Controller
 @RequestMapping("/")
 public class dashboardController {
@@ -48,7 +48,7 @@ public class dashboardController {
 		return "dashboard";
 
 	}
-
+/*
 	@PostMapping(value = "/dashboard")
 	public String findComputerByName(@ModelAttribute("search") String search,
 			@ModelAttribute("selection") String[] selection, ModelMap model) {
@@ -209,4 +209,5 @@ public class dashboardController {
 		
 		return "editComputer";
 	}
+	*/
 }

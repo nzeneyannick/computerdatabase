@@ -1,37 +1,50 @@
 package com.excilys.cdb.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.jboss.logging.Logger;
 import org.springframework.stereotype.Repository;
-
 import com.excilys.cdb.dao.ICompanyDao;
 import com.excilys.cdb.entities.Company;
-import com.excilys.cdb.mapper.CompanyMapper;
-import com.excilys.cdb.utils.DBUtil;
+import com.excilys.cdb.utils.HibernateUtil;
 
 @Repository
 public class CompanyDao implements ICompanyDao {
 	
-
-	private static final String LISTOFCOMPANY = "SELECT " + "id" + ",name" + " FROM" + " company" + " limit 10;";
-
-	private static final String FINDBYNAME = "" + "SELECT " + "id" + ", name" + " FROM" + " company" + " WHERE"
-			+ " name =  ?";
-
-	
+	public final Logger LOG = Logger.getLogger(CompanyDao.class);
+	private static final String QUERY_LIST_OF_COMPANY = "from company";
+	private static final String QUERY_FIND_BY_NAME = "from company  WHERE name =:name";
 
 	public List<Company> getListCompany() {
-		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
-		List<Company> listCompany = vjdbcTemplate.query(LISTOFCOMPANY, new CompanyMapper());
+		List<Company> listCompany=null;
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Query query = session.createQuery(QUERY_LIST_OF_COMPANY);				
+			listCompany = query.list();
+		} catch (HibernateException h) {
+			LOG.error(h);
+		}
+
 		return listCompany;
+
 	};
-	
+
 	public Company findCompanyByName(String nameCompany) {
-		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
-		Company company = vjdbcTemplate.queryForObject(FINDBYNAME, new Object[] { new String(nameCompany) },
-				new CompanyMapper());
+		Company company = null;
+	
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();;
+			Query query = session.createQuery(QUERY_FIND_BY_NAME);			
+			query.setParameter("name", nameCompany);
+			company = (Company) query.uniqueResult();
+		} catch (HibernateException h) {
+			LOG.error(h);
+		}
 		return company;
+
 	}
 
 }

@@ -10,127 +10,112 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.jboss.logging.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.excilys.cdb.controller.dashboardController;
 import com.excilys.cdb.dao.IComputerDao;
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.entities.Company;
 import com.excilys.cdb.entities.Computer;
 import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.utils.DBUtil;
+import com.excilys.cdb.utils.HibernateUtil;
 
 @Repository
 public class ComputerDao implements IComputerDao {
+
 	private ComputerMapper computerMapper = new ComputerMapper();
+	public final Logger LOG = Logger.getLogger(ComputerDao.class);
 
-	private static final String LISTOFCOMPUTER = ""
-			+ "SELECT " 
-					+ " cpt.id" 
-					+ " ,cpt.name" 
-					+ " ,cpt.introduced"
-					+ " ,cpt.discontinued"
-					+ " ,cpt.company_id "
-					+ ", cpn.name"
-			+ " FROM " 
-					+ "computer cpt "
-					+ "left join company cpn "
-					+ "     on cpn.id=cpt.company_id "
-			+ " ORDER BY"
-					+ " cpt.id, cpt.name ;";
+	private static final String QUERY_LIST_OF_COMPUTER = "from computer cpt left join company cpn on cpn.id=cpt.company_id  ORDER BY cpt.id, cpt.name";
 
+	private static final String QUERY_NEW_COMPUTER = "update computer name " + "INSERT INTO " + "computer(" + "name"
+			+ ",introduced " + ",discontinued" + ",company_id )" + "VALUES (?,?,?,?);";
 
-	private static final String NEWCOMPUTER = ""
-			+ "INSERT INTO "
-			+ 	"computer("
-			+ 			"name"
-			+ 			",introduced "
-			+		    ",discontinued"
-			+ 			",company_id )"
-			+ 			"VALUES (?,?,?,?);";	
-	
-	private static final String FINDCOMPUTERBYID = ""
-			+ "SELECT "
-					+ " id"
-					+ ", name"
-					+ ", introduced"
-					+ ", discontinued"
-					+ ",company_id "
-			+ "FROM "
-					+ "computer "
-			+ " WHERE"
-			+ " id=?;";
-	
-	private static final String DELETEIDCOMPUTER = ""
-			+ "DELETE"
-			+ " FROM "
-					+ "computer"
-			+ " WHERE"
-					+ " id = ?;";
-	
+	private static final String FINDCOMPUTERBYID = "" + "SELECT " + " id" + ", name" + ", introduced" + ", discontinued"
+			+ ",company_id " + "FROM " + "computer " + " WHERE" + " id=?;";
 
-	private static final String UPDATECOMPUTERBYID = 
-			"UPDATE "
-					+ "computer"
-			+ " set "
-					+ "name=?"
-					+ ", introduced=?"
-					+ ", discontinued=?"
-					+ ", company_id=? "
-			+ "where"
-					+ " id =?;";
+	private static final String DELETEIDCOMPUTER = "" + "DELETE" + " FROM " + "computer" + " WHERE" + " id = ?;";
 
-	
-	private static final String FINDBYNAME = ""
-			+ "SELECT " 
-					+ "cpt.id" 
-					+ " ,cpt.name" 
-					+ " ,cpt.introduced"
-					+ " ,cpt.discontinued"
-					+ " ,cpt.company_id "
-					+ " ,cpn.name"
-			+ " FROM " 
-					+ " computer cpt "
-					+ " left join company cpn "
-					+ " on cpn.id=cpt.company_id "
-			+ " WHERE "
-					+ " cpt.name like ?"					
-			+ " ORDER BY"
-					+ " cpt.name;";	
+	private static final String UPDATECOMPUTERBYID = "UPDATE " + "computer" + " set " + "name=?" + ", introduced=?"
+			+ ", discontinued=?" + ", company_id=? " + "where" + " id =?;";
 
+	private static final String FINDBYNAME = "" + "SELECT " + "cpt.id" + " ,cpt.name" + " ,cpt.introduced"
+			+ " ,cpt.discontinued" + " ,cpt.company_id " + " ,cpn.name" + " FROM " + " computer cpt "
+			+ " left join company cpn " + " on cpn.id=cpt.company_id " + " WHERE " + " cpt.name like ?" + " ORDER BY"
+			+ " cpt.name;";
 
 	public List<Computer> getListComputer() {	
 		
-		JdbcTemplate vjdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
-		List<Computer> listComputer = vjdbcTemplate.query(LISTOFCOMPUTER, new ComputerMapper() );
-		return listComputer;
+		List<Computer> listCompany = null;
+        try {
+        	Session session = HibernateUtil.getSessionFactory().openSession();
+        	Query query = session.createQuery(QUERY_LIST_OF_COMPUTER);	
+        	listCompany = query.list();        
+        }
+        catch (HibernateException h) {
+        	LOG.error(h);        	
+        }
+		return listCompany;
 	}
 
 	public void createComputer(ComputerDto computerDto) {
 		ComputerMapper computerMapper = new ComputerMapper();
-
-		try {
-			Connection connection = DBUtil.getDataSource().getConnection();				
-			PreparedStatement preparedStatement = connection.prepareStatement(NEWCOMPUTER);			
-			preparedStatement.setString(1, computerDto.getNameDto());
-			computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto());
+		Computer c = new Computer();
+		Company cpny = new Company();
+		LOG.info("\n ==create computer==");
+		try  {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			
-			if (computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).isPresent()) {
-				Timestamp intro = computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).get();
-				preparedStatement.setTimestamp(2, intro);				
-			}	
 			
-			if (computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).isPresent()) {
-				Timestamp disco = computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).get();
-				preparedStatement.setTimestamp(3, disco);			
-			}  
+			c.setName(computerDto.getNameDto());
+			c.setIntroduced(computerMapper.convertStringToLocalDate(computerDto.getIntroducedDto()));
+			c.setDiscontinued(computerMapper.convertStringToLocalDate(computerDto.getDiscontinuedDto()));
+			cpny.setId(computerDto.getIdDto());
+			cpny.setName(computerDto.getNameDto());
+			c.setCompagnie(cpny);
 			
-			preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
-			preparedStatement.executeUpdate();			
-			connection.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session.beginTransaction();
+			session.save(c);
+			session.getTransaction().commit();
+			session.close();
+		}catch (HibernateException h) {
+			LOG.error(h);
 		}
+			
+			
+
+		
+
+//		try {
+//			Connection connection = DBUtil.getDataSource().getConnection();
+//			PreparedStatement preparedStatement = connection.prepareStatement(NEWCOMPUTER);
+//			preparedStatement.setString(1, computerDto.getNameDto());
+//			computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto());
+//
+//			if (computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).isPresent()) {
+//				Timestamp intro = computerMapper.convertStringToTImeSteam(computerDto.getIntroducedDto()).get();
+//				preparedStatement.setTimestamp(2, intro);
+//			}
+//
+//			if (computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).isPresent()) {
+//				Timestamp disco = computerMapper.convertStringToTImeSteam(computerDto.getDiscontinuedDto()).get();
+//				preparedStatement.setTimestamp(3, disco);
+//			}
+//
+//			preparedStatement.setInt(4, computerDto.getCompanyDto().getIdDto());
+//			preparedStatement.executeUpdate();
+//			connection.commit();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public Optional<Computer> showComputerDetail(int idComputer) {
@@ -143,7 +128,7 @@ public class ComputerDao implements IComputerDao {
 
 		try {
 			Connection connection = DBUtil.getDataSource().getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(FINDCOMPUTERBYID);	
+			PreparedStatement preparedStatement = connection.prepareStatement(FINDCOMPUTERBYID);
 			preparedStatement.setInt(1, idComputer);
 			ResultSet resultset = preparedStatement.executeQuery();
 			while (resultset.next()) {
@@ -162,7 +147,7 @@ public class ComputerDao implements IComputerDao {
 				computerDetail.setCompagnie(company);
 			}
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 		return Optional.of(computerDetail);
@@ -181,7 +166,7 @@ public class ComputerDao implements IComputerDao {
 	}
 
 	public void updateComputer(ComputerDto computerDto) {
-		
+
 		try {
 			Connection connection = DBUtil.getDataSource().getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(UPDATECOMPUTERBYID);
@@ -206,18 +191,18 @@ public class ComputerDao implements IComputerDao {
 	}
 
 	public List<Computer> findByName(String nameComputer) {
-		
+
 		Company company = new Company();
-		List<Computer> listComputer = new ArrayList<Computer>();		
-		
+		List<Computer> listComputer = new ArrayList<Computer>();
+
 		try {
 			Connection connection = DBUtil.getDataSource().getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(FINDBYNAME);			
+			PreparedStatement preparedStatement = connection.prepareStatement(FINDBYNAME);
 			preparedStatement.setString(1, nameComputer);
 			ResultSet resultset = preparedStatement.executeQuery();
 
 			while (resultset.next()) {
-				int idShow = resultset.getInt("id");				
+				int idShow = resultset.getInt("id");
 				String nameComputerShow = resultset.getString("cpt.name");
 				Timestamp introducedShow = resultset.getTimestamp("cpt.introduced");
 				Timestamp discontinuedShow = resultset.getTimestamp("cpt.discontinued");
@@ -229,14 +214,14 @@ public class ComputerDao implements IComputerDao {
 				computer.setIntroduced(computerMapper.convertTimeSteamToLocalDate(introducedShow));
 				computer.setDiscontinued(computerMapper.convertTimeSteamToLocalDate(discontinuedShow));
 				company.setId(companyIdShow);
-				company.setName(nameCompany);				
+				company.setName(nameCompany);
 				computer.setCompagnie(company);
-				listComputer.add(computer);					
+				listComputer.add(computer);
 			}
-		} catch (SQLException e) {			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return listComputer;		
+		return listComputer;
 	}
 
 }
