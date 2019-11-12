@@ -1,9 +1,7 @@
 package com.excilys.cdb.entities;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.Optional;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,26 +10,35 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.dialect.TimesTenDialect;
 
 @Entity
-@Table(name="computer")
+@Table(name = "computer")
 public class Computer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
+	//@NotNull
 	private int id;
-	@Column(name="name")
+	@Column(name = "name")
+
+	//@NotNull
 	private String name;
-	@Column(name="introduced") 
+
+	@Column(name = "introduced")
+	//@PastOrPresent
 	private Timestamp introduced;
-	@Column(name="discontinued") 
+	
+	@Column(name = "discontinued")
+	//@FutureOrPresent
 	private Timestamp discontinued;
+	
 	@ManyToOne()
-	@JoinColumn(name="company_id")
+	@JoinColumn(name = "company_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Company company;
 
@@ -52,9 +59,9 @@ public class Computer {
 	}
 
 	public Timestamp getIntroduced() {
-		if ( Optional.ofNullable(introduced).isPresent()) {
-		return Optional.ofNullable(introduced).get();}
-		else {
+		if (Optional.ofNullable(introduced).isPresent()) {
+			return Optional.ofNullable(introduced).get();
+		} else {
 			return null;
 		}
 	}
@@ -64,9 +71,9 @@ public class Computer {
 	}
 
 	public Timestamp getDiscontinued() {
-		if ( Optional.ofNullable(discontinued).isPresent()) {
-		return Optional.ofNullable(discontinued).get();}
-		else {
+		if (Optional.ofNullable(discontinued).isPresent()) {
+			return Optional.ofNullable(discontinued).get();
+		} else {
 			return null;
 		}
 
@@ -85,11 +92,12 @@ public class Computer {
 	}
 
 	public String toString() {
-		
-		
-		return (company!=null)?"Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", compagnie=" + company.getName() + "]":"Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company=" + " " + "]";
+
+		return (company != null)
+				? "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
+						+ discontinued + ", compagnie=" + company.getName() + "]"
+				: "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
+						+ discontinued + ", company=" + " " + "]";
 	}
 
 	public int hashCode() {
@@ -135,8 +143,9 @@ public class Computer {
 			return false;
 		return true;
 	}
-	public void $test(){
-		
+
+	public void $test() {
+
 	}
 
 }

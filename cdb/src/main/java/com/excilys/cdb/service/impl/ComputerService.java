@@ -1,13 +1,9 @@
 package com.excilys.cdb.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.excilys.cdb.dao.IComputerDao;
-import com.excilys.cdb.dao.impl.ComputerDao;
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.entities.Computer;
 import com.excilys.cdb.service.IComputerService;

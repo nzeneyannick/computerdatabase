@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "company")
@@ -14,14 +15,15 @@ public class Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
+	//@NotNull
 	private int id;
-	@Column(name = "name")
+	@Column(name = "name")	
+	//@NotNull
 	private String name;
 
 	public Company() {
 
 	}
-
 	public Company(int id, String name) {
 		super();
 		this.id = id;

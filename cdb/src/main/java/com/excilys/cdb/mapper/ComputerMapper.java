@@ -19,8 +19,7 @@ public class ComputerMapper {
 			computer.setDiscontinued(convertStringToTimeStamp(computerDto.getDiscontinued()));
 			computer.setCompany(company);
 		}
-		return computer;
-	
+		return computer;	
 	}
 
 	public Timestamp convertStringToTimeStamp(String date) {		

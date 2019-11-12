@@ -1,7 +1,6 @@
 package com.excilys.cdb.dao;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.entities.Computer;

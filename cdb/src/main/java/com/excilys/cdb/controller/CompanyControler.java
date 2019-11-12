@@ -12,28 +12,27 @@ import com.excilys.cdb.service.ICompanyService;
 import com.excilys.cdb.entities.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/companies")
 public class CompanyControler {
 	@Autowired
 	private ICompanyService companyService;
 
-	@GetMapping("/companies")
+	@GetMapping()
 	public List<Company> getAllCompany() {
 		List<Company> listCompany = companyService.getListCompany();
 		return listCompany;
 
 	}
 
-	@GetMapping("/company/{id}")
+	@GetMapping("/{id}")
 	public Company getCompanyById(@PathVariable("id") int id) {
 		Company company = companyService.getCompanyById(id);
 		return company;
 	}
 
-	@DeleteMapping("/company/{id}")
+	@DeleteMapping("/{id}")
 	public void deleteCompany(@PathVariable("id") int id) {
 		companyService.deleteCompany(id);
-
 	}
 
 }

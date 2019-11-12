@@ -6,8 +6,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.excilys.cdb.entities.Computer;
@@ -29,12 +27,8 @@ public class ComputerDaoTest {
 	@Test
 	public void testshowComputerDetail() {
 
-		int testId = 575;
-		
-		Computer computer = computerDao.getComputerById(testId);
-		
-		//assertEquals(true, computer.isPresent());
-		
+		int testId = 575;		
+		Computer computer = computerDao.getComputerById(testId);		
 		assertEquals(testId, computer.getId());
 
 	}

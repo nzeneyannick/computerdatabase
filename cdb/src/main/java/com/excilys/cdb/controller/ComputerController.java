@@ -15,36 +15,36 @@ import com.excilys.cdb.entities.Computer;
 import com.excilys.cdb.service.IComputerService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/computers")
 public class ComputerController {
 
 	@Autowired
 	private IComputerService computerService;
 
-	@GetMapping("/computers")
+	@GetMapping()
 	public List<Computer> getAllComputer() {
 		List<Computer> computers = computerService.getListComputer();
 		return computers;
 	}
 
-	@GetMapping("/computer/{id}")
+	@GetMapping("/{id}")
 	public Computer getComputerById(@PathVariable("id") int id) {
 		Computer computer = computerService.getComputerById(id);
 		return computer;
 	}
 
-	@DeleteMapping("computer/{id}")
+	@DeleteMapping("/{id}")
 	public void deleteComputerById(@PathVariable("id") int id) {
 		computerService.deleteComputer(id);
 	}
 
-	@PostMapping("/computer")
+	@PostMapping()
 	public int addComputer(@RequestBody ComputerDto computerDto) {
 		int id = computerService.createComputer(computerDto);
 		return id;
 	}
 
-	@PutMapping("/computer/{id}")
+	@PutMapping("/{id}")
 	public void updateComputer(@PathVariable("id") int id, @RequestBody ComputerDto computerDto) {
 		computerService.updateComputer(id, computerDto);
 	}
