@@ -29,44 +29,59 @@ public class ComputerDao implements IComputerDao {
 	private static final String QUERY_FIND_COMPUTER_BY_ID = "FROM Computer where id = :id";
 	private static final String QUERY_DELETE_ID_COMPUTER = "DELETE FROM Computer WHERE  id =:id";
 	private static final String QUERY_UPDATE_COMPUTER_BY_ID = "UPDATE Computer set name = :name, introduced = :introduced, discontinued = :discontinued, company_id = :company_id where id =:id";
-	private static final String QUERY_FIND_BY_NAME = "from Computer  WHERE  name like :name";
 
-	/**************************************************************/
 	public List<Computer> getListComputer() {
 		List<Computer> listComputer = new ArrayList<>();
-		Session session = sessionFactory.getCurrentSession();
-		Query<Computer> query = session.createQuery(QUERY_LIST_OF_COMPUTER);
-		listComputer = query.list();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Query<Computer> query = session.createQuery(QUERY_LIST_OF_COMPUTER);
+			listComputer = query.list();
+		} catch (HibernateException e) {
+			LOG.error(e);
+		}
 		return listComputer;
 	}
 
 	public Computer getComputerById(int id) {
 		Computer computer = new Computer();
-		Session session = sessionFactory.getCurrentSession();
-		Query<Computer> query = session.createQuery(QUERY_FIND_COMPUTER_BY_ID);
-		query.setParameter("id", id);
-		List results = query.getResultList();
-		if (results != null && !results.isEmpty()) {
-			computer = (Computer) results.get(0);
-			//transformer le computer en computerDto pr retourner le bon format de date
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Query<Computer> query = session.createQuery(QUERY_FIND_COMPUTER_BY_ID);
+			query.setParameter("id", id);
+			List results = query.getResultList();
+			if (results != null && !results.isEmpty()) {
+				computer = (Computer) results.get(0);
+				// transformer le computer en computerDto pr retourner le bon format de date
+			}
+		} catch (HibernateException e) {
+			LOG.error(e);
 		}
-
 		return computer;
 	}
 
 	public void deleteComputer(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		Query<Computer> query = session.createQuery(QUERY_DELETE_ID_COMPUTER);
-		query.setParameter("id", id);
-		query.executeUpdate();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Query<Computer> query = session.createQuery(QUERY_DELETE_ID_COMPUTER);
+			query.setParameter("id", id);
+			query.executeUpdate();
+		} catch (HibernateException e) {
+			LOG.error(e);
+		}
 
 	}
 
 	public int createComputer(ComputerDto computerDto) {
 		Computer computer = computerMapper.convertToComputer(computerDto);
-		Session session = sessionFactory.getCurrentSession();
-		session.save(computer);
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.save(computer);
+
+		} catch (HibernateException e) {
+			LOG.error(e);
+		}
 		return computer.getId();
+
 	}
 
 	public void updateComputer(int id, ComputerDto computerDto) {
@@ -84,11 +99,5 @@ public class ComputerDao implements IComputerDao {
 			LOG.error(h);
 		}
 	}
-
-	
-
-
-
-
 
 }

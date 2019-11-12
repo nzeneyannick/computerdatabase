@@ -5,14 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.excilys.cdb.dao.ICompanyDao;
 import com.excilys.cdb.entities.Company;
-import com.excilys.cdb.service.ICompagnieService;
+import com.excilys.cdb.service.ICompanyService;
 
 @Service
-public class CompanyService implements ICompagnieService {
-	
+public class CompanyService implements ICompanyService {
+
 	@Autowired
 	private ICompanyDao companyDao;
 
@@ -22,15 +21,16 @@ public class CompanyService implements ICompagnieService {
 		return listCompany;
 	}
 
-	public Company findCompanyByName(String nameCompany) {	
-		Company company = companyDao.findCompanyByName(nameCompany);
+	@Override
+	public Company getCompanyById(int id) {
+		Company company = companyDao.getCompanyById(id);
 		return company;
 	}
-	public List<Company> afficherListeCompany() {
-		List<Company> listCompany = new ArrayList<Company>();
-		listCompany = companyDao.getListCompany();
-		return listCompany;
+
+	@Override
+	public void deleteCompany(int id) {
+		companyDao.deleteCompany(id);
+
 	}
-	
 
 }

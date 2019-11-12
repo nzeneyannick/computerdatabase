@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.dialect.TimesTenDialect;
 
 @Entity
@@ -28,8 +30,9 @@ public class Computer {
 	private Timestamp introduced;
 	@Column(name="discontinued") 
 	private Timestamp discontinued;
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name="company_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Company company;
 
 	public int getId() {

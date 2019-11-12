@@ -14,39 +14,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.excilys.cdb.dao.ICompanyDao;
 import com.excilys.cdb.entities.Company;
+import com.excilys.cdb.entities.Computer;
 
-//@Transactional
+@Transactional
 @Repository
 public class CompanyDao implements ICompanyDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	public final Logger LOG = Logger.getLogger(CompanyDao.class);
-	private static final String QUERY_LIST_OF_COMPANY = "from Company";
-	private static final String QUERY_FIND_BY_NAME = "from Company  WHERE name =:name";
+	private static final String QUERY_FIND_COMPANY_BY_ID = "FROM Company where id = :id";
+	private static final String QUERY_LIST_OF_COMPANY = "from Company as cpn ORDER BY cpn.id,cpn.name";
+	private static final String QUERY_DELETE_ID_COMPANY = "DELETE FROM Company WHERE  id = :id";
 
-	@SuppressWarnings("unchecked")
 	public List<Company> getListCompany() {
-		List<Company> listCompany = new ArrayList<>();		
-		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("rawtypes")
-		Query query = session.createQuery(QUERY_LIST_OF_COMPANY);
-		listCompany =(List<Company>) query.list();
+		List<Company> listCompany = new ArrayList<>();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Query<Company> query = session.createQuery(QUERY_LIST_OF_COMPANY);
+			listCompany = query.list();
+		} catch (HibernateException e) {
+			LOG.error(e);
+		}
 		return listCompany;
+	}
 
-	};
-
-	public Company findCompanyByName(String nameCompany) {
+	public Company getCompanyById(int id) {
 		Company company = new Company();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Query<Company> query = session.createQuery(QUERY_FIND_COMPANY_BY_ID);
+			query.setParameter("id", id);
+			List results = query.getResultList();
+			if (results != null && !results.isEmpty()) {
+				company = (Company) results.get(0);
+			}
+		} catch (HibernateException e) {
+			LOG.error(e);
+		}
+		return company;
+	}
+
+	@Override
+	public void deleteCompany(int id) {
 
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<Company> query = session.createQuery(QUERY_FIND_BY_NAME);
-			query.setParameter("name", nameCompany);
-			company = (Company) query.uniqueResult();
-		} catch (HibernateException h) {
-			LOG.error(h);
+			Query<Company> query = session.createQuery(QUERY_DELETE_ID_COMPANY);
+			query.setParameter("id", id);
+			query.executeUpdate();
+		} catch (HibernateException e) {
+			LOG.error(e);
 		}
-		return company;
 
 	}
 
