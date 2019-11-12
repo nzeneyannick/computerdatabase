@@ -5,71 +5,71 @@ import org.springframework.stereotype.Component;
 @Component
 public class ComputerDto {
 
-	private int idDto;
+	private int id;
 
-	private String nameDto;
+	private String name;
 
-	private String introducedDto;
+	private String introduced;
 
-	private String discontinuedDto;
+	private String discontinued;
 
-	private CompanyDto companyDto;
+	private CompanyDto company;
 
-	public int getIdDto() {
-		return idDto;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdDto(int idDto) {
-		this.idDto = idDto;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getNameDto() {
-		return nameDto;
+	public String getName() {
+		return name;
 	}
 
-	public void setNameDto(String nameDto) {
-		this.nameDto = nameDto;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getIntroducedDto() {
-		return introducedDto;
+	public String getIntroduced() {
+		return introduced;
 	}
 
-	public void setIntroducedDto(String introducedDto) {
-		this.introducedDto = introducedDto;
+	public void setIntroduced(String introduced) {
+		this.introduced = introduced;
 	}
 
-	public String getDiscontinuedDto() {
-		return discontinuedDto;
+	public String getDiscontinued() {
+		return discontinued;
 	}
 
-	public void setDiscontinuedDto(String discontinuedDto) {
-		this.discontinuedDto = discontinuedDto;
+	public void setDiscontinued(String discontinued) {
+		this.discontinued = discontinued;
 	}
 
-	public CompanyDto getCompanyDto() {
-		return companyDto;
+	public CompanyDto getCompany() {
+		return company;
 	}
 
-	public void setCompanyDto(CompanyDto companyDto) {
-		this.companyDto = companyDto;
+	public void setCompany(CompanyDto company) {
+		this.company = company;
 	}
 
 	@Override
 	public String toString() {
-		return "ComputerDto [Id="+idDto+ "name=" + nameDto + ", introduced=" + introducedDto + ", discontinued=" + discontinuedDto
-				 + "idCompany= "+this.companyDto.getIdDto()+"name company=" +this.companyDto.getNameDto() + "]";
+		return "ComputerDto [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
+				+ discontinued + ", company=" + company + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((companyDto == null) ? 0 : companyDto.hashCode());
-		result = prime * result + ((discontinuedDto == null) ? 0 : discontinuedDto.hashCode());
-		result = prime * result + idDto;
-		result = prime * result + ((introducedDto == null) ? 0 : introducedDto.hashCode());
-		result = prime * result + ((nameDto == null) ? 0 : nameDto.hashCode());
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
+		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -82,30 +82,32 @@ public class ComputerDto {
 		if (getClass() != obj.getClass())
 			return false;
 		ComputerDto other = (ComputerDto) obj;
-		if (companyDto == null) {
-			if (other.companyDto != null)
+		if (company == null) {
+			if (other.company != null)
 				return false;
-		} else if (!companyDto.equals(other.companyDto))
+		} else if (!company.equals(other.company))
 			return false;
-		if (discontinuedDto == null) {
-			if (other.discontinuedDto != null)
+		if (discontinued == null) {
+			if (other.discontinued != null)
 				return false;
-		} else if (!discontinuedDto.equals(other.discontinuedDto))
+		} else if (!discontinued.equals(other.discontinued))
 			return false;
-		if (idDto != other.idDto)
+		if (id != other.id)
 			return false;
-		if (introducedDto == null) {
-			if (other.introducedDto != null)
+		if (introduced == null) {
+			if (other.introduced != null)
 				return false;
-		} else if (!introducedDto.equals(other.introducedDto))
+		} else if (!introduced.equals(other.introduced))
 			return false;
-		if (nameDto == null) {
-			if (other.nameDto != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!nameDto.equals(other.nameDto))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
+	
+	
+	
 
-
-}
+	}

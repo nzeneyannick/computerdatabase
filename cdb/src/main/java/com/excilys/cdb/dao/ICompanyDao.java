@@ -4,12 +4,9 @@ import java.util.List;
 
 import com.excilys.cdb.entities.Company;
 
+public interface ICompanyDao {
 
-
-public interface ICompanyDao  {
-	
 	public List<Company> getListCompany();
-	public Company findCompanyByName(String name);	
+
+	public Company findCompanyByName(String name);
 }
-
-

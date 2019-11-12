@@ -10,9 +10,9 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.excilys.cdb.dao.impl.ComputerDao;
 import com.excilys.cdb.entities.Computer;
+import com.excilys.cdb.dao.impl.ComputerDao;
+
 
 public class ComputerDaoTest {
 	@Autowired
@@ -20,7 +20,7 @@ public class ComputerDaoTest {
 
 	@Test
 	public void testGetListComputer() {
-		List<Computer> listComputer = new ArrayList<Computer>();
+		List<Computer> listComputer = new ArrayList<>();
 		listComputer.addAll(computerDao.getListComputer());
 		assertNotNull(listComputer);
 
@@ -31,12 +31,11 @@ public class ComputerDaoTest {
 
 		int testId = 575;
 		
-		Optional<Computer> computer = computerDao.showComputerDetail(testId);
+		Computer computer = computerDao.getComputerById(testId);
 		
-		assertEquals(true, computer.isPresent());
+		//assertEquals(true, computer.isPresent());
 		
-		Computer comp  = computer.get();
-		assertEquals(testId, comp.getId());
+		assertEquals(testId, computer.getId());
 
 	}
 

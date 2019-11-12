@@ -4,11 +4,7 @@ package com.excilys.cdb.application;
 import java.util.List;
 import java.util.Scanner;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.excilys.cdb.dto.CompanyDto;
 import com.excilys.cdb.dto.ComputerDto;
@@ -18,11 +14,7 @@ import com.excilys.cdb.service.impl.CompanyService;
 import com.excilys.cdb.service.impl.ComputerService;
 import com.excilys.cdb.validateur.ValidateurBack;
 
-import ch.qos.logback.classic.Logger;
 
-@EnableWebMvc
-@Configuration
-@ComponentScan(basePackages = "com.excilys.cdb")
 public class Application {
 
 	@Autowired
@@ -62,7 +54,7 @@ public class Application {
 	public static void showComputerDetails(int id) {
 
 		System.out.print("\f\r******Affichage des details d'un computer ********\r");
-		System.out.print(computerService.showComputerDetail(id).toString());
+		System.out.print(computerService.getComputerById(id).toString());
 
 	}
 
@@ -72,9 +64,9 @@ public class Application {
 
 	}
 
-	public static void UpdateComputer(ComputerDto computerDto) {
+	public static void UpdateComputer(int id,ComputerDto computerDto) {
 		System.out.print("\f\r******mise à jour d'un computer ********\r");
-		computerService.updateComputer(computerDto);
+		computerService.updateComputer(id,computerDto);
 
 	}
 
@@ -132,7 +124,7 @@ public class Application {
 				e.printStackTrace();
 			}
 
-			computerDto.setNameDto(name);
+			computerDto.setName(name);
 
 			System.out.println("Veuillez rentrer la date introduced ");
 			sc.nextLine();
@@ -144,12 +136,12 @@ public class Application {
 				e.printStackTrace();
 			}
 
-			computerDto.setIntroducedDto(dateIntroducedDto);
+			computerDto.setIntroduced(dateIntroducedDto);
 
 			System.out.println("Veuillez rentrer la date discontinued");
 			String dateDiscontinuedDto = sc.nextLine();
 
-			computerDto.setDiscontinuedDto(dateDiscontinuedDto);
+			computerDto.setDiscontinued(dateDiscontinuedDto);
 			try {
 				validateur.checkDateOrName(dateDiscontinuedDto);
 			} catch (Exception e) {
@@ -166,8 +158,8 @@ public class Application {
 
 			System.out.println(" Veuillez saisir le compagnie_id : \r");
 			int company_idDto = sc.nextInt();
-			companyDto.setIdDto(company_idDto);
-			computerDto.setCompanyDto(companyDto);
+			companyDto.setId(company_idDto);
+			computerDto.setCompany(companyDto);
 
 			createNewComputer(computerDto);
 
@@ -185,7 +177,7 @@ public class Application {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			computerDto2.setIdDto(idCompt);
+			computerDto2.setId(idCompt);
 
 			sc.nextLine();
 			System.out.println("Veuillez rentrer le nouveau name ");
@@ -197,7 +189,7 @@ public class Application {
 				e.printStackTrace();
 			}
 
-			computerDto2.setNameDto(nameCompt);
+			computerDto2.setName(nameCompt);
 
 			System.out.println("Veuillez rentrer la nouvelle date introduced ");
 			String dateIntroCompt = sc.nextLine();
@@ -208,7 +200,7 @@ public class Application {
 				e.printStackTrace();
 			}
 
-			computerDto2.setIntroducedDto(dateIntroCompt);
+			computerDto2.setIntroduced(dateIntroCompt);
 			System.out.println("Veuillez rentrer la nouvelle date discontinued ");
 			String dateDiscon = sc.nextLine();
 
@@ -219,14 +211,14 @@ public class Application {
 				e.printStackTrace();
 			}
 
-			computerDto2.setDiscontinuedDto(dateDiscon);
+			computerDto2.setDiscontinued(dateDiscon);
 
 			System.out.println("Veuillez choisir la valeur de la company_id");
 
-			companyDtoUpdate.setIdDto(Integer.parseInt(sc.nextLine()));
-			computerDto2.setCompanyDto(companyDtoUpdate);
+			companyDtoUpdate.setId(Integer.parseInt(sc.nextLine()));
+			computerDto2.setCompany(companyDtoUpdate);
 
-			UpdateComputer(computerDto2);
+			UpdateComputer(companyDtoUpdate.getId(),computerDto2);
 			System.out.println("Mise à jour effectué avec succes\n" + computerDto2.toString());
 			break;
 

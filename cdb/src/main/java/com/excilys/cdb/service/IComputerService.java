@@ -6,38 +6,16 @@ import java.util.Optional;
 import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.entities.Computer;
 
-
-
 public interface IComputerService {
-	/**
-	 * Affichage de la liste des computers
-	 */
-	public List getListComputer();
 
-	/**
-	 * Creation d'un computer
-	 */
-	public void createComputer(ComputerDto computerDto);
+	public List<Computer> getListComputer();
 
-	/**
-	 * Afficher les details d'un computer
-	 */
-	public Optional<Computer> showComputerDetail(int idComputer);
+	public int createComputer(ComputerDto computerDto);
 
-	/**
-	 * Suppression d'un computer
-	 */
 	public void deleteComputer(int id);
 
-	/**
-	 * Mise à jour d'un computer
-	 */
-	public void updateComputer(ComputerDto computerDto);
-	
-	/**
-	 * 
-	 *trie par le nom
-	 */
-	public List<Computer> findByName(String nameComputer);
+	public void updateComputer(int id, ComputerDto computerDto);
+
+	public Computer getComputerById(int id);
 
 }

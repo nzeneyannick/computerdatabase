@@ -1,44 +1,35 @@
 package com.excilys.cdb.dto;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class CompanyDto {
 	
 
-	private int idDto;
-	private String nameDto;
-
-	public int getIdDto() {
-		return idDto;
+	private int id;
+	private String name;
+	public int getId() {
+		return id;
 	}
-
-	public void setIdDto(int idDto) {
-		this.idDto = idDto;
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public String getNameDto() {
-		return nameDto;
+	public String getName() {
+		return name;
 	}
-
-	public void setNameDto(String nameDto) {
-		this.nameDto = nameDto;
+	public void setName(String name) {
+		this.name = name;
 	}
-
 	@Override
 	public String toString() {
-		return "CompanyDto [idDto=" + idDto + ", nameDto=" + nameDto + "]";
+		return "CompanyDto [id=" + id + ", name=" + name + "]";
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idDto;
-		result = prime * result + ((nameDto == null) ? 0 : nameDto.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -48,14 +39,15 @@ public class CompanyDto {
 		if (getClass() != obj.getClass())
 			return false;
 		CompanyDto other = (CompanyDto) obj;
-		if (idDto != other.idDto)
+		if (id != other.id)
 			return false;
-		if (nameDto == null) {
-			if (other.nameDto != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!nameDto.equals(other.nameDto))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
+
 
 }

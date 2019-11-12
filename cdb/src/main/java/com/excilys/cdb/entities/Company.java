@@ -1,21 +1,22 @@
 package com.excilys.cdb.entities;
 
-import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "company")
 public class Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
+	@Column(name = "name")
 	private String name;
-	@JoinColumn(name="company_id")
-	private Set<Computer> computers;
 
 	public Company() {
 
@@ -41,15 +42,6 @@ public class Company {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-
-	public Set<Computer> getComputers() {
-		return computers;
-	}
-
-	public void setComputers(Set<Computer> computers) {
-		this.computers = computers;
 	}
 
 	public String toString() {

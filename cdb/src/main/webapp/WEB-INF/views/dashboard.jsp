@@ -8,14 +8,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen"
+
+<!-- <link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet" media="screen"> -->
+
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+
+
+<link href="/resources/css/font-awesome.css" rel="stylesheet"
+	media="screen" type="text/css">
+<link href="/resources/css/main.css" rel="stylesheet" media="screen"
 	type="text/css">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen"
-	type="text/css">
-<link href="css/main.css" rel="stylesheet" media="screen"
-	type="text/css">
-	<link href="css/sorttable.css" rel="stylesheet" media="screen"
-	type="text/css">
+<link href="/resources/css/sorttable.css" rel="stylesheet"
+	media="screen" type="text/css" type="text/css">
 
 
 </head>
@@ -59,7 +66,7 @@
 		</form>
 
 		<div class="container" style="margin-top: 10px;">
-			
+
 			<table class="table table-striped table-bordered sortable">
 				<thead>
 					<tr>
@@ -121,12 +128,12 @@
 				<button type="button" class="btn btn-default">50</button>
 				<button type="button" class="btn btn-default">100</button>
 			</div>
-			</div>
+		</div>
 	</footer>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/dashboard.js"></script>
-	<script src="js/sorttable.js"></script>
+	<script src="/resources/js/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/dashboard.js"></script>
+	<script src="/resources/js/sorttable.js"></script>
 
 
 </body>
