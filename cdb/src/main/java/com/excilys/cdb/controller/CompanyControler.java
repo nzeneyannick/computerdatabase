@@ -9,10 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.excilys.cdb.service.ICompanyService;
-import com.excilys.cdb.entities.*;
 
+import io.swagger.annotations.Api;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import com.excilys.cdb.entities.*;
+@Api(description="API pour les operrations CRUD sur les companies")
 @RestController
 @RequestMapping("/companies")
+@EnableSwagger2
 public class CompanyControler {
 	@Autowired
 	private ICompanyService companyService;

@@ -14,8 +14,12 @@ import com.excilys.cdb.dto.ComputerDto;
 import com.excilys.cdb.entities.Computer;
 import com.excilys.cdb.service.IComputerService;
 
+import io.swagger.annotations.Api;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+@Api(description = "API pour les opérations CRUD sur les computers")
 @RestController
 @RequestMapping("/computers")
+@EnableSwagger2
 public class ComputerController {
 
 	@Autowired
