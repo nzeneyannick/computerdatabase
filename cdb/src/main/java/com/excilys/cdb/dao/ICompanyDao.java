@@ -2,14 +2,13 @@ package com.excilys.cdb.dao;
 
 import java.util.List;
 
-import com.excilys.cdb.entities.Company;
+import com.excilys.cdb.dto.CompanyDto;
 
 public interface ICompanyDao {
 
-	public List<Company> getListCompany();
+	public List<CompanyDto> getListCompany();
 
-	// public Company findCompanyByName(String name);
-	public Company getCompanyById(int id);
+	public CompanyDto getCompanyById(int id);
 
 	public void deleteCompany(int id);
 }

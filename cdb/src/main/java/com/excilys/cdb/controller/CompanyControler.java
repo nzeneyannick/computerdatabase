@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.excilys.cdb.service.ICompanyService;
-
 import io.swagger.annotations.Api;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import com.excilys.cdb.dto.CompanyDto;
 
-import com.excilys.cdb.entities.*;
 @Api(description="API pour les operrations CRUD sur les companies")
 @RestController
 @RequestMapping("/companies")
@@ -23,15 +22,15 @@ public class CompanyControler {
 	private ICompanyService companyService;
 
 	@GetMapping()
-	public List<Company> getAllCompany() {
-		List<Company> listCompany = companyService.getListCompany();
+	public List<CompanyDto> getAllCompany() {
+		List<CompanyDto> listCompany = companyService.getListCompany();
 		return listCompany;
 
 	}
 
 	@GetMapping("/{id}")
-	public Company getCompanyById(@PathVariable("id") int id) {
-		Company company = companyService.getCompanyById(id);
+	public CompanyDto getCompanyById(@PathVariable("id") int id) {
+		CompanyDto company = companyService.getCompanyById(id);
 		return company;
 	}
 

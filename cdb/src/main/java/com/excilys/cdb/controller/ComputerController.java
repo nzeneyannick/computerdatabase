@@ -26,14 +26,14 @@ public class ComputerController {
 	private IComputerService computerService;
 
 	@GetMapping()
-	public List<Computer> getAllComputer() {
-		List<Computer> computers = computerService.getListComputer();
+	public List<ComputerDto> getAllComputer() {
+		List<ComputerDto> computers = computerService.getListComputer();
 		return computers;
 	}
 
 	@GetMapping("/{id}")
-	public Computer getComputerById(@PathVariable("id") int id) {
-		Computer computer = computerService.getComputerById(id);
+	public ComputerDto getComputerById(@PathVariable("id") int id) {
+		ComputerDto computer = computerService.getComputerById(id);
 		return computer;
 	}
 

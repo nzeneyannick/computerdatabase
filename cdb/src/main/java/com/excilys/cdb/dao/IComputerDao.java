@@ -7,7 +7,7 @@ import com.excilys.cdb.entities.Computer;
 
 public interface IComputerDao {
 	
-	public List<Computer> getListComputer();
+	public List<ComputerDto> getListComputer();
 
 	
 	public int createComputer(ComputerDto computerDto);
@@ -19,6 +19,6 @@ public interface IComputerDao {
 	public void updateComputer(int id, ComputerDto computerDto);
 		
 	
-	public Computer getComputerById(int id) ;
+	public ComputerDto getComputerById(int id) ;
 		
 }

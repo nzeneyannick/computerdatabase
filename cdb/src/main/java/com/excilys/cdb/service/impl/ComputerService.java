@@ -14,7 +14,7 @@ public class ComputerService implements IComputerService {
 	@Autowired
 	private IComputerDao computerDao;
 
-	public List<Computer> getListComputer() {
+	public List<ComputerDto> getListComputer() {
 
 		return computerDao.getListComputer();
 	}
@@ -33,7 +33,7 @@ public class ComputerService implements IComputerService {
 	}
 
 
-	public Computer getComputerById(int id) {
+	public ComputerDto getComputerById(int id) {
 		return computerDao.getComputerById(id);
 	}
 

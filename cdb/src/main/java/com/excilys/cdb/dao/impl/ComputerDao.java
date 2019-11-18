@@ -34,34 +34,40 @@ public class ComputerDao implements IComputerDao {
 //	Validator validator = factory.getValidator();
 
 	@SuppressWarnings("unchecked")
-	public List<Computer> getListComputer() {
-		List<Computer> listComputer = new ArrayList<>();
+	public List<ComputerDto> getListComputer() {
+		List<ComputerDto> listComputerDto = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			Query<Computer> query = session.createQuery(QUERY_LIST_OF_COMPUTER);
-			listComputer = query.list();
+			List<Computer> listComputer = query.list();
+			for (Computer computer : listComputer) {
+				listComputerDto.add(computerMapper.convertToComputerDto(computer));
+			}
+
 		} catch (HibernateException e) {
 			LOG.error(e);
 		}
-		return listComputer;
+		return listComputerDto;
 	}
 
 	@SuppressWarnings("unchecked")
-	public Computer getComputerById(int id) {
-		Computer computer = new Computer();
+	public ComputerDto getComputerById(int id) {
+
+		ComputerDto computerDto = new ComputerDto();
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			Query<Computer> query = session.createQuery(QUERY_FIND_COMPUTER_BY_ID);
 			query.setParameter("id", id);
 			List<Computer> results = query.getResultList();
 			if (results != null && !results.isEmpty()) {
-				computer = (Computer) results.get(0);
-				// transformer le computer en computerDto pr retourner le bon format de date
+				Computer computer = (Computer) results.get(0);
+				computerDto = computerMapper.convertToComputerDto(computer);
+
 			}
 		} catch (HibernateException e) {
 			LOG.error(e);
 		}
-		return computer;
+		return computerDto;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -79,13 +85,6 @@ public class ComputerDao implements IComputerDao {
 
 	public int createComputer(ComputerDto computerDto) {
 		Computer computer = computerMapper.convertToComputer(computerDto);
-
-		//Set<ConstraintViolation<Computer>> constraintViolations = validator.validate(computer);
-		//if (constraintViolations.size()>0) {
-			//
-			//LOG.error(message)
-			
-		//}
 
 		try {
 			Session session = sessionFactory.getCurrentSession();

@@ -1,15 +1,12 @@
 package com.excilys.cdb.dao;
 
 import static org.junit.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.excilys.cdb.dao.impl.CompanyDao;
-import com.excilys.cdb.entities.Company;
+import com.excilys.cdb.dto.CompanyDto;
 
 
 public class CompanyDaoTest {
@@ -19,7 +16,7 @@ public class CompanyDaoTest {
 
 	@Test
 	public void testGetlistCompany() {
-		List<Company> listCompany = new ArrayList<Company>();
+		List<CompanyDto> listCompany = new ArrayList<>();
 		listCompany.addAll(companyDao.getListCompany());
 		assertNotNull(listCompany);
 

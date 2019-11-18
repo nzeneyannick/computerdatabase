@@ -26,8 +26,8 @@ public class Application {
 	public static void getListCompany() {
 
 		System.out.print("******Affichage de la liste des compagnies ********\r");
-		List<Company> listCompany = companyService.getListCompany();
-		for (Company company : listCompany) {
+		List<CompanyDto> listCompany = companyService.getListCompany();
+		for (CompanyDto company : listCompany) {
 			System.out.println(company.toString());
 		}
 
@@ -36,9 +36,9 @@ public class Application {
 	public static void getListComputer() {
 
 		System.out.print("\f\r******Affichage de la liste des computers ********\r");
-		List<Computer> listComputer;
+		List<ComputerDto> listComputer;
 		listComputer = computerService.getListComputer();
-		for (Computer computer : listComputer) {
+		for (ComputerDto computer : listComputer) {
 			System.out.println(computer.toString());
 		}
 

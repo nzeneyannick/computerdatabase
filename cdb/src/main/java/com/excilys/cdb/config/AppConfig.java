@@ -12,13 +12,15 @@ import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableTransactionManagement 
-@ComponentScans(value = { @ComponentScan("com.excilys.cdb.dao"), @ComponentScan("com.excilys.cdb.service"),@ComponentScan("com.excilys.cdb.mapper") })
+@EnableTransactionManagement
+@ComponentScans(value = { @ComponentScan("com.excilys.cdb.dao"), @ComponentScan("com.excilys.cdb.service"),
+		@ComponentScan("com.excilys.cdb.mapper") })
 
-public class AppConfig {
+public class AppConfig  {
 
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory() {
@@ -28,8 +30,8 @@ public class AppConfig {
 		factoryBean.setHibernateProperties(hibernateProperties());
 		return factoryBean;
 	}
-	
-	private  Properties hibernateProperties() {
+
+	private Properties hibernateProperties() {
 		Properties hibernateProperties = new Properties();
 		ResourceBundle res = ResourceBundle.getBundle("db");
 		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", res.getString("hibernate.hbm2ddl.auto"));
@@ -45,7 +47,7 @@ public class AppConfig {
 		dataSource.setUrl(res.getString("mysql.url"));
 		dataSource.setUsername(res.getString("mysql.user"));
 		dataSource.setPassword(res.getString("mysql.password"));
-		
+
 		return dataSource;
 	}
 
@@ -55,4 +57,10 @@ public class AppConfig {
 		transactionManager.setSessionFactory(getSessionFactory().getObject());
 		return transactionManager;
 	}
+
+	
+
+
+
+
 }

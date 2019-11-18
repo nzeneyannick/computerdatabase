@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.excilys.cdb.dao.ICompanyDao;
+import com.excilys.cdb.dto.CompanyDto;
 import com.excilys.cdb.entities.Company;
 import com.excilys.cdb.service.ICompanyService;
 
@@ -15,15 +16,15 @@ public class CompanyService implements ICompanyService {
 	@Autowired
 	private ICompanyDao companyDao;
 
-	public List<Company> getListCompany() {
-		List<Company> listCompany = new ArrayList<Company>();
+	public List<CompanyDto> getListCompany() {
+		List<CompanyDto> listCompany = new ArrayList<>();
 		listCompany = companyDao.getListCompany();
 		return listCompany;
 	}
 
 	@Override
-	public Company getCompanyById(int id) {
-		Company company = companyDao.getCompanyById(id);
+	public CompanyDto getCompanyById(int id) {
+		CompanyDto company = companyDao.getCompanyById(id);
 		return company;
 	}
 

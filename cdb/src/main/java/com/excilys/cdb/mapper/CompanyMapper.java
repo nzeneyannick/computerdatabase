@@ -1,22 +1,19 @@
 package com.excilys.cdb.mapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.springframework.stereotype.Component;
 
-import org.springframework.jdbc.core.RowMapper;
-
+import com.excilys.cdb.dto.CompanyDto;
 import com.excilys.cdb.entities.Company;
 
+@Component
+public class CompanyMapper {
+	
+	public CompanyDto convertToCompanyDto(Company company) {
+		CompanyDto companyDto = new CompanyDto();
+		companyDto.setId(company.getId());
+		companyDto.setName(company.getName());
+		return companyDto;
 
-
-public class CompanyMapper implements RowMapper<Company> {
-
-	public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Company company = new Company();
-		company.setId(rs.getInt("id"));
-		company.setName(rs.getString("name"));
-		return company;
 	}
 
-	
 }
